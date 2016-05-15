@@ -1,6 +1,11 @@
 /classes/
+
 /test-classes/
+
 /Users/
+
 *.project
+
 *.classpath
+
 *.springBeans
