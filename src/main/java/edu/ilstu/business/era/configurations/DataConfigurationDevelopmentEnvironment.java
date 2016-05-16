@@ -1,4 +1,4 @@
-package edu.ilstu.business.era.config;
+package edu.ilstu.business.era.configurations;
 
 import javax.sql.DataSource;
 
