@@ -1,0 +1,14 @@
+/classes/
+/test-classes/
+/Users/
+*.project
+*.classpath
+*.springBeans
+*.mv
+*.DS_Store
+bin
+target
+.settings
+src/main/webapp/META-INF
+.idea
+*.iml
