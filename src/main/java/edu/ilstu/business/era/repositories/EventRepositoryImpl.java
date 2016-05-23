@@ -11,7 +11,7 @@ import edu.ilstu.business.era.models.User;
 public class EventRepositoryImpl implements EventRepository {
 
 	@Override
-	public List<Event> retrieveAllEvents(Integer page, String sort, int count) {
+	public List<Event> retrieveEventList(Integer page, String sort, int count) {
 		List<Event> eventList = new ArrayList<Event>(count);
 		for (int i = 0; i < count; i++) {
 			Event event = new Event();
@@ -32,7 +32,7 @@ public class EventRepositoryImpl implements EventRepository {
 	}
 
 	@Override
-	public Event retrieveEventDetails(long eventId) {
+	public Event retrieveEventDetail(long eventId) {
 		Event event = new Event();
 		User host = new User();
 		Location location = new Location();
@@ -47,6 +47,12 @@ public class EventRepositoryImpl implements EventRepository {
 		event.setDate(new Date());
 		event.setLocation(location);
 		return event;
+	}
+
+	@Override
+	public boolean registerForEvent(long userId, long eventId) {
+		// TODO: Implement #registerForEvent()
+		return false;
 	}
 
 }

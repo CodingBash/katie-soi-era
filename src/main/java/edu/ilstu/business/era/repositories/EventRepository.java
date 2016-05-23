@@ -6,8 +6,9 @@ import edu.ilstu.business.era.models.Event;
 
 public interface EventRepository {
 
-	public List<Event> retrieveAllEvents(Integer page, String sort, int count);
+	public List<Event> retrieveEventList(Integer page, String sort, int count);
 	
-	public Event retrieveEventDetails(long eventId);
+	public Event retrieveEventDetail(long eventId);
 		
+	public boolean registerForEvent(long userId, long eventId);
 }
