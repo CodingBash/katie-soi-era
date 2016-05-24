@@ -5,5 +5,5 @@ public class ApplicationConstants {
 	/**
 	 * Defines the folder on which views to use.
 	 */
-	public static final String pageFolder = "devBACK";
+	public static final String pageFolder = "devBACK/";
 }
