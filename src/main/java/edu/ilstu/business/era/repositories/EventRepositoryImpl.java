@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.models.Location;
 import edu.ilstu.business.era.models.User;
 
+@Component
 public class EventRepositoryImpl implements EventRepository {
 
 	@Override
