@@ -63,7 +63,7 @@ public class EventController {
 	 *            of event
 	 * @return {@link ModelAndView}
 	 */
-	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
 	public ModelAndView eventDetails(@PathVariable(value = "eventId") long eventId) {
 		ModelAndView mav = new ModelAndView(ApplicationConstants.pageFolder + "event");
 
@@ -79,7 +79,7 @@ public class EventController {
 
 	// TODO: Correct the mapping of this
 	// TODO: Need validation and CSRF
-	@RequestMapping(value = "/event/{eventId}/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/{eventId}/register", method = RequestMethod.POST)
 	public ModelAndView eventRegister(@PathVariable(value = "eventId") long eventId,
 			@RequestParam(value = "userId") long userId) {
 		ModelAndView mav = new ModelAndView("redirect: /events?eventId=" + eventId);
