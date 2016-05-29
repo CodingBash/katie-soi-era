@@ -25,7 +25,9 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView(ApplicationConstants.pageFolder + "index");
+		ModelAndView mav = new ModelAndView("index");
+		
+		System.out.println("HERE:");
 		return mav;
 	}
 
