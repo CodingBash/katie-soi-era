@@ -3,6 +3,7 @@ package edu.ilstu.business.era.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class EventController {
 	 *            of amount of {@link Event}s
 	 * @return {@link ModelAndView}
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "sort", defaultValue = "newest") String sort,
@@ -73,6 +75,7 @@ public class EventController {
 	 *            of event
 	 * @return {@link ModelAndView}
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
 	public ModelAndView eventDetails(@PathVariable(value = "eventId") long eventId) {
 		ModelAndView mav = new ModelAndView("event");
