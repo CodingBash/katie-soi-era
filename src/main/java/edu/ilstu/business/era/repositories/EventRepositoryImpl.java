@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.models.Location;
 import edu.ilstu.business.era.models.User;
@@ -14,7 +15,7 @@ import edu.ilstu.business.era.models.User;
 public class EventRepositoryImpl implements EventRepository {
 
 	@Override
-	public List<Event> retrieveEventList(Integer page, String sort, int count) {
+	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count) {
 		List<Event> eventList = new ArrayList<Event>(count);
 		for (int i = 0; i < count; i++) {
 			Event event = new Event();

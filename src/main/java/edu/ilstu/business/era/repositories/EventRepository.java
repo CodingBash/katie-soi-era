@@ -2,11 +2,12 @@ package edu.ilstu.business.era.repositories;
 
 import java.util.List;
 
+import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.models.Event;
 
 public interface EventRepository {
 
-	public List<Event> retrieveEventList(Integer page, String sort, int count);
+	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count);
 	
 	public Event retrieveEventDetail(long eventId);
 		

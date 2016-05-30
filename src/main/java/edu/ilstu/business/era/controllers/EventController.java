@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.ilstu.business.era.constants.ApplicationConstants;
+import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
 
@@ -46,7 +46,20 @@ public class EventController {
 			@RequestParam(value = "count", defaultValue = "20") int count) {
 		ModelAndView mav = new ModelAndView("eventList");
 
-		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, sort, count);
+		/*
+		 * Sort Validation
+		 */
+		PageSort sortEnum;
+		try {
+			sortEnum = PageSort.valueOf(sort.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			sortEnum = PageSort.NEWEST;
+		}
+
+		/*
+		 * Page and count validation will take place in the repository
+		 */
+		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, sortEnum, count);
 
 		mav.addObject("eventList", retrievedEventList);
 
