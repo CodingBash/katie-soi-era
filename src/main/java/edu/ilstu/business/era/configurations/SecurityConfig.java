@@ -27,6 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
 				.rememberMe().tokenValiditySeconds(2419200).key("katieEraKey").and().requiresChannel()
-				.antMatchers("/events/{eventId}/register").requiresSecure().and().logout().logoutSuccessUrl("/");
+				.antMatchers("/events/{eventId}/register").requiresSecure().and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
 	}
 }

@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Event {
 	private User host;
-	private String eventName;
-	private String eventDescription;
+	private String title;
+	private String description;
 	private String additionalInformation;
 	private Location location;
 	private Date date;
@@ -26,20 +26,20 @@ public class Event {
 		this.host = host;
 	}
 
-	public String getEventName() {
-		return eventName;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getEventDescription() {
-		return eventDescription;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setEventDescription(String eventDescription) {
-		this.eventDescription = eventDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getAdditionalInformation() {

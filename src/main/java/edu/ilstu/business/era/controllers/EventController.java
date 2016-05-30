@@ -44,10 +44,7 @@ public class EventController {
 	public ModelAndView eventList(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "sort", defaultValue = "newest") String sort,
 			@RequestParam(value = "count", defaultValue = "20") int count) {
-		ModelAndView mav = new ModelAndView(ApplicationConstants.pageFolder + "events");
-
-		// Insert consistent content to model
-		// bindContentToModel(mav);
+		ModelAndView mav = new ModelAndView("eventList");
 
 		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, sort, count);
 
@@ -65,10 +62,7 @@ public class EventController {
 	 */
 	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
 	public ModelAndView eventDetails(@PathVariable(value = "eventId") long eventId) {
-		ModelAndView mav = new ModelAndView(ApplicationConstants.pageFolder + "event");
-
-		// Insert consistent content to model
-		// bindContentToModel(mav);
+		ModelAndView mav = new ModelAndView("event");
 
 		Event retrievedEvent = eventRepository.retrieveEventDetail(eventId);
 
@@ -83,9 +77,6 @@ public class EventController {
 	public ModelAndView eventRegister(@PathVariable(value = "eventId") long eventId,
 			@RequestParam(value = "userId") long userId) {
 		ModelAndView mav = new ModelAndView("redirect: /events?eventId=" + eventId);
-
-		// Insert consistent content to model
-		// bindContentToModel(mav);
 
 		eventRepository.registerForEvent(eventId, userId);
 

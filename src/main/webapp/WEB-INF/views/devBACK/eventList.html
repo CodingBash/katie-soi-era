@@ -7,7 +7,7 @@
 </head>
 <body>
 	<ul>
-		<li th:each="event : ${events}">
+		<li th:each="event : ${eventList}">
 			<h3 th:text="${event.title}">null</h3>
 			<p th:text="${event.description}">null</p> <!-- Add hosts --> <!-- Add attendees -->
 			<!-- Add date --> <!-- Add location --> <!-- Add cancellation -->
