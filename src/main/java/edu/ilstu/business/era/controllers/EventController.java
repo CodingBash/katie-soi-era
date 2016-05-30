@@ -31,7 +31,6 @@ public class EventController {
 	@Autowired
 	private EventRepository eventRepository;
 
-	// TODO: Add validation on all fields
 	/**
 	 * Sets up page to display a {@link List} of {@link Event}
 	 * 
