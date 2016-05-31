@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import edu.ilstu.business.era.constants.PageSort;
+import edu.ilstu.business.era.exceptions.KatieActionFailedException;
+import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.models.Location;
 import edu.ilstu.business.era.models.User;
@@ -15,7 +17,7 @@ import edu.ilstu.business.era.models.User;
 public class EventRepositoryImpl implements EventRepository {
 
 	@Override
-	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count) {
+	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count) throws KatieResourceNotFoundException {
 		List<Event> eventList = new ArrayList<Event>(count);
 		for (int i = 0; i < count; i++) {
 			Event event = new Event();
@@ -37,7 +39,7 @@ public class EventRepositoryImpl implements EventRepository {
 	}
 
 	@Override
-	public Event retrieveEventDetail(long eventId) {
+	public Event retrieveEventDetail(long eventId) throws KatieResourceNotFoundException {
 		Event event = new Event();
 		User host = new User();
 		Location location = new Location();
@@ -55,7 +57,7 @@ public class EventRepositoryImpl implements EventRepository {
 	}
 
 	@Override
-	public boolean registerForEvent(long userId, long eventId) {
+	public boolean registerForEvent(long userId, long eventId) throws KatieActionFailedException {
 		// TODO: Implement #registerForEvent()
 		return false;
 	}

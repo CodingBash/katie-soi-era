@@ -3,13 +3,15 @@ package edu.ilstu.business.era.repositories;
 import java.util.List;
 
 import edu.ilstu.business.era.constants.PageSort;
+import edu.ilstu.business.era.exceptions.KatieActionFailedException;
+import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.models.Event;
 
 public interface EventRepository {
 
-	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count);
+	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count) throws KatieResourceNotFoundException;
 	
-	public Event retrieveEventDetail(long eventId);
+	public Event retrieveEventDetail(long eventId) throws KatieResourceNotFoundException;
 		
-	public boolean registerForEvent(long userId, long eventId);
+	public boolean registerForEvent(long userId, long eventId) throws KatieActionFailedException;
 }
