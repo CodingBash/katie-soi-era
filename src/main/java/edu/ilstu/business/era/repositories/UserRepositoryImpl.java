@@ -9,7 +9,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public Long getUserIdFromUsername(String username) throws KatieResourceNotFoundException {
-		return 12345L;
+		return 55555L;
 	}
 
 	@Override
