@@ -7,6 +7,10 @@
 </head>
 <body>
 	<h1 th:text="${event.title}"></h1>
-	<p th:text="${event.description}"></p> 
+	<p th:text="${event.description}"></p>
+	<form name="registerForm" th:action="@{/events/12345/register}"
+		method="POST">
+		<input type="submit" value="Register"></input>
+	</form>
 </body>
 </html>
