@@ -17,7 +17,8 @@ import edu.ilstu.business.era.models.User;
 public class EventRepositoryImpl implements EventRepository {
 
 	@Override
-	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count) throws KatieResourceNotFoundException {
+	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count)
+			throws KatieResourceNotFoundException {
 		List<Event> eventList = new ArrayList<Event>(count);
 		for (int i = 0; i < count; i++) {
 			Event event = new Event();
@@ -57,9 +58,9 @@ public class EventRepositoryImpl implements EventRepository {
 	}
 
 	@Override
-	public boolean registerForEvent(long userId, long eventId) throws KatieActionFailedException {
-		// TODO: Implement #registerForEvent()
-		return false;
+	public void registerForEvent(long eventId, long userId) throws KatieActionFailedException {
+		System.out.println("Event ID: " + eventId);
+		System.out.println("User ID: " + userId);
 	}
 
 }
