@@ -3,6 +3,8 @@ package edu.ilstu.business.era.models;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 /**
  * Model to represent an event
  * 
@@ -10,13 +12,23 @@ import java.util.List;
  *
  */
 public class Event {
+	private long id;
 	private User host;
 	private String title;
 	private String description;
 	private String additionalInformation;
+	private int points;
 	private Location location;
-	private Date date;
+	private DateTime date;
 	private List<User> attendees;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public User getHost() {
 		return host;
@@ -50,6 +62,14 @@ public class Event {
 		this.additionalInformation = additionalInformation;
 	}
 
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
 	public Location getLocation() {
 		return location;
 	}
@@ -58,11 +78,11 @@ public class Event {
 		this.location = location;
 	}
 
-	public Date getDate() {
+	public DateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(DateTime date) {
 		this.date = date;
 	}
 

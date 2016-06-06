@@ -19,6 +19,10 @@ import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
 import edu.ilstu.business.era.repositories.UserRepository;
+import edu.ilstu.business.era.utilities.LeastPointsComparator;
+import edu.ilstu.business.era.utilities.MostPointsComparator;
+import edu.ilstu.business.era.utilities.NewestEventComparator;
+import edu.ilstu.business.era.utilities.OldestEventComparator;
 
 /**
  * Controls event mappings
@@ -59,6 +63,13 @@ public class EventController {
 		ModelAndView mav = new ModelAndView("eventList");
 
 		/*
+		 * Page and count validation will take place in the repository
+		 */
+		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, count);
+
+		mav.addObject("eventList", retrievedEventList);
+
+		/*
 		 * Sort Validation
 		 */
 		PageSort sortEnum;
@@ -69,11 +80,22 @@ public class EventController {
 		}
 
 		/*
-		 * Page and count validation will take place in the repository
+		 * Return page sort comparator
 		 */
-		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, sortEnum, count);
-
-		mav.addObject("eventList", retrievedEventList);
+		switch (sortEnum) {
+		case NEWEST:
+			mav.addObject("comparator", new NewestEventComparator());
+			break;
+		case OLDEST:
+			mav.addObject("comparator", new OldestEventComparator());
+			break;
+		case MOSTPOINTS:
+			mav.addObject("comparator", new MostPointsComparator());
+			break;
+		case LEASTPOINTS:
+			mav.addObject("comparator", new LeastPointsComparator());
+			break;
+		}
 
 		return mav;
 	}
@@ -114,7 +136,7 @@ public class EventController {
 		} catch (KatieActionFailedException kafe) {
 			redirectAttributes.addFlashAttribute("registrationSuccess", false);
 			redirectAttributes.addFlashAttribute("registrationError",
-					"Error registering for event: registration failure");
+					"Error registering for event: registration failure; already registered or expired event?");
 		}
 
 		return mav;

@@ -9,7 +9,7 @@ import edu.ilstu.business.era.models.Event;
 
 public interface EventRepository {
 
-	public List<Event> retrieveEventList(Integer page, PageSort sortEnum, int count)
+	public List<Event> retrieveEventList(Integer page, int count)
 			throws KatieResourceNotFoundException;
 
 	public Event retrieveEventDetail(long eventId) throws KatieResourceNotFoundException;
