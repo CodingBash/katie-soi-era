@@ -6,6 +6,8 @@
 <title th:text="'Event - ' +  ${event.title}">Event</title>
 </head>
 <body>
+	<h6 th:if="${registrationSuccess == true}">Registration successful</h6>
+	<h6 th:if="${registrationSuccess == false}">Registration failed</h6>
 	<h1 th:text="${event.title}"></h1>
 	<p th:text="${event.description}"></p>
 	<form name="registerForm" th:action="@{/events/12345/register}"
