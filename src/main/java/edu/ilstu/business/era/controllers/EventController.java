@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.ilstu.business.era.comparators.LeastPointsComparator;
+import edu.ilstu.business.era.comparators.MostPointsComparator;
+import edu.ilstu.business.era.comparators.NewestEventComparator;
+import edu.ilstu.business.era.comparators.OldestEventComparator;
 import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
@@ -22,10 +26,6 @@ import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.ClassRepository;
 import edu.ilstu.business.era.repositories.EventRepository;
 import edu.ilstu.business.era.repositories.UserRepository;
-import edu.ilstu.business.era.utilities.LeastPointsComparator;
-import edu.ilstu.business.era.utilities.MostPointsComparator;
-import edu.ilstu.business.era.utilities.NewestEventComparator;
-import edu.ilstu.business.era.utilities.OldestEventComparator;
 
 /**
  * Controls event mappings
@@ -86,8 +86,6 @@ public class EventController {
 		 */
 		List<Event> retrievedEventList = eventRepository.retrieveEventList(buCode);
 
-		mav.addObject("eventList", retrievedEventList);
-
 		/*
 		 * Sort Validation
 		 */
@@ -120,7 +118,9 @@ public class EventController {
 		if (eventSortComparator != null) {
 			Collections.sort(retrievedEventList, eventSortComparator);
 		}
-
+		
+		mav.addObject("eventList", retrievedEventList);
+		
 		return mav;
 	}
 

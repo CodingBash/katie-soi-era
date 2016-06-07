@@ -1,4 +1,4 @@
-package edu.ilstu.business.era.utilities;
+package edu.ilstu.business.era.comparators;
 
 import java.util.Comparator;
 

@@ -1,4 +1,4 @@
-package edu.ilstu.business.era.utilities;
+package edu.ilstu.business.era.comparators;
 
 import java.util.Comparator;
 
@@ -6,7 +6,7 @@ import org.joda.time.DateTimeComparator;
 
 import edu.ilstu.business.era.models.Event;
 
-public class OldestEventComparator implements Comparator<Event> {
+public class NewestEventComparator implements Comparator<Event> {
 
 	@Override
 	public int compare(Event eventOne, Event eventTwo) {
@@ -14,7 +14,7 @@ public class OldestEventComparator implements Comparator<Event> {
 		DateTimeComparator dtComp = DateTimeComparator.getDateOnlyInstance();
 
 		// Compare the event dates and return value
-		return dtComp.compare(eventOne.getStartDate(), eventTwo.getStartDate());
+		return dtComp.compare(eventTwo.getStartDate(), eventOne.getStartDate());
 	}
 
 }
