@@ -3,6 +3,7 @@ package edu.ilstu.business.era.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -14,7 +15,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan({ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers",
-		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers" })
+		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/devBACK/";
 	private static final String TEMPLATE_RESOLVER_SUFFIX = ".html";
@@ -45,5 +46,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		return templateResolver;
 	}
+	
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+
 
 }
