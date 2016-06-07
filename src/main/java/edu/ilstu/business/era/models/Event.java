@@ -11,31 +11,23 @@ import org.joda.time.DateTime;
  * @author Basheer
  *
  */
+// TODO: Add field for list of attachments
 public class Event {
-	private long id;
-	private User host;
+	private String eventId;
 	private String title;
 	private String description;
-	private String additionalInformation;
 	private int points;
 	private Location location;
-	private DateTime date;
+	private DateTime startDate;
+	private DateTime endDate;
 	private List<User> attendees;
 
-	public long getId() {
-		return id;
+	public String getEventId() {
+		return eventId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public User getHost() {
-		return host;
-	}
-
-	public void setHost(User host) {
-		this.host = host;
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
 	}
 
 	public String getTitle() {
@@ -54,14 +46,6 @@ public class Event {
 		this.description = description;
 	}
 
-	public String getAdditionalInformation() {
-		return additionalInformation;
-	}
-
-	public void setAdditionalInformation(String additionalInformation) {
-		this.additionalInformation = additionalInformation;
-	}
-
 	public int getPoints() {
 		return points;
 	}
@@ -78,12 +62,20 @@ public class Event {
 		this.location = location;
 	}
 
-	public DateTime getDate() {
-		return date;
+	public DateTime getStartDate() {
+		return startDate;
 	}
 
-	public void setDate(DateTime date) {
-		this.date = date;
+	public void setStartDate(DateTime startDate) {
+		this.startDate = startDate;
+	}
+
+	public DateTime getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(DateTime endDate) {
+		this.endDate = endDate;
 	}
 
 	public List<User> getAttendees() {

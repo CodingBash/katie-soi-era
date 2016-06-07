@@ -14,7 +14,7 @@ public class NewestEventComparator implements Comparator<Event> {
 		DateTimeComparator dtComp = DateTimeComparator.getDateOnlyInstance();
 
 		// Compare the event dates and return value
-		return dtComp.compare(eventTwo.getDate(), eventOne.getDate());
+		return dtComp.compare(eventTwo.getStartDate(), eventOne.getStartDate());
 	}
 
 }
