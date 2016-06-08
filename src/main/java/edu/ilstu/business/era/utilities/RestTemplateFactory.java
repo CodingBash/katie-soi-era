@@ -19,24 +19,26 @@ public class RestTemplateFactory implements FactoryBean<RestTemplate>, Initializ
 	@Value("${loudcloud.password}")
 	private String password;
 
+	@Override
 	public RestTemplate getObject() {
 		return restTemplate;
 	}
 
+	@Override
 	public Class<RestTemplate> getObjectType() {
 		return RestTemplate.class;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
 	}
 
+	@Override
 	public void afterPropertiesSet() {
-		System.out.println(username);
-		System.out.println(password);
 		HttpHost host = new HttpHost("localhost", 8080, "http");
 		final AuthHttpComponentsClientHttpRequestFactory requestFactory = new AuthHttpComponentsClientHttpRequestFactory(
-				host, "username", "password");
+				host, username, password);
 		restTemplate = new RestTemplate(requestFactory);
 	}
 }
