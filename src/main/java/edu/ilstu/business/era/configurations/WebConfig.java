@@ -3,6 +3,7 @@ package edu.ilstu.business.era.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -13,39 +14,43 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers", "edu.ilstu.business.era.repositories"})
+@ComponentScan({ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers",
+		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities" })
 public class WebConfig extends WebMvcConfigurerAdapter {
 	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/devBACK/";
-    private static final String TEMPLATE_RESOLVER_SUFFIX = ".html";
-    private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
+	private static final String TEMPLATE_RESOLVER_SUFFIX = ".html";
+	private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
 
-    @Bean
-    public ViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
+	@Bean
+	public ViewResolver viewResolver() {
+		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+		viewResolver.setTemplateEngine(templateEngine());
 
-        return viewResolver;
-    }
+		return viewResolver;
+	}
 
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
+	@Bean
+	public SpringTemplateEngine templateEngine() {
+		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		templateEngine.setTemplateResolver(templateResolver());
 
-        return templateEngine;
-    }
+		return templateEngine;
+	}
 
-    @Bean
-    public TemplateResolver templateResolver() {
-        TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix(TEMPLATE_RESOLVER_PREFIX);
-        templateResolver.setSuffix(TEMPLATE_RESOLVER_SUFFIX);
-        templateResolver.setTemplateMode(TEMPLATE_RESOLVER_TEMPLATE_MODE);
+	@Bean
+	public TemplateResolver templateResolver() {
+		TemplateResolver templateResolver = new ServletContextTemplateResolver();
+		templateResolver.setPrefix(TEMPLATE_RESOLVER_PREFIX);
+		templateResolver.setSuffix(TEMPLATE_RESOLVER_SUFFIX);
+		templateResolver.setTemplateMode(TEMPLATE_RESOLVER_TEMPLATE_MODE);
 
-        return templateResolver;
-    }
-
-
+		return templateResolver;
+	}
+	
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 
 
 }

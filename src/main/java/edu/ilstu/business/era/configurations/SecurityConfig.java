@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER").and().withUser("guest")
-				.password("password").roles("GUEST");
+				.password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
 	}
 
 	// TODO: Verify that correct mapping is secured

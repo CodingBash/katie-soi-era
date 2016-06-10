@@ -13,14 +13,13 @@ import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.models.Location;
 import edu.ilstu.business.era.models.User;
 
-@Component
 public class EventRepositoryImpl implements EventRepository {
 
 	// TODO: Only retrieve active events (need to adjust event model).
 	@Override
-	public List<Event> retrieveEventList(Integer page, int count) throws KatieResourceNotFoundException {
-		List<Event> eventList = new ArrayList<Event>(count);
-		for (int i = 0; i < count; i++) {
+	public List<Event> retrieveEventList(String buCode) throws KatieResourceNotFoundException {
+		List<Event> eventList = new ArrayList<Event>(20);
+		for (int i = 0; i < 20; i++) {
 			Event event = new Event();
 			User host = new User();
 			Location location = new Location();

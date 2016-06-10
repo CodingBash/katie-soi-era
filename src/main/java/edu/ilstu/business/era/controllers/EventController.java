@@ -1,6 +1,8 @@
 package edu.ilstu.business.era.controllers;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.ilstu.business.era.comparators.LeastPointsComparator;
+import edu.ilstu.business.era.comparators.MostPointsComparator;
+import edu.ilstu.business.era.comparators.NewestEventComparator;
+import edu.ilstu.business.era.comparators.OldestEventComparator;
 import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.models.Event;
+import edu.ilstu.business.era.repositories.ClassRepository;
 import edu.ilstu.business.era.repositories.EventRepository;
 import edu.ilstu.business.era.repositories.UserRepository;
-import edu.ilstu.business.era.utilities.LeastPointsComparator;
-import edu.ilstu.business.era.utilities.MostPointsComparator;
-import edu.ilstu.business.era.utilities.NewestEventComparator;
-import edu.ilstu.business.era.utilities.OldestEventComparator;
 
 /**
  * Controls event mappings
@@ -47,6 +50,12 @@ public class EventController {
 	private UserRepository userRepository;
 
 	/**
+	 * Repository to get class data
+	 */
+	@Autowired
+	private ClassRepository classRepository;
+
+	/**
 	 * Sets up page to display a {@link List} of {@link Event}
 	 * 
 	 * @param eventId
@@ -55,19 +64,27 @@ public class EventController {
 	 *            of amount of {@link Event}s
 	 * @return {@link ModelAndView}
 	 */
+	// TODO: Verify buCode to protect from malicious request code
 	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "sort", defaultValue = "newest") String sort,
-			@RequestParam(value = "count", defaultValue = "20") int count) {
+			@RequestParam(value = "sort", defaultValue = "newest") String sort, Principal principal) {
 		ModelAndView mav = new ModelAndView("eventList");
+
+		/*
+		 * Get refId/ULID from the principal
+		 */
+		String refId = principal.getName();
+
+		/*
+		 * Get the buCode from the refId
+		 */
+		String buCode = classRepository.getBuCode(refId);
 
 		/*
 		 * Page and count validation will take place in the repository
 		 */
-		List<Event> retrievedEventList = eventRepository.retrieveEventList(page, count);
-
-		mav.addObject("eventList", retrievedEventList);
+		List<Event> retrievedEventList = eventRepository.retrieveEventList(buCode);
 
 		/*
 		 * Sort Validation
@@ -80,23 +97,30 @@ public class EventController {
 		}
 
 		/*
-		 * Return page sort comparator
+		 * Sort the list
 		 */
+		Comparator<Event> eventSortComparator = null;
 		switch (sortEnum) {
 		case NEWEST:
-			mav.addObject("comparator", new NewestEventComparator());
+			eventSortComparator = new NewestEventComparator();
 			break;
 		case OLDEST:
-			mav.addObject("comparator", new OldestEventComparator());
+			eventSortComparator = new OldestEventComparator();
 			break;
 		case MOSTPOINTS:
-			mav.addObject("comparator", new MostPointsComparator());
+			eventSortComparator = new MostPointsComparator();
 			break;
 		case LEASTPOINTS:
-			mav.addObject("comparator", new LeastPointsComparator());
+			eventSortComparator = new LeastPointsComparator();
 			break;
 		}
 
+		if (eventSortComparator != null) {
+			Collections.sort(retrievedEventList, eventSortComparator);
+		}
+		
+		mav.addObject("eventList", retrievedEventList);
+		
 		return mav;
 	}
 
@@ -107,13 +131,30 @@ public class EventController {
 	 *            of event
 	 * @return {@link ModelAndView}
 	 */
+	// TODO: Find a way to attach files to event from repo
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
-	public ModelAndView eventDetails(@PathVariable(value = "eventId") long eventId) {
+	public ModelAndView eventDetails(@PathVariable(value = "eventId") String eventId, Principal principal) {
 		ModelAndView mav = new ModelAndView("event");
 
-		Event retrievedEvent = eventRepository.retrieveEventDetail(eventId);
+		/*
+		 * Get refId/ULID from the principal
+		 */
+		String refId = principal.getName();
 
+		/*
+		 * Get the buCode from the refId
+		 */
+		String buCode = classRepository.getBuCode(refId);
+
+		/*
+		 * Get the event from the repository
+		 */
+		Event retrievedEvent = eventRepository.retrieveEventDetail(buCode, eventId);
+
+		/*
+		 * Add event to the response
+		 */
 		mav.addObject("event", retrievedEvent);
 
 		return mav;
@@ -123,7 +164,7 @@ public class EventController {
 	// TODO: Security in event registration. Get UserId from SecurityContext
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{eventId}/register", method = RequestMethod.POST)
-	public ModelAndView eventRegister(@PathVariable(value = "eventId") long eventId,
+	public ModelAndView eventRegister(@PathVariable(value = "eventId") String eventId,
 			final RedirectAttributes redirectAttributes, Principal principal) {
 		ModelAndView mav = new ModelAndView("redirect:/events/" + eventId);
 
