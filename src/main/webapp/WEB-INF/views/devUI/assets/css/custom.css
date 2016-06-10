@@ -1,0 +1,27 @@
+.nav-button {
+	border-radius: 10px;
+    background: transparent;
+    border: solid #fff 2px;
+    color: #fff;
+}
+.event {
+	border-radius:0 !important;
+}
+div#calendar {
+	width:100% !important;
+	height:540px !important;
+}
+
+#calendar_data {
+	width:100% !important;
+	margin-top:10px !important;
+}
+tbody.days_cal tr td {
+	padding:2.5% !important;
+}
+th {
+	text-align:center;
+}
+.fa-3x {
+	color:#ddd;
+}
