@@ -1,76 +1,167 @@
 package edu.ilstu.business.era.repositories;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
-import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
+import edu.ilstu.business.era.mappers.EventMapper;
 import edu.ilstu.business.era.models.Event;
-import edu.ilstu.business.era.models.Location;
-import edu.ilstu.business.era.models.User;
+import edu.ilstu.business.era.transferobjects.AnnouncementTO;
+import edu.ilstu.business.era.transferobjects.ClassListTO;
+import edu.ilstu.business.era.transferobjects.ClassSearchTO;
+import edu.ilstu.business.era.utilities.KatieAbstractRepository;
+import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
-public class EventRepositoryImpl implements EventRepository {
+@Component
+public class EventRepositoryImpl extends KatieAbstractRepository implements EventRepository {
 
-	// TODO: Only retrieve active events (need to adjust event model).
-	@Override
-	public List<Event> retrieveEventList(String buCode) throws KatieResourceNotFoundException {
-		List<Event> eventList = new ArrayList<Event>(20);
-		for (int i = 0; i < 20; i++) {
-			Event event = new Event();
-			User host = new User();
-			Location location = new Location();
-			host.setUsername("username" + i);
-			location.setName("Illinois State");
-			event.setId(12345L);
-			event.setHost(host);
-			event.setTitle("TestEvent" + i);
-			event.setDescription(
-					"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi est magna, tempor eu fermentum id, dapibus a felis. Suspendisse potenti. Sed porttitor velit libero, laoreet vulputate ex blandit id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus vel erat ut orci blandit faucibus. Nullam urna nisl, pharetra quis laoreet et, finibus nec velit. Sed ac quam sed leo pellentesque cursus sed quis erat. Nullam sed dolor ac lacus rhoncus elementum. Vivamus tempor metus ut urna vulputate imperdiet. Duis justo nisl, pellentesque at enim sed, posuere auctor lectus. Suspendisse dictum lectus nulla, ac blandit arcu luctus in. Nulla pulvinar egestas neque sed luctus.");
-			event.setAdditionalInformation("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-			event.setPoints(new Random().nextInt(100));
-			event.setDate(generateRandomDate());
-			event.setLocation(location);
-			eventList.add(event);
+	@Autowired
+	private EventMapper eventMapper;
+
+	@Autowired
+	private RestTemplateFactory restTemplateFactory;
+
+	private static final String GET_BU_ANNOUNCEMENTS_URL = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/bu/{buCode}/announcement";
+	private static final String GET_BU_ANNOUNCEMENT_URL = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/bu/{buCode}/announcement/{announcementId}";
+	private static final String SEARCH_CLASS_LIST = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/search";
+	private static final String GET_ALL_CLASS_ANNOUNCEMENTS = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}/announcement";
+
+	/*
+	 * @Override public List<Event> retrieveEventList(String buCode) throws
+	 * KatieResourceNotFoundException { final RestTemplate restTemplate =
+	 * restTemplateFactory.getObject(); Map<String, String> urlVariablesMap =
+	 * new HashMap<String, String>(); urlVariablesMap.put("buCode", buCode);
+	 * ResponseEntity<List<AnnouncementTO>> restResponse =
+	 * restTemplate.exchange(GET_BU_ANNOUNCEMENTS_URL, HttpMethod.GET, new
+	 * HttpEntity<Object>(createHeaders()), new
+	 * ParameterizedTypeReference<List<AnnouncementTO>>() { }, urlVariablesMap);
+	 * List<AnnouncementTO> announcementToList = restResponse.getBody();
+	 * List<Event> eventList =
+	 * eventMapper.mapEventListFromAnnouncementTOList(announcementToList);
+	 * return eventList; }
+	 * 
+	 */
+
+	/*
+	 * public List<Event> retrieveEventList2() throws
+	 * KatieResourceNotFoundException { final RestTemplate restTemplate =
+	 * restTemplateFactory.getObject(); ObjectMapper mapper = new
+	 * ObjectMapper();
+	 * 
+	 * ResponseEntity<String> jsonStringResponseClassToList =
+	 * restTemplate.exchange(SEARCH_CLASS_LIST, HttpMethod.GET, new
+	 * HttpEntity<Object>(createHeaders()), new
+	 * ParameterizedTypeReference<String>() { }); String jsonStringClassTo =
+	 * jsonStringResponseClassToList.getBody();
+	 * 
+	 * List<ClassTO> classToList = null; try { classToList =
+	 * mapper.readValue(jsonStringClassTo,
+	 * TypeFactory.defaultInstance().constructCollectionType(List.class,
+	 * ClassTO.class)); } catch (Exception e) { // TODO Auto-generated catch
+	 * block e.printStackTrace(); }
+	 * 
+	 * List<AnnouncementTO> announcementToListSum = new
+	 * ArrayList<AnnouncementTO>(); for (ClassTO classTo : classToList) {
+	 * Map<String, String> urlVariablesMap = new HashMap<String, String>();
+	 * urlVariablesMap.put("refId", classTo.getSectionRefId());
+	 * ResponseEntity<String> jsonStringResponseAnnouncementToList =
+	 * restTemplate.exchange( GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new
+	 * HttpEntity<Object>(createHeaders()), new
+	 * ParameterizedTypeReference<String>() { }, urlVariablesMap); String
+	 * jsonStringAnnouncementTo =
+	 * jsonStringResponseAnnouncementToList.getBody();
+	 * 
+	 * List<AnnouncementTO> announcementToList = null; try { announcementToList
+	 * = mapper.readValue(jsonStringClassTo,
+	 * TypeFactory.defaultInstance().constructCollectionType(List.class,
+	 * AnnouncementTO.class)); } catch (Exception e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); }
+	 * announcementToListSum.addAll(announcementToList); } List<Event> eventList
+	 * = eventMapper.mapEventListFromAnnouncementTOList(announcementToListSum);
+	 * return eventList; }
+	 * 
+	 */
+
+	public List<Event> retrieveEventList() throws KatieResourceNotFoundException {
+
+		/*
+		 * Get SEARCH_CLASS_LIST response
+		 */
+		final RestTemplate restTemplate = restTemplateFactory.getObject();
+		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(SEARCH_CLASS_LIST, HttpMethod.GET,
+				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>() {
+				});
+		String jsonStringClassSearchTo = jsonStringResponseClassToList.getBody();
+		Type classListType = new TypeToken<ClassSearchTO>() {
+		}.getType();
+		ClassSearchTO yourClassList = new Gson().fromJson(jsonStringClassSearchTo, classListType);
+
+		/*
+		 * Get AnnouncementTO from all ClassListTO in each ClassSearchTO
+		 */
+		List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
+		for (ClassListTO classTo : yourClassList.getClassList()) {
+
+			// Check if "sectionRefId" exists
+			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null") {
+
+				/*
+				 * Get GET_ALL_CLASS_ANNOUNCEMENTS response
+				 */
+				Map<String, String> urlVariablesMap = new HashMap<String, String>();
+				urlVariablesMap.put("refId", classTo.getSectionRefId());
+				ResponseEntity<String> jsonStringResponseAnnouncementToList = restTemplate.exchange(
+						GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
+						new ParameterizedTypeReference<String>() {
+						}, urlVariablesMap);
+				String jsonStringAnnouncementTo = jsonStringResponseAnnouncementToList.getBody();
+
+				Type announcementListType = new TypeToken<List<AnnouncementTO>>() {
+				}.getType();
+				List<AnnouncementTO> yourAnnouncementList = new Gson().fromJson(jsonStringAnnouncementTo,
+						announcementListType);
+				announcementToListSum.addAll(yourAnnouncementList);
+			}
 		}
+		List<Event> eventList = eventMapper.mapEventListFromAnnouncementTOList(announcementToListSum);
 		return eventList;
 	}
 
 	@Override
-	public Event retrieveEventDetail(long eventId) throws KatieResourceNotFoundException {
-		Event event = new Event();
-		User host = new User();
-		Location location = new Location();
-		host.setUsername("username");
-		location.setName("Illinois State");
-		event.setId(12345L);
-		event.setHost(host);
-		event.setTitle("TestEvent");
-		event.setDescription(
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi est magna, tempor eu fermentum id, dapibus a felis. Suspendisse potenti. Sed porttitor velit libero, laoreet vulputate ex blandit id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus vel erat ut orci blandit faucibus. Nullam urna nisl, pharetra quis laoreet et, finibus nec velit. Sed ac quam sed leo pellentesque cursus sed quis erat. Nullam sed dolor ac lacus rhoncus elementum. Vivamus tempor metus ut urna vulputate imperdiet. Duis justo nisl, pellentesque at enim sed, posuere auctor lectus. Suspendisse dictum lectus nulla, ac blandit arcu luctus in. Nulla pulvinar egestas neque sed luctus.");
-		event.setAdditionalInformation("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-		event.setPoints(1);
-		event.setDate(generateRandomDate());
-		event.setLocation(location);
+	public Event retrieveEventDetail(String buCode, String announcementId) throws KatieResourceNotFoundException {
+		final RestTemplate restTemplate = restTemplateFactory.getObject();
+		Map<String, String> urlVariablesMap = new HashMap<String, String>();
+		urlVariablesMap.put("buCode", buCode);
+		urlVariablesMap.put("announcementId", announcementId);
+		ResponseEntity<AnnouncementTO> restResponse = restTemplate.exchange(GET_BU_ANNOUNCEMENT_URL, HttpMethod.GET,
+				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<AnnouncementTO>() {
+				}, urlVariablesMap);
+		AnnouncementTO announcementTo = restResponse.getBody();
+		Event event = eventMapper.mapEventFromAnnouncementTO(announcementTo);
 		return event;
 	}
 
+	// TODO: Determine how to register for event on Loudcloud.
+	@Deprecated
 	@Override
-	public void registerForEvent(long eventId, long userId) throws KatieActionFailedException {
-		System.out.println("Event ID: " + eventId);
-		System.out.println("User ID: " + userId);
-	}
+	public void registerForEvent(String announcementId, String refId) throws KatieActionFailedException {
+		// TODO Auto-generated method stub
 
-	public DateTime generateRandomDate() {
-		Random r = new Random();
-
-		DateTime endTime = new DateTime(r.nextInt(2016 - 2000) + 2000, r.nextInt(12 - 1) + 1, r.nextInt(28 - 1) + 1,
-				r.nextInt(24 - 1) + 1, r.nextInt(59 - 1) + 1);
-
-		return endTime;
 	}
 
 }

@@ -72,19 +72,9 @@ public class EventController {
 		ModelAndView mav = new ModelAndView("eventList");
 
 		/*
-		 * Get refId/ULID from the principal
-		 */
-		String refId = principal.getName();
-
-		/*
-		 * Get the buCode from the refId
-		 */
-		String buCode = classRepository.getBuCode(refId);
-
-		/*
 		 * Page and count validation will take place in the repository
 		 */
-		List<Event> retrievedEventList = eventRepository.retrieveEventList(buCode);
+		List<Event> retrievedEventList = eventRepository.retrieveEventList();
 
 		/*
 		 * Sort Validation
@@ -118,9 +108,9 @@ public class EventController {
 		if (eventSortComparator != null) {
 			Collections.sort(retrievedEventList, eventSortComparator);
 		}
-		
+
 		mav.addObject("eventList", retrievedEventList);
-		
+
 		return mav;
 	}
 

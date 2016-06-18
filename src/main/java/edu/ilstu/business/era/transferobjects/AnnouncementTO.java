@@ -1,173 +1,264 @@
+
 package edu.ilstu.business.era.transferobjects;
 
-import java.util.List;
+import javax.annotation.Generated;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import org.joda.time.DateTime;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-/**
- * AnnouncementTO to unmarshall the REST JSON file
- * 
- * @author Basheer
- *
- */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Generated("org.jsonschema2pojo")
 public class AnnouncementTO {
-	/**
-	 * BU Announcement Description
-	 */
-	private String description;
 
-	/**
-	 * BU Announcement Title
-	 */
-	private String title;
+    @SerializedName("startDate")
+    @Expose
+    private String startDate;
+    @SerializedName("calendarVisible")
+    @Expose
+    private Boolean calendarVisible;
+    @SerializedName("deactive")
+    @Expose
+    private Boolean deactive;
+    @SerializedName("classId")
+    @Expose
+    private String classId;
+    @SerializedName("forAllInstructors")
+    @Expose
+    private Boolean forAllInstructors;
+    @SerializedName("endDate")
+    @Expose
+    private String endDate;
+    @SerializedName("canReply")
+    @Expose
+    private Boolean canReply;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("classAnnouncementId")
+    @Expose
+    private String classAnnouncementId;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("attachmentsPresent")
+    @Expose
+    private Boolean attachmentsPresent;
+    @SerializedName("published")
+    @Expose
+    private Boolean published;
 
-	/**
-	 * BU Announcement End Date
-	 */
-	private DateTime endDate;
+    /**
+     * 
+     * @return
+     *     The startDate
+     */
+    public String getStartDate() {
+        return startDate;
+    }
 
-	/**
-	 * BU Announcement Start Date
-	 */
-	private DateTime startDate;
+    /**
+     * 
+     * @param startDate
+     *     The startDate
+     */
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-	/**
-	 * BU Announcement Id
-	 */
-	private String buAnnouncementId;
+    /**
+     * 
+     * @return
+     *     The calendarVisible
+     */
+    public Boolean getCalendarVisible() {
+        return calendarVisible;
+    }
 
-	/**
-	 * Is attachment present in BU Announcement?
-	 */
-	private boolean attachmentsPresent;
+    /**
+     * 
+     * @param calendarVisible
+     *     The calendarVisible
+     */
+    public void setCalendarVisible(Boolean calendarVisible) {
+        this.calendarVisible = calendarVisible;
+    }
 
-	/**
-	 * BU Announcement is published or not
-	 */
-	private boolean published;
+    /**
+     * 
+     * @return
+     *     The deactive
+     */
+    public Boolean getDeactive() {
+        return deactive;
+    }
 
-	/**
-	 * BU Announcement activated or not
-	 */
-	private boolean deactivate;
+    /**
+     * 
+     * @param deactive
+     *     The deactive
+     */
+    public void setDeactive(Boolean deactive) {
+        this.deactive = deactive;
+    }
 
-	/**
-	 * Can reply
-	 */
-	private boolean canReply;
+    /**
+     * 
+     * @return
+     *     The classId
+     */
+    public String getClassId() {
+        return classId;
+    }
 
-	/**
-	 * Is BU announcement visible in calendar
-	 */
-	private boolean calendarVisible;
+    /**
+     * 
+     * @param classId
+     *     The classId
+     */
+    public void setClassId(String classId) {
+        this.classId = classId;
+    }
 
-	/**
-	 * BU Announcement Codes
-	 */
-	private List<String> buCodes;
+    /**
+     * 
+     * @return
+     *     The forAllInstructors
+     */
+    public Boolean getForAllInstructors() {
+        return forAllInstructors;
+    }
 
-	/**
-	 * BU Announcement titles
-	 */
-	private List<String> roleTitles;
+    /**
+     * 
+     * @param forAllInstructors
+     *     The forAllInstructors
+     */
+    public void setForAllInstructors(Boolean forAllInstructors) {
+        this.forAllInstructors = forAllInstructors;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * 
+     * @return
+     *     The endDate
+     */
+    public String getEndDate() {
+        return endDate;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * 
+     * @param endDate
+     *     The endDate
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * 
+     * @return
+     *     The canReply
+     */
+    public Boolean getCanReply() {
+        return canReply;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * 
+     * @param canReply
+     *     The canReply
+     */
+    public void setCanReply(Boolean canReply) {
+        this.canReply = canReply;
+    }
 
-	public DateTime getEndDate() {
-		return endDate;
-	}
+    /**
+     * 
+     * @return
+     *     The title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	public void setEndDate(DateTime endDate) {
-		this.endDate = endDate;
-	}
+    /**
+     * 
+     * @param title
+     *     The title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public DateTime getStartDate() {
-		return startDate;
-	}
+    /**
+     * 
+     * @return
+     *     The classAnnouncementId
+     */
+    public String getClassAnnouncementId() {
+        return classAnnouncementId;
+    }
 
-	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
-	}
+    /**
+     * 
+     * @param classAnnouncementId
+     *     The classAnnouncementId
+     */
+    public void setClassAnnouncementId(String classAnnouncementId) {
+        this.classAnnouncementId = classAnnouncementId;
+    }
 
-	public String getBuAnnouncementId() {
-		return buAnnouncementId;
-	}
+    /**
+     * 
+     * @return
+     *     The description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	public void setBuAnnouncementId(String buAnnouncementId) {
-		this.buAnnouncementId = buAnnouncementId;
-	}
+    /**
+     * 
+     * @param description
+     *     The description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public boolean isAttachmentsPresent() {
-		return attachmentsPresent;
-	}
+    /**
+     * 
+     * @return
+     *     The attachmentsPresent
+     */
+    public Boolean getAttachmentsPresent() {
+        return attachmentsPresent;
+    }
 
-	public void setAttachmentsPresent(boolean attachmentsPresent) {
-		this.attachmentsPresent = attachmentsPresent;
-	}
+    /**
+     * 
+     * @param attachmentsPresent
+     *     The attachmentsPresent
+     */
+    public void setAttachmentsPresent(Boolean attachmentsPresent) {
+        this.attachmentsPresent = attachmentsPresent;
+    }
 
-	public boolean isPublished() {
-		return published;
-	}
+    /**
+     * 
+     * @return
+     *     The published
+     */
+    public Boolean getPublished() {
+        return published;
+    }
 
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
-
-	public boolean isDeactivate() {
-		return deactivate;
-	}
-
-	public void setDeactivate(boolean deactivate) {
-		this.deactivate = deactivate;
-	}
-
-	public boolean isCanReply() {
-		return canReply;
-	}
-
-	public void setCanReply(boolean canReply) {
-		this.canReply = canReply;
-	}
-
-	public boolean isCalendarVisible() {
-		return calendarVisible;
-	}
-
-	public void setCalendarVisible(boolean calendarVisible) {
-		this.calendarVisible = calendarVisible;
-	}
-
-	public List<String> getBuCodes() {
-		return buCodes;
-	}
-
-	public void setBuCodes(List<String> buCodes) {
-		this.buCodes = buCodes;
-	}
-
-	public List<String> getRoleTitles() {
-		return roleTitles;
-	}
-
-	public void setRoleTitles(List<String> roleTitles) {
-		this.roleTitles = roleTitles;
-	}
+    /**
+     * 
+     * @param published
+     *     The published
+     */
+    public void setPublished(Boolean published) {
+        this.published = published;
+    }
 
 }

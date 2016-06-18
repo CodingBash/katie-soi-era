@@ -3,6 +3,7 @@ package edu.ilstu.business.era.mappers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import edu.ilstu.business.era.models.Event;
@@ -24,11 +25,11 @@ public class EventMapper {
 	public Event mapEventFromAnnouncementTO(AnnouncementTO announcementTo) {
 		Event event = new Event();
 
-		event.setEventId(announcementTo.getBuAnnouncementId());
+		event.setEventId(announcementTo.getClassAnnouncementId());
 		event.setTitle(announcementTo.getTitle());
 		event.setDescription(announcementTo.getDescription());
-		event.setStartDate(announcementTo.getStartDate());
-		event.setEndDate(announcementTo.getEndDate());
+		event.setStartDate(new DateTime(announcementTo.getStartDate()));
+		event.setEndDate(new DateTime(announcementTo.getEndDate()));
 
 		// TODO: Complete mapping for other event fields
 

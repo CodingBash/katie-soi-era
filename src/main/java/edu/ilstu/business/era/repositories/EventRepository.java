@@ -9,7 +9,7 @@ import edu.ilstu.business.era.models.Event;
 
 public interface EventRepository {
 
-	public List<Event> retrieveEventList(String buCode) throws KatieResourceNotFoundException;
+	public List<Event> retrieveEventList() throws KatieResourceNotFoundException;
 
 	public Event retrieveEventDetail(String buCode, String announcementId) throws KatieResourceNotFoundException;
 

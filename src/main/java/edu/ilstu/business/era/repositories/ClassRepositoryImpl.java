@@ -25,12 +25,14 @@ public class ClassRepositoryImpl extends KatieAbstractRepository implements Clas
 	@Autowired
 	private RestTemplateFactory restTemplateFactory;
 
+	private static final String GET_BU_CODE_URL = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}";
+
 	@Override
 	public String getBuCode(String refId) {
 
 		final RestTemplate restTemplate = restTemplateFactory.getObject();
-		String getBuCodeUrl = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}";
-		ResponseEntity<String> jsonString = restTemplate.exchange(getBuCodeUrl, HttpMethod.GET, new HttpEntity<Object>(createHeaders()), String.class,
+
+		ResponseEntity<String> jsonString = restTemplate.exchange(GET_BU_CODE_URL, HttpMethod.GET, new HttpEntity<Object>(createHeaders()), String.class,
 				refId);
 		
 		ObjectNode node = null;

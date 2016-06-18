@@ -4,8 +4,10 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 
+@PropertySource("classpath:restauthorization.properties")
 public abstract class KatieAbstractRepository {
 
 	@Value("${loudcloud.username}")
