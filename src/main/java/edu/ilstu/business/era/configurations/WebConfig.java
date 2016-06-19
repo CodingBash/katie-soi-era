@@ -12,15 +12,38 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
+/**
+ * Default web configurer
+ * 
+ * @author Basheer
+ *
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan({ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers",
 		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities" })
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+	/**
+	 * Folder with views
+	 */
 	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/devBACK/";
+
+	/**
+	 * View extension
+	 */
 	private static final String TEMPLATE_RESOLVER_SUFFIX = ".html";
+
+	/**
+	 * View type
+	 */
 	private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
 
+	/**
+	 * Configure view resolver bean
+	 * 
+	 * @return
+	 */
 	@Bean
 	public ViewResolver viewResolver() {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -29,6 +52,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
+	/**
+	 * Configure the template engine
+	 * 
+	 * @return
+	 */
 	@Bean
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -37,6 +65,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return templateEngine;
 	}
 
+	/**
+	 * Configure the template resolver
+	 * 
+	 * @return
+	 */
 	@Bean
 	public TemplateResolver templateResolver() {
 		TemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -46,11 +79,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 		return templateResolver;
 	}
-	
+
+	/**
+	 * Configure the property source
+	 * 
+	 * @return
+	 */
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
-
 
 }

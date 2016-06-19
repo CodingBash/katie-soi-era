@@ -6,6 +6,12 @@ import org.joda.time.DateTimeComparator;
 
 import edu.ilstu.business.era.models.Event;
 
+/**
+ * Comparator class for sorting events by oldest
+ * 
+ * @author Basheer
+ *
+ */
 public class OldestEventComparator implements Comparator<Event> {
 
 	@Override

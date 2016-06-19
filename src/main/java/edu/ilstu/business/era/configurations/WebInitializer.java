@@ -2,6 +2,12 @@ package edu.ilstu.business.era.configurations;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * Initialize web configuration
+ * 
+ * @author Basheer
+ *
+ */
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
 
   @Override

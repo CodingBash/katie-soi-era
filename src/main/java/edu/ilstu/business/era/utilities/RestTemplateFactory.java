@@ -8,6 +8,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Used to create {@link RestTemplate} with default settings
+ * 
+ * @author Basheer
+ *
+ */
+@Deprecated
 @Component
 @PropertySource("classpath:restauthorization.properties")
 public class RestTemplateFactory implements FactoryBean<RestTemplate>, InitializingBean {

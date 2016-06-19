@@ -4,6 +4,12 @@ import java.util.Comparator;
 
 import edu.ilstu.business.era.models.Event;
 
+/**
+ * Comparator class for sorting events by the most points
+ * 
+ * @author Basheer
+ *
+ */
 public class MostPointsComparator implements Comparator<Event> {
 
 	@Override

@@ -17,6 +17,13 @@ import org.apache.http.protocol.HttpContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
+/**
+ * Used for authenticating requests to Loudcloud API
+ * 
+ * @author Basheer
+ *
+ */
+@Deprecated
 public class AuthHttpComponentsClientHttpRequestFactory extends HttpComponentsClientHttpRequestFactory {
 
 	protected HttpHost host;

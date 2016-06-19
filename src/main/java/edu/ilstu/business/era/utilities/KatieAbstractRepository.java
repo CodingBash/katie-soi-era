@@ -7,6 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 
+/**
+ * Used for creating header to authneticate request to Loudcloud API
+ * 
+ * @author Basheer
+ *
+ */
 @PropertySource("classpath:restauthorization.properties")
 public abstract class KatieAbstractRepository {
 

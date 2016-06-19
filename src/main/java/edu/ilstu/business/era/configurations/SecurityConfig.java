@@ -19,12 +19,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * Configure the user store
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER").and().withUser("guest")
 				.password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
 	}
 
+	/**
+	 * Configure the request mapping security
+	 */
 	// TODO: Verify that correct mapping is secured
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -33,6 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/").logoutUrl("/signout");
 	}
 
+	/**
+	 * Create the authentication manager bean
+	 */
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
