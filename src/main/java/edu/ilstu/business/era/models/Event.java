@@ -1,6 +1,6 @@
 package edu.ilstu.business.era.models;
 
-import java.util.List;
+import java.util.Date;
 
 import org.joda.time.DateTime;
 
@@ -14,12 +14,10 @@ import org.joda.time.DateTime;
 public class Event {
 	private String eventId;
 	private String title;
-	private String description;
 	private int points;
-	private Location location;
-	private DateTime startDate;
-	private DateTime endDate;
-	private List<User> attendees;
+	private String description;
+	private Date startDate;
+	private Date endDate;
 
 	public String getEventId() {
 		return eventId;
@@ -37,14 +35,6 @@ public class Event {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public int getPoints() {
 		return points;
 	}
@@ -53,35 +43,28 @@ public class Event {
 		this.points = points;
 	}
 
-	public Location getLocation() {
-		return location;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public DateTime getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
 	public void setStartDate(DateTime startDate) {
-		this.startDate = startDate;
+		this.startDate = startDate.toDate();
 	}
 
-	public DateTime getEndDate() {
-		return endDate;
+	public Date getEndDate() {
+		return endDate; 
 	}
 
 	public void setEndDate(DateTime endDate) {
-		this.endDate = endDate;
+		this.endDate = endDate.toDate();
 	}
 
-	public List<User> getAttendees() {
-		return attendees;
-	}
-
-	public void setAttendees(List<User> attendees) {
-		this.attendees = attendees;
-	}
 }

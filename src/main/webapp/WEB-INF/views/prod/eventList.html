@@ -170,7 +170,7 @@
 							<!--  DYNAMIC EVENT COUNT AND USERNAME -->
 							Hello <b><span th:text="${principalUsername}">User</span></b>.
 							You have <b><span th:text="${eventListSize}">#</span></b>
-							upcoming event
+							upcoming events
 						</p>
 					</div>
 				</div>
@@ -226,6 +226,18 @@
 		src="../../../resources/assets/scripts/siminta.js"></script>
 
 
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var eventList = [[${eventList}]];
+		
+		for(var i = 0; i < eventList.length; i++){
+			console.log(eventList[i]);
+		}
+
+		/*]]>*/
+	</script>
+	
 	<script>
 		$(document).ready(function() {
 
