@@ -6,28 +6,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <title>ISU Katie School of Business</title>
 <!-- Core CSS - Include with every page -->
+<!-- 
 <link
 	th:href="@{/resources/static/assets/plugins/bootstrap/bootstrap.css}"
 	href="../../../resources/assets/plugins/bootstrap/bootstrap.css"
 	rel="stylesheet" />
-<link href="../../../resources/assets/font-awesome/css/font-awesome.css"
-	rel="stylesheet" />
+	-->
 <link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous" />
+
+<!-- 
+<link
+	th:href="@{/resources/static/assets/font-awesome/css/font-awesome.css}"
+	href="../../../resources/assets/font-awesome/css/font-awesome.css"
+	rel="stylesheet" />
+	-->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+	crossorigin="anonymous" />
+
+<!-- 
+<link
+	th:href="@{/resources/static/assets/plugins/pace/pace-theme-big-counter.css}"
 	href="../../../resources/assets/plugins/pace/pace-theme-big-counter.css"
 	rel="stylesheet" />
-<link href="../../../resources/assets/css/style.css" rel="stylesheet" />
-<link href="../../../resources/assets/css/custom.css" rel="stylesheet" />
-<link href="../../../resources/assets/css/main-style.css"
-	rel="stylesheet" />
-<link href="../../../resources/assets/css/normalize.css"
-	rel="stylesheet" />
-<link href='../../../resources/assets/jquerycal/fullcalendar.css'
+	-->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+	crossorigin="anonymous" />
+
+<link th:href="@{/resources/css/style.css}"
+	href="../../../resources/assets/css/style.css" rel="stylesheet" />
+
+<link th:href="@{/resources/css/custom.css}"
+	href="../../../resources/assets/css/custom.css" rel="stylesheet" />
+
+<link th:href="@{/resources/css/main-style.css}"
+	href="../../../resources/assets/css/main-style.css" rel="stylesheet" />
+
+
+<link th:href="@{/resources/css/normalize.css}"
+	href="../../../resources/assets/css/normalize.css" rel="stylesheet" />
+
+<link th:href="@{/resources/jquerycal/fullcalendar.css}"
+	href='../../../resources/assets/jquerycal/fullcalendar.css'
 	rel='stylesheet' />
-<link href='../../../resources/assets/jquerycal/fullcalendar.print.css'
+
+<link th:href="@{/resources/jquerycal/fullcalendar.print.css}"
+	href='../../../resources/assets/jquerycal/fullcalendar.print.css'
 	rel='stylesheet' media='print' />
-<script src='../../../resources/assets/jquerycal/lib/moment.min.js'></script>
-<script src='../../../resources/assets/jquerycal/lib/jquery.min.js'></script>
-<script src='../../../resources/assets/jquerycal/fullcalendar.min.js'></script>
 
 <style>
 </style>
@@ -47,7 +81,7 @@
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="index.html"> <img
-					th:src="@{/resources/static/assets/img/logo.png}"
+					th:src="@{/resources/img/logo.png}"
 					src="../../../resources/assets/img/logo.png" alt="" />
 				</a>
 			</div>
@@ -84,7 +118,8 @@
 						<!-- user image section-->
 						<div class="user-section">
 							<div class="user-section-inner">
-								<img src="../../../resources/assets/img/reggiehead.png" alt="" />
+								<img th:src="@{/resources/img/reggiehead.png}"
+									src="../../../resources/assets/img/reggiehead.png" alt="" />
 							</div>
 							<div class="user-info">
 								<button class="btn btn-default nav-button" type="button"
@@ -145,12 +180,51 @@
 			<div id='calendar'></div>
 		</div>
 	</div>
+	<!-- 
+	<script th:src="@{/resources/static/assets/plugins/jquery-1.10.2.js}"
+		src="../../../resources/assets/plugins/jquery-1.10.2.js"></script>
+	-->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+		integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+		crossorigin="anonymous"></script>
+
+	<script th:src="@{/resources/jquerycal/lib/moment.min.js}"
+		src='../../../resources/assets/jquerycal/lib/moment.min.js'></script>
+
+	<script th:src="@{/resources/jquerycal/lib/jquery.min.js}"
+		src='../../../resources/assets/jquerycal/lib/jquery.min.js'></script>
+
+	<script th:src="@{/resources/jquerycal/fullcalendar.min.js}"
+		src='../../../resources/assets/jquerycal/fullcalendar.min.js'></script>
+
+	<!-- 
 	<script
+		th:src="@{/resources/static/assets/plugins/bootstrap/bootstrap.min.js}"
 		src="../../../resources/assets/plugins/bootstrap/bootstrap.min.js"></script>
+		-->
 	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+
+	<!-- 
+	<script
+		th:src="@{/resources/static/assets/plugins/metisMenu/jquery.metisMenu.js}"
 		src="../../../resources/assets/plugins/metisMenu/jquery.metisMenu.js"></script>
+	-->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.js"></script>
+
+	<!-- 
 	<script src="../../../resources/assets/plugins/pace/pace.js"></script>
-	<script src="../../../resources/assets/scripts/siminta.js"></script>
+-->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+	<script th:src="@{/resources/scripts/siminta.js}"
+		src="../../../resources/assets/scripts/siminta.js"></script>
+
 	<script>
 		$(document).ready(function() {
 

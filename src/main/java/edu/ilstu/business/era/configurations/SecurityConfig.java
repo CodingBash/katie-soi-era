@@ -34,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// TODO: Verify that correct mapping is secured
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
-				.rememberMe().tokenValiditySeconds(2419200).key("katieEraKey").and().requiresChannel().and().logout()
-				.logoutSuccessUrl("/").logoutUrl("/signout");
+		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().formLogin()
+				.loginPage("/login").permitAll().and().rememberMe().tokenValiditySeconds(2419200).key("katieEraKey")
+				.and().requiresChannel().and().logout().logoutSuccessUrl("/").logoutUrl("/signout");
 	}
 
 	/**
