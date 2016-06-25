@@ -168,9 +168,9 @@
 					<div class="alert alert-info">
 						<p>
 							<!--  DYNAMIC EVENT COUNT AND USERNAME -->
-							<b>Hello <b>Reggie Redbird. </b> You have <b>1</b> upcoming
-								event
-							</b>
+							Hello <b><span th:text="${principalUsername}">User</span></b>.
+							You have <b><span th:text="${eventListSize}">#</span></b>
+							upcoming event
 						</p>
 					</div>
 				</div>
@@ -224,6 +224,7 @@
 
 	<script th:src="@{/resources/scripts/siminta.js}"
 		src="../../../resources/assets/scripts/siminta.js"></script>
+
 
 	<script>
 		$(document).ready(function() {

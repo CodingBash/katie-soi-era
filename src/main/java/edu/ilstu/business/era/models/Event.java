@@ -1,6 +1,5 @@
 package edu.ilstu.business.era.models;
 
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;

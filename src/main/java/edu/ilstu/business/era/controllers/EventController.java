@@ -110,6 +110,8 @@ public class EventController {
 		}
 
 		mav.addObject("eventList", retrievedEventList);
+		mav.addObject("eventListSize", retrievedEventList.size());
+		mav.addObject("principalUsername", principal.getName());
 
 		return mav;
 	}
