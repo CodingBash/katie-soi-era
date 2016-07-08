@@ -178,6 +178,7 @@
 			</div>
 
 			<div id='calendar'></div>
+			
 		</div>
 	</div>
 	<!-- 
@@ -230,17 +231,63 @@
 		/*<![CDATA[*/
 
 		var eventList = [[${eventList}]];
+/* 		console.log(eventList + "</br>");
+ */		/* console.log(JSON.parse(JSON.stringify(eventList))); */
 		
-		for(var i = 0; i < eventList.length; i++){
-			console.log(eventList[i]);
-		}
+ function formatEventList() {
+		var eventList = [[${eventList}]];
+		var eventsCal = [];
+	
+	 	for(var i = 0; i < eventList.length; i++){
+	 		/* console.log('here');
+	 		console.log(eventList[i].title); */
+			console.log(eventList[i].eventId);
+			tmpCal = {};
+			tmpCal.id = eventList[i].eventId;
+			tmpCal.title = eventList[i].title;
+			tmpCal.start = eventList[i].startDate;
+			tmpCal.end = eventList[i].endDate;
+			tmpCal.desc = eventList[i].description;
+		//check for start and end date to make sure it exists
+		
+			eventsCal.push(tmpCal);
+		    
+		}  
+	 			console.log('here');
+	 	 		console.log(JSON.parse(JSON.stringify(eventsCal)));
+/* 	 	 		console.log(calendar.fullCalendar('clientEvents'));
+ */
+	 	 		return eventsCal;
+ } 	
+		
 
 		/*]]>*/
 	</script>
-	
+ <!-- for list view -->	
+<!-- 	function PrintResults(result) {
+
+for (var i = 0; i < result.length; i++) { 
+    alert(class.event);
+} -->
+<!-- <script>
+var events = [];
+$.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
+    $.getJSON("fullCalendar()", function(json) {
+        $.each(json, function(j, d) {
+            events[j] = events[j] || {};
+            events[j]["count" + i] = d.count;
+            if (i == 0) {
+                events[j].column0 = d.column;
+            }
+        });
+    });
+});
+</script> -->
+
 	<script>
 		$(document).ready(function() {
-
+		
+			var eventData = formatEventList();
 			$('#calendar').fullCalendar({
 				header : {
 					left : 'prev,next today',
@@ -250,17 +297,34 @@
 				defaultDate : Date.now(),
 				editable : false,
 				eventLimit : true, // allow "more" link when too many events
-				events : [ {
-					title : 'Business Event',
-					start : '2016-06-20',
-				}, {
-					title : 'Speaking Event',
-					start : '2016-06-17',
-				} ]
-			});
+			    events : eventData,
+			    eventClick: function(calEvent, jsEvent, view) {
 
+			    	console.log('Id: ' + calEvent.id); 
+			        console.log('Title: ' + calEvent.title);
+			        console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+			        console.log('View: ' + view.name);
+			        console.log('Description: ' + calEvent.desc);
+
+
+			        // change the border color just for fun
+			        $(this).css('border-color', 'red');
+
+			    }
+			    
+			});
+		
+			$(".fc-content").on("click",function (e) {
+				 // jQuery code, event handling callbacks here
+				/*    $('#mymapselect option[value="' + this.id + '"]').attr('selected', 'selected');
+				 */	
+/* 				 alert(eventList[0].title);
+ */				 });
 		});
+		
+		
 	</script>
+	
 </body>
 </html>
 

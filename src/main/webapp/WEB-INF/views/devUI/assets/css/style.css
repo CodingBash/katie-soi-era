@@ -34,10 +34,10 @@ limitations under the License.*/
  #wrapper {
     width: 100%;
     background: #b80100; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#b80100, #9c1412); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#b80100, #9c1412); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#b80100, #9c1412); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#b80100, #9c1412); /* Standard syntax (must be last) */}
+    background: -webkit-linear-gradient(#b80100, #9c1412) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#b80100, #9c1412) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#b80100, #9c1412) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#b80100, #9c1412) !important; /* Standard syntax (must be last) */}
 
 #page-wrapper {
     padding: 0 15px;
