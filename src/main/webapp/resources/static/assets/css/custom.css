@@ -71,10 +71,15 @@ tr.subhead_cal {
 	background:#ffffff;
 	width:80%;
 	height:80%;
+	margin-top:5%;
 }
 @media(max-width:768px) {
-	width:100%;
-	width:100%;
+	.single-event-container {
+		margin-top:0;
+		width:100% !important;
+		height:100% !important;
+	}
+	
 }
 .modal-exit {
 	float:right;
