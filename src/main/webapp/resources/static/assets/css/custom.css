@@ -67,6 +67,21 @@ tr.subhead_cal {
 }
 .navbar-right {display:none !important;
 }
+.single-event-container {
+	background:#ffffff;
+	width:100%;
+	height:100%;
+}
+.modal-exit {
+	float:right;
+	color:#b80100;
+}
+@media(max-width:768px) {
+	.page-header {
+		font-size:3em;
+	}
+}
+
 
 
 @media(max-width:767px) {

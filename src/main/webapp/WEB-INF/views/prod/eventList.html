@@ -283,8 +283,9 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
     });
 });
 </script> -->
-
 	<script>
+	 function getEvent() {
+
 		$(document).ready(function() {
 		
 			var eventData = formatEventList();
@@ -299,31 +300,81 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 				eventLimit : true, // allow "more" link when too many events
 			    events : eventData,
 			    eventClick: function(calEvent, jsEvent, view) {
+ 			    	document.getElementById("eventModal").innerHTML = 
+ 			    		'<div class="container single-event-container">' +
 
-			    	console.log('Id: ' + calEvent.id); 
-			        console.log('Title: ' + calEvent.title);
+ 			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
+ 			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
+ 			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
+ 			    		'<div class="container">' + calEvent.desc + '</div>' +
+ 			    		'<div class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
+ 			    	
+ 			    	
+ 			    	/* document.getElementById("eventModal").innerHTML = 'Title: ' + calEvent.title; 			    	
+ 			    	document.getElementById("eventModal").innerHTML = 'Description: ' + calEvent.desc; */ 			    	
+
+ 			        console.log('Title: ' + calEvent.title);
 			        console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 			        console.log('View: ' + view.name);
 			        console.log('Description: ' + calEvent.desc);
+			        
+			        
+			        
 
 
 			        // change the border color just for fun
-			        $(this).css('border-color', 'red');
+			        $(this).css('border-color', 'red');	
+			        
+			        	  console.log(calEvent.title);
+			        	  $('#eventModal').attr('alt', 'calEvent.id');
+			        	  $('#eventModal').modal();
+			        	
+					return calEvent;
 
-			    }
+			        	/*      var theId = $(this).attr(calEvent.id);
+			        	     $('#eventModal').val(theId);	
+			        	     return document.getElementById(calEvent.id).value;
+ */
 			    
+			}
+				
 			});
-		
+			
+			
+			
+	
 			$(".fc-content").on("click",function (e) {
 				 // jQuery code, event handling callbacks here
 				/*    $('#mymapselect option[value="' + this.id + '"]').attr('selected', 'selected');
 				 */	
-/* 				 alert(eventList[0].title);
+/* 				 alert(eventList[0].title);*/
+/* 				 $('#eventModal').modal('toggle');
  */				 });
+			
+			
+	
 		});
-		
-		
-	</script>
+ }
+	</script>	
+	<!-- Large modal -->
+<!-- <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+ -->
+<div id="eventModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+<div class="container">
+
+<script>var work = getEvent();</script>
+ 
+	<h1>Event Name</h1>
+	<p>Event Day</p>
+	<p><span>Event Start Time</span> to <span>Event End Time</span></p>
+	<p>Event Location</p>
+	<p>Event Description</p>
+</div>
+    </div>
+  </div>
+</div>
 	
 </body>
 </html>
