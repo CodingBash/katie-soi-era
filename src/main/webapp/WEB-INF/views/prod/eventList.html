@@ -245,6 +245,7 @@
 			tmpCal = {};
 			tmpCal.id = eventList[i].eventId;
 			tmpCal.title = eventList[i].title;
+		 	
 			tmpCal.start = eventList[i].startDate;
 			tmpCal.end = eventList[i].endDate;
 			tmpCal.desc = eventList[i].description;
@@ -253,6 +254,9 @@
 			eventsCal.push(tmpCal);
 		    
 		}  
+	 	
+	
+
 	 			console.log('here');
 	 	 		console.log(JSON.parse(JSON.stringify(eventsCal)));
 /* 	 	 		console.log(calendar.fullCalendar('clientEvents'));
@@ -302,7 +306,6 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			    eventClick: function(calEvent, jsEvent, view) {
  			    	document.getElementById("eventModal").innerHTML = 
  			    		'<div class="container single-event-container">' +
-
  			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
  			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
  			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
@@ -314,6 +317,9 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
  			    	document.getElementById("eventModal").innerHTML = 'Description: ' + calEvent.desc; */ 			    	
 
  			        console.log('Title: ' + calEvent.title);
+ 			        console.log('start: ' + calEvent.start);
+ 			        console.log('end: ' + calEvent.end);
+
 			        console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 			        console.log('View: ' + view.name);
 			        console.log('Description: ' + calEvent.desc);
