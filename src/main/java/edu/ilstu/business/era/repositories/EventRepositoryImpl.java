@@ -142,18 +142,12 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		return eventList;
 	}
 
+	@Deprecated
 	@Override
 	public Event retrieveEventDetail(String buCode, String announcementId) throws KatieResourceNotFoundException {
-		final RestTemplate restTemplate = restTemplateFactory.getObject();
-		Map<String, String> urlVariablesMap = new HashMap<String, String>();
-		urlVariablesMap.put("buCode", buCode);
-		urlVariablesMap.put("announcementId", announcementId);
-		ResponseEntity<AnnouncementTO> restResponse = restTemplate.exchange(GET_BU_ANNOUNCEMENT_URL, HttpMethod.GET,
-				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<AnnouncementTO>() {
-				}, urlVariablesMap);
-		AnnouncementTO announcementTo = restResponse.getBody();
-		Event event = eventMapper.mapEventFromAnnouncementTO(announcementTo);
-		return event;
+		List<Event> eventList = retrieveEventList();
+		
+		return null;
 	}
 
 	// TODO: Determine how to register for event on Loudcloud.
