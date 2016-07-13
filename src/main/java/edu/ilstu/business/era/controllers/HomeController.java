@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ilstu.business.era.constants.ApplicationConstants;
+
 /**
  * Handles requests for the application home page.
  */
@@ -23,8 +25,13 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/devBACK/index");
+		ModelAndView mav = new ModelAndView("index");
 		return mav;
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(){
+		return "login";
 	}
 
 }
