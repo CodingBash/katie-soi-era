@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<title>ISU Katie School of Business</title>
+<!-- Core CSS - Include with every page -->
+<!-- 
+<link
+	th:href="@{/resources/static/assets/plugins/bootstrap/bootstrap.css}"
+	href="../../../resources/assets/plugins/bootstrap/bootstrap.css"
+	rel="stylesheet" />
+	-->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous" />
+
+<!-- 
+<link
+	th:href="@{/resources/static/assets/font-awesome/css/font-awesome.css}"
+	href="../../../resources/assets/font-awesome/css/font-awesome.css"
+	rel="stylesheet" />
+	-->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+	crossorigin="anonymous" />
+
+<!-- 
+<link
+	th:href="@{/resources/static/assets/plugins/pace/pace-theme-big-counter.css}"
+	href="../../../resources/assets/plugins/pace/pace-theme-big-counter.css"
+	rel="stylesheet" />
+	-->
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="stylesheet"
+	integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+	crossorigin="anonymous" />
+
+<link th:href="@{/resources/css/style.css}"
+	href="../../../resources/assets/css/style.css" rel="stylesheet" />
+
+<link th:href="@{/resources/css/custom.css}"
+	href="../../../resources/assets/css/custom.css" rel="stylesheet" />
+
+<link th:href="@{/resources/css/main-style.css}"
+	href="../../../resources/assets/css/main-style.css" rel="stylesheet" />
+
+
+<link th:href="@{/resources/css/normalize.css}"
+	href="../../../resources/assets/css/normalize.css" rel="stylesheet" />
+
+<link th:href="@{/resources/jquerycal/fullcalendar.css}"
+	href='../../../resources/assets/jquerycal/fullcalendar.css'
+	rel='stylesheet' />
+
+<link th:href="@{/resources/jquerycal/fullcalendar.print.css}"
+	href='../../../resources/assets/jquerycal/fullcalendar.print.css'
+	rel='stylesheet' media='print' />
+
+<style>
+</style>
+</head>
+<body>
+	<!--  wrapper -->
+	<div id="wrapper">
+		<!-- navbar top -->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
+			id="navbar">
+			<!-- navbar-header -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html"> <img
+					th:src="@{/resources/img/logo.png}"
+					src="../../../resources/assets/img/logo.png" alt="" />
+				</a>
+			</div>
+			<!-- end navbar-header -->
+			<!-- navbar-top-links -->
+			<ul class="nav navbar-top-links navbar-right">
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i class="fa fa-user fa-3x"></i>
+				</a> <!-- dropdown user-->
+					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#"><i class="fa fa-user fa-fw"></i>User
+								Profile</a></li>
+						<li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<form th:action="@{/signout}" method="POST">
+								<input type="submit" value="Logout"></input>
+							</form>
+						</li>
+					</ul></li>
+			</ul>
+			<!-- end navbar-top-links -->
+		</nav>
+		<!-- end navbar top -->
+
+		<!-- navbar side -->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<!-- sidebar-collapse -->
+			<div class="sidebar-collapse">
+				<!-- side-menu -->
+				<ul class="nav" id="side-menu">
+					<li>
+						<!-- user image section-->
+						<div class="user-section">
+							<div class="user-section-inner">
+								<img th:src="@{/resources/img/reggiehead.png}"
+									src="../../../resources/assets/img/reggiehead.png" alt="" />
+							</div>
+							<div class="user-info">
+								<button class="btn btn-default nav-button" type="button"
+									value="logout">Logout</button>
+								<!--                                 <div>Reggie <strong>Redbird</strong></div>
+ -->
+								<div class="user-text-online">
+									<span class="user-circle-online btn btn-success btn-circle "></span>&nbsp;Online
+								</div>
+							</div>
+						</div> <!--end user image section-->
+					</li>
+					<li class="sidebar-search">
+						<!-- search section-->
+						<div class="input-group custom-search-form">
+							<input type="text" class="form-control" placeholder="Search..." />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">
+									<i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div> <!--end search section-->
+					</li>
+					<li class="selected"><a href="index.html">View Events</a></li>
+					<li><a href="eventcheckin.html">Event Check in</a></li>
+					<li><a href="attendedevents.html">Attended Events</a></li>
+					<li><a href="profile.html">Profile</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!-- end navbar side -->
+		<!--  page-wrapper -->
+		<div id="page-wrapper">
+
+			<div class="row">
+				<!-- Page Header -->
+				<div class="col-lg-12">
+					<h1 class="page-header">Welcome!</h1>
+				</div>
+				<!--End Page Header -->
+			</div>
+
+			<div class="row">
+				<!-- Welcome -->
+				<div class="col-lg-12">
+					<div class="alert alert-info">
+						<p>
+							<!--  DYNAMIC EVENT COUNT AND USERNAME -->
+							Hello <b><span th:text="${principalUsername}">User</span></b>.
+							You have <b><span th:text="${eventListSize}">#</span></b>
+							upcoming events
+						</p>
+					</div>
+				</div>
+				<!--end  Welcome -->
+			</div>
+
+			<div id='calendar'></div>
+			
+		</div>
+	</div>
+	<!-- 
+	<script th:src="@{/resources/static/assets/plugins/jquery-1.10.2.js}"
+		src="../../../resources/assets/plugins/jquery-1.10.2.js"></script>
+	-->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+		integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+		crossorigin="anonymous"></script>
+
+	<script th:src="@{/resources/jquerycal/lib/moment.min.js}"
+		src='../../../resources/assets/jquerycal/lib/moment.min.js'></script>
+
+	<script th:src="@{/resources/jquerycal/lib/jquery.min.js}"
+		src='../../../resources/assets/jquerycal/lib/jquery.min.js'></script>
+
+	<script th:src="@{/resources/jquerycal/fullcalendar.min.js}"
+		src='../../../resources/assets/jquerycal/fullcalendar.min.js'></script>
+
+	<!-- 
+	<script
+		th:src="@{/resources/static/assets/plugins/bootstrap/bootstrap.min.js}"
+		src="../../../resources/assets/plugins/bootstrap/bootstrap.min.js"></script>
+		-->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+
+	<!-- 
+	<script
+		th:src="@{/resources/static/assets/plugins/metisMenu/jquery.metisMenu.js}"
+		src="../../../resources/assets/plugins/metisMenu/jquery.metisMenu.js"></script>
+	-->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.js"></script>
+
+	<!-- 
+	<script src="../../../resources/assets/plugins/pace/pace.js"></script>
+-->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+	<script th:src="@{/resources/scripts/siminta.js}"
+		src="../../../resources/assets/scripts/siminta.js"></script>
+
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var eventList = [[${eventList}]];
+/* 		console.log(eventList + "</br>");
+ */		/* console.log(JSON.parse(JSON.stringify(eventList))); */
+		
+ function formatEventList() {
+		var eventList = [[${eventList}]];
+		var eventsCal = [];
+	
+	 	for(var i = 0; i < eventList.length; i++){
+	 		/* console.log('here');
+	 		console.log(eventList[i].title); */
+			console.log(eventList[i].eventId);
+			tmpCal = {};
+			tmpCal.id = eventList[i].eventId;
+			tmpCal.title = eventList[i].title;
+		 	
+			tmpCal.start = eventList[i].startDate;
+			tmpCal.end = eventList[i].endDate;
+			tmpCal.desc = eventList[i].description;
+		//check for start and end date to make sure it exists
+		
+			eventsCal.push(tmpCal);
+		    
+		}  
+	 	
+	
+
+	 			console.log('here');
+	 	 		console.log(JSON.parse(JSON.stringify(eventsCal)));
+/* 	 	 		console.log(calendar.fullCalendar('clientEvents'));
+ */
+	 	 		return eventsCal;
+ } 	
+		
+
+		/*]]>*/
+	</script>
+ <!-- for list view -->	
+<!-- 	function PrintResults(result) {
+
+for (var i = 0; i < result.length; i++) { 
+    alert(class.event);
+} -->
+<!-- <script>
+var events = [];
+$.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
+    $.getJSON("fullCalendar()", function(json) {
+        $.each(json, function(j, d) {
+            events[j] = events[j] || {};
+            events[j]["count" + i] = d.count;
+            if (i == 0) {
+                events[j].column0 = d.column;
+            }
+        });
+    });
+});
+</script> -->
+	<script>
+	 function getEvent() {
+
+		$(document).ready(function() {
+		
+			var eventData = formatEventList();
+			$('#calendar').fullCalendar({
+				header : {
+					left : 'prev,next today',
+					center : 'title',
+					right : 'month,basicWeek,basicDay'
+				},
+				defaultDate : Date.now(),
+				editable : false,
+				eventLimit : true, // allow "more" link when too many events
+			    events : eventData,
+			    eventClick: function(calEvent, jsEvent, view) {
+ 			    	document.getElementById("eventModal").innerHTML = 
+ 			    		'<div class="container single-event-container">' +
+ 			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
+ 			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
+ 			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
+ 			    		'<div class="container">' + calEvent.desc + '</div>' +
+ 			    		'<div class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
+ 			    	
+ 			    	
+ 			    	/* document.getElementById("eventModal").innerHTML = 'Title: ' + calEvent.title; 			    	
+ 			    	document.getElementById("eventModal").innerHTML = 'Description: ' + calEvent.desc; */ 			    	
+
+ 			        console.log('Title: ' + calEvent.title);
+ 			        console.log('start: ' + calEvent.start);
+ 			        console.log('end: ' + calEvent.end);
+
+			        console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+			        console.log('View: ' + view.name);
+			        console.log('Description: ' + calEvent.desc);
+			        
+			        
+			        
+
+
+			        // change the border color just for fun
+			        $(this).css('border-color', 'red');	
+			        
+			        	  console.log(calEvent.title);
+			        	  $('#eventModal').attr('alt', 'calEvent.id');
+			        	  $('#eventModal').modal();
+			        	
+					return calEvent;
+
+			        	/*      var theId = $(this).attr(calEvent.id);
+			        	     $('#eventModal').val(theId);	
+			        	     return document.getElementById(calEvent.id).value;
+ */
+			    
+			}
+				
+			});
+			
+			
+			
+	
+			$(".fc-content").on("click",function (e) {
+				 // jQuery code, event handling callbacks here
+				/*    $('#mymapselect option[value="' + this.id + '"]').attr('selected', 'selected');
+				 */	
+/* 				 alert(eventList[0].title);*/
+/* 				 $('#eventModal').modal('toggle');
+ */				 });
+			
+			
+	
+		});
+ }
+	</script>	
+	<!-- Large modal -->
+<!-- <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+ -->
+<div id="eventModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+<div class="container">
+
+<script>var work = getEvent();</script>
+ 
+	<h1>Event Name</h1>
+	<p>Event Day</p>
+	<p><span>Event Start Time</span> to <span>Event End Time</span></p>
+	<p>Event Location</p>
+	<p>Event Description</p>
+</div>
+    </div>
+  </div>
+</div>
+	
+</body>
+</html>
+
