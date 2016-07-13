@@ -1,0 +1,95 @@
+body {
+	font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+a:hover {color:#D3D3D3;}
+a:click {color:#D3D3D3;}
+a:selected {color:#D3D3D3;}
+
+.nav-button {
+	border-radius: 10px;
+    background: transparent;
+    border: solid #fff 2px;
+    color: #fff;
+}
+.navbar-brand {
+	padding: 0;
+	margin-top:50px;
+}
+.navbar-top-links .open > a {background:#b80100 !important;}
+.fc-ltr .fc-basic-view .fc-day-number {padding:.5em;}
+#side-menu {
+	padding-top:100px;
+}
+.event {
+	border-radius:0 !important;
+}
+div#calendar {
+	width:100% !important;
+}
+
+#calendar_data {
+	width:100% !important;
+	margin-top:10px !important;
+}
+.fc-toolbar {
+	    background: #b80100;
+	    color:#fff;
+	    padding:2em;
+	    margin-bottom:0 !important;
+}
+tbody.days_cal tr td {
+	padding:2.5% !important;
+}
+th {
+	text-align:center;
+}
+.fa-3x {
+	color:#ddd;
+}
+
+tr.head_cal {
+	background:#b80100 !important;
+	color:#fff !important;
+}
+tr.subhead_cal {
+	background:#ddd !important;
+	color:#000 !important;
+}
+.user-section {
+	margin-top:100px !important;
+}
+.page-header {
+	border:none !important;
+	font-size:63px;
+	font-family: "HelveticaNeue", "Helvetica Neue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-weight:500;
+	color:#666666;
+}
+.navbar-right {display:none !important;
+}
+.fc-day-grid-event .fc-content {
+	nowrap:normal !important;
+}
+
+
+@media(max-width:767px) {
+	.user-section,
+	.navbar-top-links {
+		display:none !important;
+	}
+	#navbar {
+	    background: #b80100 !important;
+    	height: 20%;
+    }
+}
+@media(max-width:767px) {
+	.navbar-brand {
+		margin-top:0;
+	}
+}
+
+
+
+@media(min-width:767px) {
+	.navbar-fixed-top {position:absolute !important;}
+}

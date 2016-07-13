@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Home</title>
+</head>
+<body>
+	<h1>Hello world!</h1>
+	<br></br>
+	<a th:href="@{/events}">Events</a>
+<!-- 	<a th:href="@{/events/{eventId}">Single Event</a>
+ -->	
+	<form th:action="@{/signout}" method="POST">
+		<input type="submit" value="Logout"></input>
+	</form>
+</body>
+</html>

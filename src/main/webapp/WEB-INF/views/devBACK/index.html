@@ -5,7 +5,10 @@
 </head>
 <body>
 	<h1>Hello world!</h1>
-
-	<P>The time on the server is ${serverTime}.</P>
+	<br></br>
+	<a th:href="@{/events}">Events</a>
+	<form th:action="@{/signout}" method="POST">
+		<input type="submit" value="Logout"></input>
+	</form>
 </body>
 </html>
