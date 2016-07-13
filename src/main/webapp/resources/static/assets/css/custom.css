@@ -67,6 +67,33 @@ tr.subhead_cal {
 }
 .navbar-right {display:none !important;
 }
+.single-event-container {
+	background:#ffffff;
+	width:80%;
+	height:80%;
+	margin-top:5%;
+}
+@media(max-width:768px) {
+	.single-event-container {
+		margin-top:0;
+		width:100% !important;
+		height:100% !important;
+	}
+	
+}
+.modal-exit {
+	float:right;
+	color:#b80100;
+	padding-right: 50px;
+    margin-bottom: -100px;
+    margin-top: 25px;
+}
+@media(max-width:768px) {
+	.page-header {
+		font-size:3em;
+	}
+}
+
 
 
 @media(max-width:767px) {

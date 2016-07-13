@@ -67,6 +67,9 @@ tr.subhead_cal {
 }
 .navbar-right {display:none !important;
 }
+.fc-day-grid-event .fc-content {
+	nowrap:normal !important;
+}
 
 
 @media(max-width:767px) {
