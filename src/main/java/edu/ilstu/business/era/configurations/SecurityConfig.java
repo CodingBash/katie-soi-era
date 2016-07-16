@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import edu.ilstu.business.era.repositories.UserDetailsAuthenticationRepositoryImpl;
+import edu.ilstu.business.era.utilities.KatiePasswordEncoder;
+
 /**
  * Specific configuration of the security
  * 
@@ -24,8 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER").and().withUser("guest")
-				.password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
+		/*
+		 * auth.inMemoryAuthentication().withUser("user").password("password").
+		 * roles("USER").and().withUser("guest")
+		 * .password("password").roles("GUEST").and().withUser("rsaripa").
+		 * password("password").roles("USER");
+		 */
+		
+		auth.userDetailsService(new UserDetailsAuthenticationRepositoryImpl())
+				.passwordEncoder(new KatiePasswordEncoder());
 	}
 
 	/**
@@ -36,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().and().rememberMe().tokenValiditySeconds(2419200).key("katieEraKey")
-				.and().requiresChannel().and().logout().logoutSuccessUrl("/").logoutUrl("/signout");
+				.and().requiresChannel().and().logout().logoutSuccessUrl("/").logoutUrl("/logout");
 	}
 
 	/**
