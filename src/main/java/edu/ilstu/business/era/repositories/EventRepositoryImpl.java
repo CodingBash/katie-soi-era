@@ -24,7 +24,6 @@ import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.transferobjects.AnnouncementTO;
 import edu.ilstu.business.era.transferobjects.ClassListTO;
 import edu.ilstu.business.era.transferobjects.ClassSearchTO;
-import edu.ilstu.business.era.utilities.KatieAbstractRepository;
 import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
 @Component

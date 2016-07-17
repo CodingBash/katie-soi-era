@@ -24,10 +24,12 @@ import com.google.gson.reflect.TypeToken;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.UserMapper;
 import edu.ilstu.business.era.transferobjects.UserTO;
-import edu.ilstu.business.era.utilities.KatieAbstractRepository;
+import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
-public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository
-		implements UserDetailsService {
+public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsService {
+
+	@Autowired
+	private RestTemplateFactory restTemplateFactory;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -36,23 +38,24 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
 		/*
 		 * Get User response
 		 */
 		final RestTemplate restTemplate = new RestTemplate();
+		
 		Map<String, String> urlVariablesMap = new HashMap<String, String>();
-		urlVariablesMap.put("refId", username.toLowerCase());
-		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.exchange(RETRIEVE_USER, HttpMethod.GET,
-				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>() {
+		urlVariablesMap.put("refId", username);
+		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.
+				exchange(RETRIEVE_USER, HttpMethod.GET,
+				new HttpEntity<Object>(createHeaders()), 
+				new ParameterizedTypeReference<String>() {
 				}, urlVariablesMap);
 		String jsonStringUserTo = jsonStringResponseUserTo.getBody();
 		Type userToType = new TypeToken<UserTO>() {
 		}.getType();
 		UserTO userTo = new Gson().fromJson(jsonStringUserTo, userToType);
-		
+
 		System.out.println(userTo.getPassword());
-		
 		/*
 		 * Create UserDetail
 		 */
@@ -64,7 +67,7 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 					authorities);
 		}
 
-		throw new KatieResourceNotFoundException("Username not found6");
+		throw new KatieResourceNotFoundException("Username not found");
 	}
 
 }

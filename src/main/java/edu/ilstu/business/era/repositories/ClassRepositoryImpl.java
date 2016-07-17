@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import edu.ilstu.business.era.utilities.KatieAbstractRepository;
 import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
 @Component
