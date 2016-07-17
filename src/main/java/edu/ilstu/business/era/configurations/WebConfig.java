@@ -14,13 +14,15 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
+import edu.ilstu.business.era.mappers.UserMapper;
+import edu.ilstu.business.era.utilities.CredentialsBean;
+
 /**
  * Default web configurer
  * 
  * @author Basheer
  *
  */
-@Order(1)
 @Configuration
 @EnableWebMvc
 @ComponentScan({ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers",
@@ -83,6 +85,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return templateResolver;
 	}
 
+	@Bean
+	public CredentialsBean CredentialsBean(){
+		return new CredentialsBean();
+	}
+	
+	@Bean
+	public UserMapper userMapper(){
+		return new UserMapper();
+	}
 	/**
 	 * Configure the property source
 	 * 
@@ -97,5 +108,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/static/assets/");
 	}
+	
 
 }

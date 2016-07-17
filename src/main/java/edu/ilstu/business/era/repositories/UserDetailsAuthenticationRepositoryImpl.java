@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
@@ -24,12 +25,9 @@ import com.google.gson.reflect.TypeToken;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.UserMapper;
 import edu.ilstu.business.era.transferobjects.UserTO;
-import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
+@Component
 public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsService {
-
-	@Autowired
-	private RestTemplateFactory restTemplateFactory;
 
 	@Autowired
 	private UserMapper userMapper;
@@ -55,7 +53,6 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 		}.getType();
 		UserTO userTo = new Gson().fromJson(jsonStringUserTo, userToType);
 
-		System.out.println(userTo.getPassword());
 		/*
 		 * Create UserDetail
 		 */

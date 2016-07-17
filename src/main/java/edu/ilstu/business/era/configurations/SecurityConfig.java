@@ -1,8 +1,8 @@
 package edu.ilstu.business.era.configurations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,26 +18,25 @@ import edu.ilstu.business.era.utilities.KatiePasswordEncoder;
  * 
  * @author Basheer
  */
-@Order(2)
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private UserDetailsAuthenticationRepositoryImpl userDetailsAuthenticationRepositoryImpl;
 
 	/**
 	 * Configure the user store
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		/*
-		 * auth.inMemoryAuthentication().withUser("user").password("password").
-		 * roles("USER").and().withUser("guest")
-		 * .password("password").roles("GUEST").and().withUser("rsaripa").
-		 * password("password").roles("USER");
-		 */
-		
-		auth.userDetailsService(new UserDetailsAuthenticationRepositoryImpl())
-				.passwordEncoder(new KatiePasswordEncoder());
+
+		// auth.inMemoryAuthentication().withUser("user").password("password").roles("USER").and().withUser("guest")
+		// .password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
+
+		auth.userDetailsService(userDetailsAuthenticationRepositoryImpl).passwordEncoder(new KatiePasswordEncoder());
+
 	}
 
 	/**
