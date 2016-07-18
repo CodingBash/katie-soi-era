@@ -124,6 +124,7 @@ public class EventController {
 	 * @return {@link ModelAndView}
 	 */
 	// TODO: Find a way to attach files to event from repo
+	@Deprecated
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
 	public ModelAndView eventDetails(@PathVariable(value = "eventId") String eventId, Principal principal) {
