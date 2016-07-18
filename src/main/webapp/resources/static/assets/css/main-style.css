@@ -97,6 +97,57 @@ padding: 20px 15px;
 .no-boder {
     border:0px solid #5bc0de !important;
 }
+/*login page*/
+.login-panel, .panel-default>.panel-heading {
+	background:transparent;
+}
+.panel-heading {display:none;}
+form[action="/eraApplication/login"] {
+	text-align:center !important;
+}
+input[type="submit"]{
+	    border: 1px solid #fff;
+    background: transparent;
+    border-radius: 5px;
+    height: 30px;
+    width: 75px;
+    color: #fff;
+}
+.panel-default {border:none;}
+.form-control {
+	background:transparent;
+	border-left: none !important;
+	border-top: none !important;
+	border-right: none !important;
+	border-bottom:1px solid #cccccc;
+	box-shadow:none !important;
+	color:#ffffff;
+}
+.watermark {
+	position:absolute;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0;
+    width:100%;
+}
+.watermark > img {
+	width:100%;
+}
+::-webkit-input-placeholder {
+   color: #cccccc;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #cccccc;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #cccccc;  
+}
+
+:-ms-input-placeholder {  
+   color: #cccccc;  
+}
 /* tap nvbar Section */
 
 #navbar {
@@ -122,7 +173,10 @@ margin-right: -24px;
 }
 
 .body-Login-back {
-    background-color:#84B899;
+    background: linear-gradient(#b80100, #9c1412);
+    min-height: 800px !important;
+    overflow:hidden;
+};
 }
 
 .margin-tips {
