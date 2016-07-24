@@ -11,9 +11,10 @@
 			<h3>
 				<a th:href="@{'/events/' + ${event.eventId}}" th:text="${event.title}">null</a>
 			</h3>
-			<p th:text="${event.eventId}">null</p>
-			<p th:text="${event.description}">null</p>
-			<p th:text="${event.startDate}">null</p>
+			EventId: <p th:text="${event.eventId}">null</p>
+			ClassId: <p th:text="${event.classId}">null</p>
+			Description: <p th:text="${event.description}">null</p>
+			Start Date: <p th:text="${event.startDate}">null</p>
 		</li>
 	</ul>
 </body>

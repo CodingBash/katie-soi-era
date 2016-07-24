@@ -218,6 +218,13 @@
 			<version>2.7.4</version>
 		</dependency>
 
+		<!-- String manipulation -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>

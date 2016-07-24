@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 // TODO: Add field for list of attachments
 public class Event {
 	private String eventId;
+	private String classId;
 	private String title;
 	private int points;
 	private String description;
@@ -27,6 +28,14 @@ public class Event {
 		this.eventId = eventId;
 	}
 
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
