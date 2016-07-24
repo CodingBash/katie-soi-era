@@ -114,17 +114,19 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		/*
 		 * Get AnnouncementTO from all ClassListTO in each ClassSearchTO
 		 */
-		List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
+		//List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
+		Map<String, List<AnnouncementTO>> announcemeentToClassIdMap = new HashMap<String, List<AnnouncementTO>>();
 		for (ClassListTO classTo : yourClassList.getClassList()) {
 
 			// Check if "sectionRefId" exists
 			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null") {
-
 				/*
 				 * Get GET_ALL_CLASS_ANNOUNCEMENTS response
 				 */
+				String refId = classTo.getSectionRefId();
+				
 				Map<String, String> urlVariablesMap = new HashMap<String, String>();
-				urlVariablesMap.put("refId", classTo.getSectionRefId());
+				urlVariablesMap.put("refId", refId);
 				ResponseEntity<String> jsonStringResponseAnnouncementToList = restTemplate.exchange(
 						GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
 						new ParameterizedTypeReference<String>() {
@@ -135,10 +137,12 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 				}.getType();
 				List<AnnouncementTO> yourAnnouncementList = new Gson().fromJson(jsonStringAnnouncementTo,
 						announcementListType);
-				announcementToListSum.addAll(yourAnnouncementList);
+				
+				announcemeentToClassIdMap.put(refId, yourAnnouncementList);
+				//announcementToListSum.addAll(yourAnnouncementList);
 			}
 		}
-		List<Event> eventList = eventMapper.mapEventListFromAnnouncementTOList(announcementToListSum);
+		List<Event> eventList = eventMapper.mapEventListFromAnnouncementTOGroup(announcemeentToClassIdMap);
 		return eventList;
 	}
 
