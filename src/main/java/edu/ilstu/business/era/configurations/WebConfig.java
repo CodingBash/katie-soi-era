@@ -29,7 +29,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * Folder with views
 	 */
-	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/devBACK/";
+	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/prod/";
 
 	/**
 	 * View extension
