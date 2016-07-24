@@ -6,12 +6,15 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -116,63 +119,13 @@ public class EventController {
 		return mav;
 	}
 
-	/**
-	 * Sets up page to display details of an event
-	 * 
-	 * @param eventId
-	 *            of event
-	 * @return {@link ModelAndView}
-	 */
-	// TODO: Find a way to attach files to event from repo
-	@Deprecated
-	@Secured("ROLE_USER")
-	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
-	public ModelAndView eventDetails(@PathVariable(value = "eventId") String eventId, Principal principal) {
-		ModelAndView mav = new ModelAndView("event");
-
-		/*
-		 * Get refId/ULID from the principal
-		 */
-		String refId = principal.getName();
-
-		/*
-		 * Get the buCode from the refId
-		 */
-		String buCode = classRepository.getBuCode(refId);
-
-		/*
-		 * Get the event from the repository
-		 */
-		Event retrievedEvent = eventRepository.retrieveEventDetail(buCode, eventId);
-
-		/*
-		 * Add event to the response
-		 */
-		mav.addObject("event", retrievedEvent);
-
-		return mav;
+	// @Secured("ROLE_USER")
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
+			@RequestParam(value = "eventId") String eventId, final RedirectAttributes redirectAttributes,
+			Principal principal) {
+		System.out.println("HIT");
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
-	// TODO: Accidental resubmit avoidance
-	// TODO: Security in event registration. Get UserId from SecurityContext
-	@Secured("ROLE_USER")
-	@RequestMapping(value = "/{eventId}/register", method = RequestMethod.POST)
-	public ModelAndView eventRegister(@PathVariable(value = "eventId") String eventId,
-			final RedirectAttributes redirectAttributes, Principal principal) {
-		ModelAndView mav = new ModelAndView("redirect:/events/" + eventId);
-
-		try {
-			eventRepository.registerForEvent(eventId, userRepository.getUserIdFromUsername(principal.getName()));
-			redirectAttributes.addFlashAttribute("registrationSuccess", true);
-		} catch (KatieResourceNotFoundException krnfe) {
-			redirectAttributes.addFlashAttribute("registrationSuccess", false);
-			redirectAttributes.addFlashAttribute("registrationError", "Error registering for event: user not found");
-		} catch (KatieActionFailedException kafe) {
-			redirectAttributes.addFlashAttribute("registrationSuccess", false);
-			redirectAttributes.addFlashAttribute("registrationError",
-					"Error registering for event: registration failure; already registered or expired event?");
-		}
-
-		return mav;
-	}
 }
