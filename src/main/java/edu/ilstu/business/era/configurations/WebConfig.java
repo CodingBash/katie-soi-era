@@ -1,11 +1,19 @@
 package edu.ilstu.business.era.configurations;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -40,6 +48,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 * View type
 	 */
 	private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
+
+	@Bean(name = "h2WebServer", initMethod = "start", destroyMethod = "stop")
+	public org.h2.tools.Server h2WebServer() throws SQLException {
+		return org.h2.tools.Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082");
+	}
+
+	@Bean(initMethod = "start", destroyMethod = "stop")
+	@DependsOn(value = "h2WebServer")
+	public org.h2.tools.Server h2Server() throws SQLException {
+		return org.h2.tools.Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
+	}
 
 	/**
 	 * Configure view resolver bean

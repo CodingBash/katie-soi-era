@@ -15,11 +15,13 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  * @author Basheer
  *
  */
-@Profile("developmentEnvironment")
+@Profile("devEnv")
 @Configuration
 public class DataConfigurationDevelopmentEnvironment {
+	
 	@Bean
 	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("db/sql/create-db.sql").build();
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).addScript("db/sql/ksi_event.sql").addScript("db/sql/ksi_location.sql").addScript("db/sql/ksi_user_event.sql").addScript("db/sql/ksi_user.sql").build();
 	}
+	
 }
