@@ -23,6 +23,9 @@ a:selected {color:#D3D3D3;}
 .event {
 	border-radius:0 !important;
 }
+#rsvp-to-event {
+	width:100%;
+}
 div#calendar {
 	width:100% !important;
 }

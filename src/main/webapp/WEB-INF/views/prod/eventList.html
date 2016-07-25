@@ -4,6 +4,8 @@
 <head>
 <meta charset="utf-8"></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>ISU Katie School of Business</title>
 <!-- Core CSS - Include with every page -->
 <!-- 
@@ -325,6 +327,26 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			        console.log('View: ' + view.name);
 			        console.log('Description: ' + calEvent.desc);
 			        
+			            
+			            
+			            $("#rsvp-to-event").click(function(e){
+			                e.preventDefault(); 
+			                $.ajax({type: "POST",
+			                      url: "events/register",
+			                      data: { classId: calEvent.classId, eventId: calEvent.eventId },
+			                      success : function(data) {
+                                      console.log(data);
+                                      document.getElementById("rsvp-to-event").innerHTML = 
+                     			    		'<div class="alert alert-success">RSVP Successful</div>';
+                              },
+                              // This method will be called when the registration failed
+                              error : function(xhr, ajaxOptions, thrownError) {
+                                      console.log(xhr.status + ": " + thrownError);
+                                      document.getElementById("rsvp-to-event").innerHTML = 
+                     			    		'<div class="alert alert-danger">RSVP Failed</div>';
+                              }     
+			               }); 
+ 			            });
 			        
 			        
 
@@ -363,6 +385,44 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 		});
  }
 	</script>	
+	
+ <!-- 
+        <script>
+               // Gets the CSRF data from the meta tags
+               var token = $("meta[name='_csrf']").attr("content");
+               var header = $("meta[name='_csrf_header']").attr("content");
+ 
+               $
+                               .ajax({
+ 
+                                      // HTTP method
+                                      type : "POST",
+ 
+                                      // Action this request is aiming to
+                                      url : "events/register",
+ 
+                                      // Replace the hardcoded values with a variable
+                                      data: { classId: "CLBA_CLASS_3", eventId : "eec7bbbb-2886-4680-b784-09c1d0ec1e04"}, 
+                                      
+                                      // Max duration of request
+                                      timeout : 100000,
+ 
+                                      // This method is for attaching the CSRF data to the header or else the request will fail
+                                      beforeSend : function(xhr) {
+                                              xhr.setRequestHeader(header, token);
+                                      },
+ 
+                                      // This method will be called when the registration is successful
+                                      success : function(data) {
+                                              console.log(data);
+                                      },
+ 
+                                      // This method will be called when the registration failed
+                                      error : function(xhr, ajaxOptions, thrownError) {
+                                              console.log(xhr.status + ": " + thrownError);
+                                      }
+                               });
+        </script> -->
 	<!-- Large modal -->
 <!-- <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
  -->
