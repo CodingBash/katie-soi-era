@@ -9979,7 +9979,8 @@ function Calendar_constructor(element, overrides) {
 
 Calendar.defaults = {
 
-	titleRangeSeparator: ' \u2014 ', // emphasized dash
+	titleRangeSeparator: ' - ', // emphasized dash
+//	titleRangeSeparator: " \u2014 ",
 	monthYearFormat: 'MMMM YYYY', // required for en. other languages rely on datepicker computable option
 
 	defaultTimedEventDuration: '02:00:00',
