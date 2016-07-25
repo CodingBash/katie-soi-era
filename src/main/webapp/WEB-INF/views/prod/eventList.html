@@ -290,10 +290,12 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
     });
 });
 </script> -->
+
 	<script>
 	 function getEvent() {
 
 		$(document).ready(function() {
+		
 		
 			var eventData = formatEventList();
 			$('#calendar').fullCalendar({
@@ -313,7 +315,7 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
  			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
  			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
  			    		'<div class="container">' + calEvent.desc + '</div>' +
- 			    		'<div class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
+ 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
  			    	
  			    	
  			    	/* document.getElementById("eventModal").innerHTML = 'Title: ' + calEvent.title; 			    	
@@ -348,8 +350,6 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			               }); 
  			            });
 			        
-			        
-
 
 			        // change the border color just for fun
 			        $(this).css('border-color', 'red');	
@@ -370,8 +370,7 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			});
 			
 			
-			
-	
+		
 			$(".fc-content").on("click",function (e) {
 				 // jQuery code, event handling callbacks here
 				/*    $('#mymapselect option[value="' + this.id + '"]').attr('selected', 'selected');
