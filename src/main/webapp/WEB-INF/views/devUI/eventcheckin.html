@@ -12,9 +12,7 @@
     <link href="assets/css/main-style.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <link href="assets/css/normalize.css" rel="stylesheet" />
-    <link href="assets/css/calendar.css" rel="stylesheet" />
-    <link href='../assets/jquerycal/fullcalendar.css' rel='stylesheet' />
-	<link href='../assets/jquerycal/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link href="assets/css/eventcheckin.css" rel="stylesheet" />
     <style>
 
 
@@ -110,101 +108,14 @@
                             </span>
                         </div>
                         <!--end search section-->
-                    <li>
+                    </li>
+                    <li class="selected">
                         <a href="index.html">View Events</a>
                     </li>
-                                        <li class="selected">
-
-                    <a href="eventcheckin.html">Event Check in</a>
-                </li>
+                    <li><a href="rsvpdevents.html">Upcoming Events</a></li>
                     <li><a href="attendedevents.html">Attended Events</a></li>
                     <li><a href="profile.html">Profile</a></li>
-                 <!--    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris Charts</a>
-                            </li>
-                        </ul> -->
-                        <!-- second-level-items -->
-                   <!--  </li>
-                     <li>
-                        <a href="timeline.html"><i class="fa fa-flask fa-fw"></i>Timeline</a>
-                    </li>
-                    <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i>Tables</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i>Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i>UI Elements<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">Panels and Wells</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid</a>
-                            </li>
-                        </ul> -->
-                        <!-- second-level-items -->
-                    <!-- </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i>Multi-Level Dropdown<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                                <!-- third-level-items -->
-                            <!--</li>
-                        </ul> -->
-                        <!-- second-level-items -->
-                  <!--   </li>
-                    <li>
-                        <a href="#"><i class="fa fa-files-o fa-fw"></i>Sample Pages<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="blank.html">Blank Page</a>
-                            </li>
-                            <li>
-                                <a href="login.html">Login Page</a>
-                            </li>
-                        </ul> -->
-                        <!-- second-level-items -->
-                    <!--</li>
-                </ul>-->
-                <!-- end side-menu -->
+                
             </div>
             <!-- end sidebar-collapse -->
         </nav>
@@ -234,121 +145,27 @@
             </div>
 
 
-<script src='../assets/jquerycal/lib/moment.min.js'></script>
-<script src='../assets/jquerycal/lib/jquery.min.js'></script>
-<script src='../assets/jquerycal/fullcalendar.min.js'></script>
-<script>
+<div class="container">
+<table>
+		<tr class="rsvp-event-list-header">
+			<td class="rsvp-title">Event Name</td>
+			<td class="rsvp-title">Event Date</td>
+			<td class="rsvp-title">Event Time</td>
+			
+		</tr>
 
-	$(document).ready(function() {
+		<tr th:each="event : ${eventList}" class="rsvp-event-list">
+			<td class="rsvp-event"><a th:href="@{'/events/' + ${event.eventId}}" th:text="${event.title}">title</a></td>
+			<td class="rsvp-event"><p th:text="${event.description}">date</p></td>
+			<td class="rsvp-event"><p th:text="${event.startDate}">time</p></td>
+		</tr>
+	
 
-		$('#calendar').fullCalendar({
-			defaultDate: '2016-05-12',
-			editable: true,
-			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2016-05-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2016-05-07',
-					end: '2016-05-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-05-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-05-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2016-05-11',
-					end: '2016-05-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-05-12T10:30:00',
-					end: '2016-05-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2016-05-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-05-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2016-05-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2016-05-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2016-05-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2016-05-28'
-				}
-			]
-		});
-		
-	});
-
-</script>
-
-
-	<div id='calendar'></div>
+</table>
 
 
   
-<div id="calendar"></div>
-<div id="calendar_data">
-  <h3>No Events</h3>
-  <dl>
-    <dt><dfn>Title:</dfn></dt><dd>No Events for this Day</dd>
-    <dt><dfn>Location:</dfn></dt><dd>No Location</dd>
-    <dt><dfn>Time:</dfn></dt><dd>No Time</dd>
-    <dt><dfn>Description:</dfn></dt><dd>No Description</dd>
-<dt><dfn>More Info:</dfn></dt><dd><a href="#" title="More info">Here</a><dt></dd>
-  </dl>
-</div>
-<!-- 
-<div class="clearfix"></div>
-<div id="json">
-  <pre><code>{
-    "9/12/2014": {
-        "type":"Conference",
-        "title": "International Conference",
-        "venue":"Hyatt Regency Hotel",
-        "location": "Calgary Alberta , Canada",
-        "time": "10:00 AM",
-        "desc": "Lorem ipsum dolor sit amet...",
-        "more": "http://www.example.com"
-    }
- }</code></pre>
-</div>
-</div>
-    
-    <script src="js/index.js"></script>
 
-
-        </div>
-        end page-wrapper
-
-    </div>
-    end wrapper
--->
     <!-- Core Scripts - Include with every page -->
     <script src="assets/plugins/jquery-1.10.2.js"></script>
     <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>

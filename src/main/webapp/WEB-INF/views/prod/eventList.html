@@ -72,8 +72,7 @@
 	<!--  wrapper -->
 	<div id="wrapper">
 		<!-- navbar top -->
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
-			id="navbar">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
 			<!-- navbar-header -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -329,13 +328,22 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			        console.log('View: ' + view.name);
 			        console.log('Description: ' + calEvent.desc);
 			        
-			            
-			            
-			            $("#rsvp-to-event").click(function(e){
+			        var token = $("meta[name='_csrf']").attr("content");
+		            var header = $("meta[name='_csrf_header']").attr("content");
+		               		
+		               
+			            $("#rsvp-to-event").on("click",function (e){
 			                e.preventDefault(); 
+			                
 			                $.ajax({type: "POST",
 			                      url: "events/register",
-			                      data: { classId: calEvent.classId, eventId: calEvent.eventId },
+			                      data: { classId: calEvent.classId, eventId: calEvent.id },
+			                      // Max duration of request
+                                  timeout : 100000,
+                                  // This method is for attaching the CSRF data to the header or else the request will fail
+                                  beforeSend : function(xhr) {
+                                          xhr.setRequestHeader(header, token);
+                                  },
 			                      success : function(data) {
                                       console.log(data);
                                       document.getElementById("rsvp-to-event").innerHTML = 
@@ -359,7 +367,7 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			        	  $('#eventModal').modal();
 			        	
 					return calEvent;
-
+			
 			        	/*      var theId = $(this).attr(calEvent.id);
 			        	     $('#eventModal').val(theId);	
 			        	     return document.getElementById(calEvent.id).value;

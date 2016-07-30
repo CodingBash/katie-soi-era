@@ -1,0 +1,25 @@
+ul {
+	list-style-type:none;
+}
+.rsvp-event {
+	display:-webkit-inline-box;
+	width:300px;
+}
+.rsvp-event-list {
+	background:#ffffff;	
+}
+.rsvp-event-list-header{
+	background:#337ab7;
+	display:-webkit-inline-box;
+	width:100%;
+	color:#ffffff;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.rsvp-event-list:nth-child(odd) {
+	background:#cccccc;
+}
+.rsvp-title {
+	display:-webkit-inline-box;
+	width:300px;
+}
