@@ -60,11 +60,15 @@
 			</div>
 			<div class="col-md-4 col-md-offset-4">
 				<div class="login-panel panel panel-default">
+				<script>
+			
+				if (document.URL == "http://localhost:8080/eraApplication/login?error"  || document.URL == "http://localhost:8080/eraApplication/login?error#") {
+				    document.write('<div class="alert alert-danger"><strong>Failed Login Attempt</strong><p>The username and password combination did not match our records</p></div>');
+				}
+			</script>
 					<div class="panel-heading">
 						<h3 class="panel-title">Please Sign In</h3>
-						<div class="alert alert-danger">
-  <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-</div>
+						
 					</div>
 					<div class="panel-body">
 						<form role="form" th:action='@{/login}' method='POST'>
