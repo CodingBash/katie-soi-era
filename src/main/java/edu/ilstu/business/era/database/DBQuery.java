@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.utilities.Utils;
 
