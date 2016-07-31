@@ -109,35 +109,22 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		 */
 		final RestTemplate restTemplate = restTemplateFactory.getObject();
 		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(SEARCH_CLASS_LIST, HttpMethod.GET,
-				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
-				{
+				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>() {
 				});
 		String jsonStringClassSearchTo = jsonStringResponseClassToList.getBody();
-		Type classListType = new TypeToken<ClassSearchTO>()
-		{
+		Type classListType = new TypeToken<ClassSearchTO>() {
 		}.getType();
 		ClassSearchTO yourClassList = new Gson().fromJson(jsonStringClassSearchTo, classListType);
 
 		/*
 		 * Get AnnouncementTO from all ClassListTO in each ClassSearchTO
 		 */
-<<<<<<< HEAD
 		//List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
 		Map<String, List<AnnouncementTO>> announcemeentToClassIdMap = new HashMap<String, List<AnnouncementTO>>();
 		for (ClassListTO classTo : yourClassList.getClassList()) {
 
 			// Check if "sectionRefId" exists
 			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null") {
-=======
-		List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
-		for (ClassListTO classTo : yourClassList.getClassList())
-		{
-
-			// Check if "sectionRefId" exists
-			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null")
-			{
-
->>>>>>> local-database
 				/*
 				 * Get GET_ALL_CLASS_ANNOUNCEMENTS response
 				 */
@@ -147,13 +134,11 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 				urlVariablesMap.put("refId", refId);
 				ResponseEntity<String> jsonStringResponseAnnouncementToList = restTemplate.exchange(
 						GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
-						new ParameterizedTypeReference<String>()
-						{
+						new ParameterizedTypeReference<String>() {
 						}, urlVariablesMap);
 				String jsonStringAnnouncementTo = jsonStringResponseAnnouncementToList.getBody();
 
-				Type announcementListType = new TypeToken<List<AnnouncementTO>>()
-				{
+				Type announcementListType = new TypeToken<List<AnnouncementTO>>() {
 				}.getType();
 				List<AnnouncementTO> yourAnnouncementList = new Gson().fromJson(jsonStringAnnouncementTo,
 						announcementListType);
@@ -189,7 +174,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		{
 		}.getType();
 		AnnouncementTO yourAnnouncementTO = new Gson().fromJson(jsonStringClassSearchTo, classListType);
-		Event event = eventMapper.mapEventFromAnnouncementTO(yourAnnouncementTO);
+		Event event = eventMapper.mapEventFromAnnouncementTO(yourAnnouncementTO, classId);
 		return event;
 	}
 
