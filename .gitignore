@@ -7,6 +7,7 @@
 *.springBeans
 *.mv
 *.DS_Store
+*.db
 bin
 target
 .settings

@@ -1,11 +1,15 @@
 package edu.ilstu.business.era.configurations;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -22,9 +26,11 @@ import org.thymeleaf.templateresolver.TemplateResolver;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers",
+@ComponentScan(
+{ "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers", "edu.ilstu.business.era.database",
 		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities" })
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter
+{
 
 	/**
 	 * Folder with views
@@ -41,13 +47,31 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 */
 	private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
 
+	@Bean
+	public DataSource dataSource()
+	{
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("db/sql/ksi_event.sql")
+				.addScript("db/sql/mock_ksi_event.sql").addScript("db/sql/ksi_location.sql")
+				.addScript("db/sql/mock_ksi_location.sql").addScript("db/sql/ksi_user_event.sql")
+				.addScript("db/sql/ksi_user.sql")
+				.addScript("db/sql/mock_ksi_user.sql").build();
+	}
+	
+	/*
+	@Bean
+	public DataSourceTransactionManager transactionManager(DataSource dataSource){
+		return new DataSourceTransactionManager(dataSource);
+	}
+	*/
+	
 	/**
 	 * Configure view resolver bean
 	 * 
 	 * @return
 	 */
 	@Bean
-	public ViewResolver viewResolver() {
+	public ViewResolver viewResolver()
+	{
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
 
@@ -60,7 +84,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@Bean
-	public SpringTemplateEngine templateEngine() {
+	public SpringTemplateEngine templateEngine()
+	{
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 
@@ -73,7 +98,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@Bean
-	public TemplateResolver templateResolver() {
+	public TemplateResolver templateResolver()
+	{
 		TemplateResolver templateResolver = new ServletContextTemplateResolver();
 		templateResolver.setPrefix(TEMPLATE_RESOLVER_PREFIX);
 		templateResolver.setSuffix(TEMPLATE_RESOLVER_SUFFIX);
@@ -88,12 +114,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	 * @return
 	 */
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev()
+	{
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	public void addResourceHandlers(ResourceHandlerRegistry registry)
+	{
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/static/assets/");
 	}
 
