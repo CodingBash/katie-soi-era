@@ -365,7 +365,7 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			                e.preventDefault(); 
 			                
 			                $.ajax({type: "POST",
-			                      url: "/events/unregister",
+			                      url: "events/unregister",
 			                      data: { eventId: calEvent.id },
 			                      // Max duration of request
                                   timeout : 100000,
@@ -377,8 +377,8 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
                                       console.log(data);
                                       document.getElementById("rsvp-cancel").innerHTML = '';
                                       document.getElementById("rsvp-to-event").innerHTML = 
-                   			    		'<button type="button" class="btn btn-primary">RSVP To Event</button>'+
-                     			    	'<div class="alert alert-success">Your RSVP to this event was Sucessfully Cancelled</div>';
+                     			    	'<div class="alert alert-success">Your RSVP to this event was Sucessfully Cancelled</div>'+
+                     			    	'<button type="button" class="btn btn-primary">RSVP To Event</button>';
                               },
                               // This method will be called when the registration failed
                               error : function(xhr, ajaxOptions, thrownError) {

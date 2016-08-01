@@ -1,8 +1,10 @@
 package edu.ilstu.business.era.controllers;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.ilstu.business.era.comparators.LeastPointsComparator;
 import edu.ilstu.business.era.comparators.MostPointsComparator;
@@ -24,7 +25,6 @@ import edu.ilstu.business.era.comparators.NewestEventComparator;
 import edu.ilstu.business.era.comparators.OldestEventComparator;
 import edu.ilstu.business.era.constants.PageSort;
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
-import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.ClassRepository;
 import edu.ilstu.business.era.repositories.EventRepository;
@@ -38,7 +38,8 @@ import edu.ilstu.business.era.repositories.UserRepository;
  */
 @RequestMapping("/events")
 @Controller
-public class EventController {
+public class EventController
+{
 
 	/**
 	 * Repository to get event data
@@ -71,7 +72,8 @@ public class EventController {
 	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "sort", defaultValue = "newest") String sort, Principal principal) {
+			@RequestParam(value = "sort", defaultValue = "newest") String sort, Principal principal)
+	{
 		ModelAndView mav = new ModelAndView("eventList");
 
 		/*
@@ -83,9 +85,11 @@ public class EventController {
 		 * Sort Validation
 		 */
 		PageSort sortEnum;
-		try {
+		try
+		{
 			sortEnum = PageSort.valueOf(sort.toUpperCase());
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e)
+		{
 			sortEnum = PageSort.NEWEST;
 		}
 
@@ -93,7 +97,8 @@ public class EventController {
 		 * Sort the list
 		 */
 		Comparator<Event> eventSortComparator = null;
-		switch (sortEnum) {
+		switch (sortEnum)
+		{
 		case NEWEST:
 			eventSortComparator = new NewestEventComparator();
 			break;
@@ -108,7 +113,8 @@ public class EventController {
 			break;
 		}
 
-		if (eventSortComparator != null) {
+		if (eventSortComparator != null)
+		{
 			Collections.sort(retrievedEventList, eventSortComparator);
 		}
 
@@ -120,12 +126,105 @@ public class EventController {
 	}
 
 	// @Secured("ROLE_USER")
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
-			@RequestParam(value = "eventId") String eventId, final RedirectAttributes redirectAttributes,
-			Principal principal) {
-		System.out.println("HIT");
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+	/**
+	 * Sets up page to display details of an event
+	 * 
+	 * @param eventId
+	 *            of event
+	 * @return {@link ModelAndView}
+	 */
+	// TODO: Find a way to attach files to event from repo
+	@Deprecated
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
+	public ModelAndView eventDetails(@PathVariable(value = "eventId") String eventId, Principal principal)
+	{
+		ModelAndView mav = new ModelAndView("event");
+
+		/*
+		 * Get refId/ULID from the principal
+		 */
+		String refId = principal.getName();
+
+		/*
+		 * Get the buCode from the refId
+		 */
+		String buCode = classRepository.getBuCode(refId);
+
+		/*
+		 * Get the event from the repository
+		 */
+		Event retrievedEvent = eventRepository.retrieveEventDetail(buCode, eventId);
+
+		/*
+		 * Add event to the response
+		 */
+		mav.addObject("event", retrievedEvent);
+
+		return mav;
 	}
 
+
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
+			@RequestParam(value = "eventId") String eventId, Principal principal)
+	{
+		try
+		{
+			// TODO: Fix DateTime
+			eventRepository.registerForEvent(userRepository.getUserIdFromUsername(principal.getName()), eventId,
+					new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		} catch (KatieActionFailedException kafe)
+		{
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/unregister", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "eventId") String eventId,
+			Principal principal)
+	{
+		try
+		{
+			eventRepository.unregisterForEvent(eventId, userRepository.getUserIdFromUsername(principal.getName()));
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		} catch (KatieActionFailedException kafe)
+		{
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+
+	// TEST
+	@Deprecated
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/testregistration", method = RequestMethod.GET)
+	public ModelAndView testRegistration(@RequestParam(value = "classId") String classId,
+			@RequestParam(value = "eventId") String eventId, Principal principal)
+	{
+		System.out.println("TEST REGISTRATION (IN EVENTCONTROLLER)");
+		System.out.println("USERID: " + userRepository.getUserIdFromUsername(principal.getName()));
+		System.out.println("EVENTID: " + eventId);
+		System.out.println("CLASSID: " + classId);
+
+		// TODO: Fix DateTime
+		eventRepository.registerForEvent(userRepository.getUserIdFromUsername(principal.getName()), eventId,
+				new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
+		return new ModelAndView("eventList");
+	}
+
+	// TEST
+	@Deprecated
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/testunregistration", method = RequestMethod.GET)
+	public ModelAndView testUnregistration(@RequestParam(value = "eventId") String eventId, Principal principal)
+	{
+		System.out.println("TEST UNREGISTRATION (IN EVENTCONTROLLER)");
+		System.out.println("USERID: " + userRepository.getUserIdFromUsername(principal.getName()));
+		System.out.println("EVENTID: " + eventId);
+		eventRepository.unregisterForEvent(eventId, userRepository.getUserIdFromUsername(principal.getName()));
+		return new ModelAndView("eventList");
+	}
 }

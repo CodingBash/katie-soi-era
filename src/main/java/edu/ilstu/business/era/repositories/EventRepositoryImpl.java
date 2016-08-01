@@ -12,11 +12,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.ilstu.business.era.database.DatabaseQuery;
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.EventMapper;
@@ -28,7 +30,8 @@ import edu.ilstu.business.era.utilities.KatieAbstractRepository;
 import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
 @Component
-public class EventRepositoryImpl extends KatieAbstractRepository implements EventRepository {
+public class EventRepositoryImpl extends KatieAbstractRepository implements EventRepository
+{
 
 	@Autowired
 	private EventMapper eventMapper;
@@ -36,11 +39,12 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 	@Autowired
 	private RestTemplateFactory restTemplateFactory;
 
-	private static final String GET_BU_ANNOUNCEMENTS_URL = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/bu/{buCode}/announcement";
-	private static final String GET_BU_ANNOUNCEMENT_URL = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/bu/{buCode}/announcement/{announcementId}";
+	@Autowired
+	private DatabaseQuery dbQuery;
+
 	private static final String SEARCH_CLASS_LIST = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/search";
 	private static final String GET_ALL_CLASS_ANNOUNCEMENTS = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}/announcement";
-
+	private static final String GET_CLASS_ANNOUNCEMENT = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}/announcement/{announcementId}";
 	/*
 	 * @Override public List<Event> retrieveEventList(String buCode) throws
 	 * KatieResourceNotFoundException { final RestTemplate restTemplate =
@@ -97,7 +101,8 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 	 * 
 	 */
 
-	public List<Event> retrieveEventList() throws KatieResourceNotFoundException {
+	public List<Event> retrieveEventList() throws KatieResourceNotFoundException
+	{
 
 		/*
 		 * Get SEARCH_CLASS_LIST response
@@ -146,19 +151,48 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		return eventList;
 	}
 
-	@Deprecated
 	@Override
-	public Event retrieveEventDetail(String buCode, String announcementId) throws KatieResourceNotFoundException {
-		List<Event> eventList = retrieveEventList();
-		
-		return null;
+	public Event retrieveEventDetail(String eventId, String classId) throws KatieResourceNotFoundException
+	{
+
+		/*
+		 * Get SEARCH_CLASS_LIST response
+		 */
+		final RestTemplate restTemplate = restTemplateFactory.getObject();
+
+		Map<String, String> urlVariablesMap = new HashMap<String, String>();
+		urlVariablesMap.put("refId", classId);
+		urlVariablesMap.put("announcementId", eventId);
+
+		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(GET_CLASS_ANNOUNCEMENT,
+				HttpMethod.GET, new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
+				{
+				}, urlVariablesMap);
+
+		String jsonStringClassSearchTo = jsonStringResponseClassToList.getBody();
+		Type classListType = new TypeToken<AnnouncementTO>()
+		{
+		}.getType();
+		AnnouncementTO yourAnnouncementTO = new Gson().fromJson(jsonStringClassSearchTo, classListType);
+		Event event = eventMapper.mapEventFromAnnouncementTO(yourAnnouncementTO, classId);
+		return event;
 	}
 
-	// TODO: Determine how to register for event on Loudcloud.
-	@Deprecated
 	@Override
-	public void registerForEvent(String announcementId, String refId) throws KatieActionFailedException {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void registerForEvent(String userId, String eventId, String datetime, String classId)
+			throws KatieActionFailedException
+	{
+		System.out.println("in repo");
+		dbQuery.saveRSVP(userId, eventId, datetime, classId);
+	}
+
+	@Override
+	@Transactional
+	public void unregisterForEvent(String announcementId, String refId) throws KatieActionFailedException
+	{
+		System.out.println("in repo");
+		dbQuery.removeRSVP(refId, announcementId);
 
 	}
 
