@@ -314,7 +314,8 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
  			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
  			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
  			    		'<div class="container">' + calEvent.desc + '</div>' +
- 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
+ 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div>'+
+ 			    		'<div id="rsvp-cancel" class="container"></div></div>';
  			    	
  			    	
  			    	/* document.getElementById("eventModal").innerHTML = 'Title: ' + calEvent.title; 			    	
@@ -346,14 +347,44 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
                                   },
 			                      success : function(data) {
                                       console.log(data);
+                                      document.getElementById("rsvp-to-event").innerHTML = '';
+                                      document.getElementById("rsvp-cancel").innerHTML = 
+                   			    		'<div class="alert alert-success">Your RSVP to this event was Successfully Placed</div>'+
+                     			    	'<button type="button" class="btn bg-danger">Cancel RSVP</button>';
+                              },
+                              // This method will be called when the registration failed
+                              error : function(xhr, ajaxOptions, thrownError) {
+                                      console.log(xhr.status + ": " + thrownError);
+                                      document.getElementById("rsvp-cancel").innerHTML = 
+                     			    		'<div class="alert alert-danger">RSVP Failed</div>';
+                              }     
+			               }); 
+ 			            });
+			            
+			            $("#rsvp-cancel").on("click",function (e){
+			                e.preventDefault(); 
+			                
+			                $.ajax({type: "POST",
+			                      url: "/events/unregister",
+			                      data: { eventId: calEvent.id },
+			                      // Max duration of request
+                                  timeout : 100000,
+                                  // This method is for attaching the CSRF data to the header or else the request will fail
+                                  beforeSend : function(xhr) {
+                                          xhr.setRequestHeader(header, token);
+                                  },
+			                      success : function(data) {
+                                      console.log(data);
+                                      document.getElementById("rsvp-cancel").innerHTML = '';
                                       document.getElementById("rsvp-to-event").innerHTML = 
-                     			    		'<div class="alert alert-success">RSVP Successful</div>';
+                   			    		'<button type="button" class="btn btn-primary">RSVP To Event</button>'+
+                     			    	'<div class="alert alert-success">Your RSVP to this event was Sucessfully Cancelled</div>';
                               },
                               // This method will be called when the registration failed
                               error : function(xhr, ajaxOptions, thrownError) {
                                       console.log(xhr.status + ": " + thrownError);
                                       document.getElementById("rsvp-to-event").innerHTML = 
-                     			    		'<div class="alert alert-danger">RSVP Failed</div>';
+                     			    		'<div class="alert alert-danger">Failed To Cancel RSVP</div>';
                               }     
 			               }); 
  			            });
