@@ -175,8 +175,7 @@ margin-right: -24px;
 .body-Login-back {
     background: linear-gradient(#b80100, #9c1412);
     min-height: 800px !important;
-    overflow:hidden;
-};
+    overflow:hidden !important;
 }
 
 .margin-tips {
