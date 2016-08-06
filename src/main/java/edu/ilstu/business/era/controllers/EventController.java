@@ -171,7 +171,7 @@ public class EventController
 		try
 		{
 			// TODO: Fix DateTime
-			eventRepository.registerForEvent(userRepository.getUserIdFromUsername(principal.getName()), eventId,
+			eventRepository.registerForEvent(getPrincipalName(principal), eventId,
 					new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (KatieActionFailedException kafe)
@@ -187,12 +187,23 @@ public class EventController
 	{
 		try
 		{
-			eventRepository.unregisterForEvent(eventId, userRepository.getUserIdFromUsername(principal.getName()));
+			eventRepository.unregisterForEvent(eventId, getPrincipalName(principal));
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (KatieActionFailedException kafe)
 		{
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+	}
+
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/registeredevents", method = RequestMethod.GET)
+	public ModelAndView registeredEvents(Principal principal)
+	{
+		ModelAndView mav = new ModelAndView("registeredEvents");
+		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getPrincipalName(principal));
+		mav.addObject("registeredEventList", registeredEventList);
+		return mav;
+
 	}
 
 	// TEST
@@ -203,12 +214,12 @@ public class EventController
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
 		System.out.println("TEST REGISTRATION (IN EVENTCONTROLLER)");
-		System.out.println("USERID: " + userRepository.getUserIdFromUsername(principal.getName()));
+		System.out.println("USERID: " + getPrincipalName(principal));
 		System.out.println("EVENTID: " + eventId);
 		System.out.println("CLASSID: " + classId);
 
 		// TODO: Fix DateTime
-		eventRepository.registerForEvent(userRepository.getUserIdFromUsername(principal.getName()), eventId,
+		eventRepository.registerForEvent(getPrincipalName(principal), eventId,
 				new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
 		return new ModelAndView("eventList");
 	}
@@ -220,9 +231,14 @@ public class EventController
 	public ModelAndView testUnregistration(@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
 		System.out.println("TEST UNREGISTRATION (IN EVENTCONTROLLER)");
-		System.out.println("USERID: " + userRepository.getUserIdFromUsername(principal.getName()));
+		System.out.println("USERID: " + getPrincipalName(principal));
 		System.out.println("EVENTID: " + eventId);
-		eventRepository.unregisterForEvent(eventId, userRepository.getUserIdFromUsername(principal.getName()));
+		eventRepository.unregisterForEvent(eventId, getPrincipalName(principal));
 		return new ModelAndView("eventList");
+	}
+
+	private String getPrincipalName(Principal principal)
+	{
+		return userRepository.getUserIdFromUsername(principal.getName());
 	}
 }
