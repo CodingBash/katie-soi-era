@@ -12,8 +12,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.util.MapUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,7 @@ import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.transferobjects.AnnouncementTO;
 import edu.ilstu.business.era.transferobjects.ClassListTO;
 import edu.ilstu.business.era.transferobjects.ClassSearchTO;
+import edu.ilstu.business.era.transferobjects.EventDatabaseTO;
 import edu.ilstu.business.era.utilities.KatieAbstractRepository;
 import edu.ilstu.business.era.utilities.RestTemplateFactory;
 
@@ -109,42 +111,49 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		 */
 		final RestTemplate restTemplate = restTemplateFactory.getObject();
 		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(SEARCH_CLASS_LIST, HttpMethod.GET,
-				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>() {
+				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
+				{
 				});
 		String jsonStringClassSearchTo = jsonStringResponseClassToList.getBody();
-		Type classListType = new TypeToken<ClassSearchTO>() {
+		Type classListType = new TypeToken<ClassSearchTO>()
+		{
 		}.getType();
 		ClassSearchTO yourClassList = new Gson().fromJson(jsonStringClassSearchTo, classListType);
 
 		/*
 		 * Get AnnouncementTO from all ClassListTO in each ClassSearchTO
 		 */
-		//List<AnnouncementTO> announcementToListSum = new ArrayList<AnnouncementTO>();
+		// List<AnnouncementTO> announcementToListSum = new
+		// ArrayList<AnnouncementTO>();
 		Map<String, List<AnnouncementTO>> announcemeentToClassIdMap = new HashMap<String, List<AnnouncementTO>>();
-		for (ClassListTO classTo : yourClassList.getClassList()) {
+		for (ClassListTO classTo : yourClassList.getClassList())
+		{
 
 			// Check if "sectionRefId" exists
-			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null") {
+			if (classTo.getSectionRefId() != null && classTo.getSectionRefId().toLowerCase() != "null")
+			{
 				/*
 				 * Get GET_ALL_CLASS_ANNOUNCEMENTS response
 				 */
 				String refId = classTo.getSectionRefId();
-				
+
 				Map<String, String> urlVariablesMap = new HashMap<String, String>();
 				urlVariablesMap.put("refId", refId);
 				ResponseEntity<String> jsonStringResponseAnnouncementToList = restTemplate.exchange(
 						GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
-						new ParameterizedTypeReference<String>() {
+						new ParameterizedTypeReference<String>()
+						{
 						}, urlVariablesMap);
 				String jsonStringAnnouncementTo = jsonStringResponseAnnouncementToList.getBody();
 
-				Type announcementListType = new TypeToken<List<AnnouncementTO>>() {
+				Type announcementListType = new TypeToken<List<AnnouncementTO>>()
+				{
 				}.getType();
 				List<AnnouncementTO> yourAnnouncementList = new Gson().fromJson(jsonStringAnnouncementTo,
 						announcementListType);
-				
+
 				announcemeentToClassIdMap.put(refId, yourAnnouncementList);
-				//announcementToListSum.addAll(yourAnnouncementList);
+				// announcementToListSum.addAll(yourAnnouncementList);
 			}
 		}
 		List<Event> eventList = eventMapper.mapEventListFromAnnouncementTOGroup(announcemeentToClassIdMap);
@@ -179,20 +188,36 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 	}
 
 	@Override
-	@Transactional
 	public void registerForEvent(String userId, String eventId, String datetime, String classId)
 			throws KatieActionFailedException
 	{
-		System.out.println("in repo");
 		dbQuery.saveRSVP(userId, eventId, datetime, classId);
 	}
 
 	@Override
-	@Transactional
 	public void unregisterForEvent(String announcementId, String refId) throws KatieActionFailedException
 	{
-		System.out.println("in repo");
 		dbQuery.removeRSVP(refId, announcementId);
+
+	}
+
+	@Override
+	public List<Event> retrieveRegisteredEventList(String userId) throws KatieResourceNotFoundException
+	{
+		List<EventDatabaseTO> eventToList = dbQuery.getUserRSVP(userId);
+		if (!CollectionUtils.isEmpty(eventToList))
+		{
+			List<Event> eventList = new ArrayList<Event>(eventToList.size());
+			for (EventDatabaseTO eventTo : eventToList)
+			{
+				System.out.println(eventTo.getEventId());
+				System.out.println(eventTo.getClassId());
+				eventList.add(retrieveEventDetail(eventTo.getEventId(), eventTo.getClassId()));
+			}
+			return eventList;
+		}
+
+		return new ArrayList<Event>();
 
 	}
 
