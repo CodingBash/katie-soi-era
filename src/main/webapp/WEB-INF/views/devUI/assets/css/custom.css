@@ -71,6 +71,9 @@ tr.subhead_cal {
 	nowrap:normal !important;
 }
 
+/* .rsvp-event{width:33%;}
+.rsvp-event-list:nth-child(even) {background:#cccccc;}
+ */
 
 @media(max-width:767px) {
 	.user-section,
