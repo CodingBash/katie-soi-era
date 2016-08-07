@@ -118,6 +118,9 @@ public class EventController
 			Collections.sort(retrievedEventList, eventSortComparator);
 		}
 
+		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getPrincipalName(principal));
+		mav.addObject("registeredEventList", registeredEventList);
+		
 		mav.addObject("eventList", retrievedEventList);
 		mav.addObject("eventListSize", retrievedEventList.size());
 		mav.addObject("principalUsername", principal.getName());
