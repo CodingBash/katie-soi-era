@@ -83,7 +83,7 @@ public class DatabaseQuery
 
 		} catch (Exception e)
 		{
-			throw new KatieActionFailedException();
+			throw new KatieActionFailedException(e.getMessage());
 		}
 
 		if (!saved)
@@ -141,7 +141,7 @@ public class DatabaseQuery
 			prepStatement = connection.prepareStatement(userEvents);
 			prepStatement.setString(1, user);
 			ResultSet result = prepStatement.executeQuery();
-			if (result.next())
+			while (result.next())
 			{
 				EventDatabaseTO event = new EventDatabaseTO();
 				event.setEventId(result.getString(1));
