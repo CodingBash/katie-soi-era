@@ -20,7 +20,7 @@ ul {
     padding-bottom: 20px;
     padding-left: 20px;
 }
-.rsvp-event-list:nth-child(even) {
+.rsvp-event-list:nth-child(odd) {
 	background:#cccccc;
 }
 .rsvp-title {

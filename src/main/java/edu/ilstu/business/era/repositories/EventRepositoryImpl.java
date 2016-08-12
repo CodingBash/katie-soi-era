@@ -192,6 +192,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 			throws KatieActionFailedException
 	{
 		dbQuery.saveRSVP(userId, eventId, datetime, classId);
+		System.out.println("IN REGISTER REPO" + eventId);
 	}
 
 	@Override
@@ -214,6 +215,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 				System.out.println(eventTo.getClassId());
 				eventList.add(retrieveEventDetail(eventTo.getEventId(), eventTo.getClassId()));
 			}
+			System.out.println("RETRIEVE REPO " + eventList);
 			return eventList;
 		}
 
