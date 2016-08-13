@@ -1,37 +1,42 @@
 package edu.ilstu.business.era.controllers;
 
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import edu.ilstu.business.era.constants.ApplicationConstants;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class HomeController
+{
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * Handles the home page
+	 * 
+	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(Locale locale, Model model) {
+	public ModelAndView home()
+	{
 		ModelAndView mav = new ModelAndView("index");
 		return mav;
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(){
-		return "login";
-	}
 
+	/**
+	 * Handles login mapping
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login()
+	{
+		ModelAndView mav = new ModelAndView("login");
+		return mav;
+	}
 }
