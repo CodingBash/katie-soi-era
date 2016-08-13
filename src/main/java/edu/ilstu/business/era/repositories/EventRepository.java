@@ -67,4 +67,5 @@ public interface EventRepository
 	 */
 	public List<Event> retrieveRegisteredEventList(String userId) throws KatieResourceNotFoundException;
 
+	
 }
