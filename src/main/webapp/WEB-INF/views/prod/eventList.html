@@ -174,6 +174,10 @@
 							upcoming events
 						</p>
 					</div>
+					<div id="registerAlertResponse">
+						
+					
+					</div>
 				</div>
 				<!--end  Welcome -->
 			</div>
@@ -247,16 +251,14 @@
  function formatEventList() {
 		var eventList = [[${eventList}]];
 		var eventsCal = [];
-	
 	 	for(var i = 0; i < eventList.length; i++){
 			tmpCal = {};
 			tmpCal.id = eventList[i].eventId;
 			tmpCal.classId = eventList[i].classId;
 			tmpCal.title = eventList[i].title;
-			tmpCal.startDate = eventList[i].startDate.substring(0,9);
-			tmpCal.startTime = eventList[i].startDate.substring(12,17);
-			tmpCal.start = eventList[i].startDate;
-			tmpCal.end = eventList[i].endDate;
+			tmpCal.start = JSON.parse(JSON.stringify(eventList[i].startDate));
+			console.log('LOOK HERE: ' + JSON.parse(JSON.stringify(eventList[i].startDate)))
+			tmpCal.end = JSON.parse(JSON.stringify(eventList[i].endDate));
 			tmpCal.desc = eventList[i].description;		
 			eventsCal.push(tmpCal);
 		    
@@ -310,7 +312,7 @@ function returnRegisteredList (event) {
 			    		'<div class="container single-event-container">' +
 			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
 			    		'<div class="container"><h1 class="page-header">' + event + '</h1></div>' +
-			    		'<div id="rsvp-cancel" class="container"><button type="button" class="btn bg-danger">CANCEL THAT RSPV YO!</button></div>'+
+			    		'<div id="rsvp-cancel" class="container"><button type="button" class="btn bg-danger">CANCEL RSVP</button></div>'+
 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-primary">RSVP to Event</button></div>';
 			}
 			else {
@@ -327,7 +329,7 @@ function returnRegisteredList (event) {
 	return isFound;
   }
  
- 
+ /* 
  function addRSVP(checkrsvp, newEventId) {
 	 var arrSize = checkrsvp.length;
 	 for(var i = 0; i < arrSize; i++) {
@@ -350,7 +352,7 @@ function returnRegisteredList (event) {
 	 }	 
 	 console.log('NOT RSVPD!');
 	 return checkrsvp;
- }
+ } */
  
 		/*]]>*/
 	</script>
@@ -360,7 +362,7 @@ function returnRegisteredList (event) {
 
 			var eventData = formatEventList();
 /*             var checkrsvp = formatRegisteredList();*/
-
+			
 
 			
 /* 			console.log(checkrsvp);
@@ -376,28 +378,29 @@ function returnRegisteredList (event) {
 			    events : eventData,
 			    eventClick: function(calEvent, jsEvent, view) {
 					var registeredEventList = returnRegisteredList(calEvent.id);
+
 					if(registeredEventList == true) {
  			    	document.getElementById("eventModal").innerHTML = 
  			    		'<div class="container single-event-container">' +
  			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
  			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
- 			    		'<div class="container">Start: ' + calEvent.startDate + calEvent.startTime + ' to ' + calEvent.end + '</div>' +
+ 			    		'<div class="container">Start: ' + new Date(calEvent.start) + ' to ' + new Date(calEvent.start) + '</div>' +
  			    		'<div class="container">' + calEvent.desc + '</div>' +
- 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-danger">Cancel RSVPs</button></div>'+
- 			    		'<div id="rsvp-cancel" class="container"></div></div>';
- 			    			    	 			    		
+ 			    		'<div id="rsvp-cancel" class="container"><button type="button" class="btn bg-danger">Cancel RSVPs</button></div></div>'; 			    			    	 			    		
  			    		console.log('RSVP CHECK');
- 						console.log('caleventid:  ' + calEvent.id);
+ 						console.log('caleventid:  ' + calEvent.id);					
+ 						
 					}
 					else {
 						document.getElementById("eventModal").innerHTML = 
 	 			    		'<div class="container single-event-container">' +
 	 			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
 	 			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
-	 			    		'<div class="container">Start: ' + calEvent.startDate + calEvent.startTime + ' to ' + calEvent.end + '</div>' +
+	 			    		'<div class="container">Start: ' + new Date(calEvent.start) + ' to ' + new Date(calEvent.end) + '</div>' +
 	 			    		'<div class="container">' + calEvent.desc + '</div>' +
 	 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-primary">RSVP to Event</button></div>'+
 	 			    		'<div id="rsvp-cancel" class="container"></div></div>';
+ 			    		
 					}
  			    		   		
  			    		   		
@@ -434,7 +437,7 @@ function returnRegisteredList (event) {
 	                                          xhr.setRequestHeader(header, token);
 	                                  },
 				                      success : function(data) {
-	                                      console.log(data);
+	                                      console.log(data);	                                      
 /* 	                                      document.getElementById("rsvp-to-event").innerHTML = '';
 	                                      document.getElementById("rsvp-cancel").innerHTML = 
 	                   			    		'<div class="alert alert-success">Your RSVP to this event was Successfully Placed</div>'+
@@ -444,9 +447,10 @@ function returnRegisteredList (event) {
 	                              // This method will be called when the registration failed
 	                              error : function(xhr, ajaxOptions, thrownError) {
 	                                      console.log(xhr.status + ": " + thrownError);
+	                                      location.reload();
 	                                      document.getElementById("rsvp-cancel").innerHTML = 
 	                     			    		'<div class="alert alert-danger">RSVP Failed</div>';
-	                      				location.reload();
+	                      				
 
 	                              }     
 				               }); 
@@ -469,11 +473,9 @@ function returnRegisteredList (event) {
 	                                  },
 				                      success : function(data) {
 	                                      console.log(data);
-	                      				location.reload();
-
-/* 	              						var registeredEventList = returnRegisteredList(calEvent.id);
- */
-	                                /*       document.getElementById("rsvp-cancel").innerHTML = '';
+											location.reload();	                                      
+/*  	              						var registeredEventList = returnRegisteredList(calEvent.id);
+ */	                                /*       document.getElementById("rsvp-cancel").innerHTML = '';
 	                                      document.getElementById("rsvp-to-event").innerHTML = 
 	                     			    	'<div class="alert alert-success">Your RSVP to this event was Sucessfully Cancelled</div>'+
 	                     			    	'<button type="button" class="btn btn-primary">RSVP To Event</button>'; */
