@@ -30,12 +30,12 @@ public interface EventRepository
 	 * Retrieves an {@link Event}
 	 * 
 	 * @see EventRepositoryImpl#retrieveEventDetail(String, String)
-	 * @param buCode
+	 * @param classId
 	 * @param announcementId
 	 * @return
 	 * @throws KatieResourceNotFoundException
 	 */
-	public Event retrieveEventDetail(String buCode, String announcementId) throws KatieResourceNotFoundException;
+	public Event retrieveEventDetail(String classId, String eventId) throws KatieResourceNotFoundException;
 
 	/**
 	 * Registers a user to an {@link Event}
@@ -51,11 +51,11 @@ public interface EventRepository
 	/**
 	 * Unregisters a user to an {@link Event}
 	 * 
-	 * @param announcementId
-	 * @param refId
+	 * @param eventId
+	 * @param userId
 	 * @throws KatieActionFailedException
 	 */
-	public void unregisterForEvent(String announcementId, String refId) throws KatieActionFailedException;
+	public void unregisterForEvent(String eventId, String userId) throws KatieActionFailedException;
 
 	/**
 	 * Retrieves a {@link List}<{@link Event}> that the user has registered to.
