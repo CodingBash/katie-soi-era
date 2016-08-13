@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ilstu.business.era.models.Event;
-import edu.ilstu.business.era.repositories.ClassRepository;
 import edu.ilstu.business.era.repositories.EventRepository;
 import edu.ilstu.business.era.repositories.UserRepository;
 

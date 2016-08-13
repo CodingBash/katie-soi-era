@@ -48,6 +48,12 @@ public class WebConfig extends WebMvcConfigurerAdapter
 	 */
 	private static final String TEMPLATE_RESOLVER_TEMPLATE_MODE = "HTML5";
 
+	// TODO: Update the datasource
+	/**
+	 * Set the datasource for the application
+	 * 
+	 * @return
+	 */
 	@Bean
 	public DataSource dataSource()
 	{
@@ -56,11 +62,6 @@ public class WebConfig extends WebMvcConfigurerAdapter
 				.addScript("db/sql/mock_ksi_location.sql").addScript("db/sql/ksi_user_event.sql")
 				.addScript("db/sql/ksi_user.sql").addScript("db/sql/mock_ksi_user.sql").build();
 	}
-
-	/*
-	 * @Bean public DataSourceTransactionManager transactionManager(DataSource
-	 * dataSource){ return new DataSourceTransactionManager(dataSource); }
-	 */
 
 	/**
 	 * Configure view resolver bean
@@ -72,7 +73,6 @@ public class WebConfig extends WebMvcConfigurerAdapter
 	{
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
-
 		return viewResolver;
 	}
 
@@ -86,7 +86,6 @@ public class WebConfig extends WebMvcConfigurerAdapter
 	{
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
-
 		return templateEngine;
 	}
 
@@ -102,7 +101,6 @@ public class WebConfig extends WebMvcConfigurerAdapter
 		templateResolver.setPrefix(TEMPLATE_RESOLVER_PREFIX);
 		templateResolver.setSuffix(TEMPLATE_RESOLVER_SUFFIX);
 		templateResolver.setTemplateMode(TEMPLATE_RESOLVER_TEMPLATE_MODE);
-
 		return templateResolver;
 	}
 
@@ -117,6 +115,9 @@ public class WebConfig extends WebMvcConfigurerAdapter
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
+	/**
+	 * Send static resources to front-end
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{
