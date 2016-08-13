@@ -17,6 +17,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
+import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
 
 /**
  * Default web configurer
@@ -35,7 +36,7 @@ public class WebConfig extends WebMvcConfigurerAdapter
 	/**
 	 * Folder with views
 	 */
-	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/devBACK/";
+	private static final String TEMPLATE_RESOLVER_PREFIX = "/WEB-INF/views/" + PAGE_FOLDER;
 
 	/**
 	 * View extension
@@ -53,17 +54,14 @@ public class WebConfig extends WebMvcConfigurerAdapter
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("db/sql/ksi_event.sql")
 				.addScript("db/sql/mock_ksi_event.sql").addScript("db/sql/ksi_location.sql")
 				.addScript("db/sql/mock_ksi_location.sql").addScript("db/sql/ksi_user_event.sql")
-				.addScript("db/sql/ksi_user.sql")
-				.addScript("db/sql/mock_ksi_user.sql").build();
+				.addScript("db/sql/ksi_user.sql").addScript("db/sql/mock_ksi_user.sql").build();
 	}
-	
+
 	/*
-	@Bean
-	public DataSourceTransactionManager transactionManager(DataSource dataSource){
-		return new DataSourceTransactionManager(dataSource);
-	}
-	*/
-	
+	 * @Bean public DataSourceTransactionManager transactionManager(DataSource
+	 * dataSource){ return new DataSourceTransactionManager(dataSource); }
+	 */
+
 	/**
 	 * Configure view resolver bean
 	 * 
