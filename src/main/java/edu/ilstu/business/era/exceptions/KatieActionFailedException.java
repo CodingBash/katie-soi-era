@@ -3,7 +3,7 @@ package edu.ilstu.business.era.exceptions;
 /**
  * Exception when a REST action fails
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 public class KatieActionFailedException extends RuntimeException {

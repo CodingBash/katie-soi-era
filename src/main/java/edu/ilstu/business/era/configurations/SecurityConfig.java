@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * Specific configuration of the security
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  */
 @Configuration
 @EnableWebSecurity

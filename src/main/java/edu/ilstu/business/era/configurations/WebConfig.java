@@ -22,7 +22,7 @@ import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
 /**
  * Default web configurer
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @Configuration

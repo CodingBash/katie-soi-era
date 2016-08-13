@@ -11,7 +11,7 @@ import edu.ilstu.business.era.models.Event;
  * 
  * @see EventRepositoryImpl
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 public interface EventRepository

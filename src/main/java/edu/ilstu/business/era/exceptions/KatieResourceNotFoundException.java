@@ -3,7 +3,7 @@ package edu.ilstu.business.era.exceptions;
 /**
  * Exception when a REST resource is unavailable
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 public class KatieResourceNotFoundException extends RuntimeException {

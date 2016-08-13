@@ -14,7 +14,7 @@ import edu.ilstu.business.era.transferobjects.AnnouncementTO;
 /**
  * Mapping from {@link AnnouncementTO} to {@link Event}
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @Component

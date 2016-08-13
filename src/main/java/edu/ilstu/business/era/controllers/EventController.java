@@ -27,7 +27,7 @@ import edu.ilstu.business.era.repositories.EventRepository;
 /**
  * Controls event mappings
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @RequestMapping("/events")

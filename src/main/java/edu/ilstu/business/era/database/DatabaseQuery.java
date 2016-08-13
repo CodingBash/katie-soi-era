@@ -17,6 +17,13 @@ import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.transferobjects.EventDatabaseTO;
 import edu.ilstu.business.era.utilities.Utils;
 
+/**
+ * For database operations
+ * 
+ * @author Rishi Saripalle (ULID: rsaripa)
+ * @author Basheer Becerra (ULID: bbecer2)
+ *
+ */
 @Component
 public class DatabaseQuery
 {

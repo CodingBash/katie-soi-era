@@ -31,8 +31,9 @@ import edu.ilstu.business.era.transferobjects.EventDatabaseTO;
 import edu.ilstu.business.era.utilities.KatieAbstractRepository;
 
 /**
+ * {@link EventRepository} implementation
  * 
- * @author Bash
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @Component

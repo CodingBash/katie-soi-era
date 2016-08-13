@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
+ * 
+ * @author Basheer Becerra (ULID: bbecer2)
  */
 @Controller
 public class HomeController

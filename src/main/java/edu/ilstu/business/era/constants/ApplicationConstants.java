@@ -1,5 +1,11 @@
 package edu.ilstu.business.era.constants;
 
+/**
+ * Application constants
+ * 
+ * @author Basheer Becerra (ULID: bbecer2)
+ *
+ */
 public class ApplicationConstants {
 
 	public static final String PAGE_FOLDER = "devBACK/";
