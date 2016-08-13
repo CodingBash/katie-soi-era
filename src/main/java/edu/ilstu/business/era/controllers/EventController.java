@@ -4,6 +4,9 @@ import static edu.ilstu.business.era.constants.ApplicationConstants.DATE_FORMAT;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
-import edu.ilstu.business.era.repositories.UserRepository;
 
 /**
  * Controls event mappings
@@ -37,12 +40,6 @@ public class EventController
 	 */
 	@Autowired
 	private EventRepository eventRepository;
-
-	/**
-	 * Repository to get user data
-	 */
-	@Autowired
-	private UserRepository userRepository;
 
 	/**
 	 * Controller to setup event-list page view
@@ -71,7 +68,7 @@ public class EventController
 		 */
 		mav.addObject("registeredEventList", registeredEventList);
 		mav.addObject("eventList", retrievedEventList);
-		mav.addObject("eventListSize", retrievedEventList.size());
+		mav.addObject("upcomingEventListSize", getUpcomingEventListSize(retrievedEventList));
 		mav.addObject("principalUsername", principal.getName());
 
 		return mav;
@@ -109,10 +106,13 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
+		// TODO: Validation on date. Add security log if validation failed
 		try
 		{
-			eventRepository.registerForEvent(getUserIdentification(principal), eventId, new SimpleDateFormat(DATE_FORMAT)
-					.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()), classId);
+			eventRepository.registerForEvent(getUserIdentification(principal), eventId,
+					new SimpleDateFormat(DATE_FORMAT)
+							.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
+					classId);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
@@ -134,6 +134,7 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "eventId") String eventId,
 			Principal principal)
 	{
+		// TODO: Validation on date. Add security log if validation failed.
 		try
 		{
 			eventRepository.unregisterForEvent(eventId, getUserIdentification(principal));
@@ -144,9 +145,36 @@ public class EventController
 		}
 	}
 
+	/**
+	 * Get user identification
+	 * 
+	 * @param principal
+	 *            for retrieving user identification
+	 * @return user identification
+	 */
 	private String getUserIdentification(Principal principal)
 	{
-		// TODO: Determine if user ID or username
-		return userRepository.getUserIdFromUsername(principal.getName());
+		return principal.getName();
+	}
+
+	private int getUpcomingEventListSize(List<Event> eventList)
+	{
+		if (!CollectionUtils.isEmpty(eventList))
+		{
+			Date currentDate = new GregorianCalendar(2016, Calendar.JULY, 6).getTime();
+			int counter = 0;
+			for (Event event : eventList)
+			{
+				if (currentDate.before(event.getStartDate()))
+				{
+					counter++;
+				}
+			}
+			return counter;
+		} else
+		{
+			return 0;
+		}
+
 	}
 }
