@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,8 @@ import edu.ilstu.business.era.repositories.EventRepository;
 public class EventController
 {
 
+	private static final Logger logger = LoggerFactory.getLogger(EventController.class);
+
 	/**
 	 * Repository to get event data
 	 */
@@ -52,6 +56,8 @@ public class EventController
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(Principal principal)
 	{
+		logger.debug("EventController#eventList(Principal) called");
+
 		/*
 		 * Create MaV and set the view
 		 */
@@ -83,6 +89,8 @@ public class EventController
 	@RequestMapping(value = "/registered", method = RequestMethod.GET)
 	public ModelAndView registeredEventList(Principal principal)
 	{
+		logger.debug("EventController#registeredEventList(Principal) called");
+
 		ModelAndView mav = new ModelAndView("registeredEventList");
 		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getUserIdentification(principal));
 		mav.addObject("registeredEventList", registeredEventList);
@@ -106,6 +114,8 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
+		logger.debug("EventController#eventRegistration(String, String, Principal) called");
+
 		// TODO: Validation on date. Add security log if validation failed
 		try
 		{
@@ -116,6 +126,7 @@ public class EventController
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
+			logger.warn("Unable to register:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -134,6 +145,8 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "eventId") String eventId,
 			Principal principal)
 	{
+		logger.debug("EventController#registeredEventList(String, Principal) called");
+
 		// TODO: Validation on date. Add security log if validation failed.
 		try
 		{
@@ -141,6 +154,7 @@ public class EventController
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
+			logger.warn("Unable to unregister:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
