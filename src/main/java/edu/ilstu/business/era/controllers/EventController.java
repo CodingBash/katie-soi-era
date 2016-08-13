@@ -120,7 +120,7 @@ public class EventController
 
 		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getPrincipalName(principal));
 		mav.addObject("registeredEventList", registeredEventList);
-		
+
 		mav.addObject("eventList", retrievedEventList);
 		mav.addObject("eventListSize", retrievedEventList.size());
 		mav.addObject("principalUsername", principal.getName());
@@ -174,8 +174,11 @@ public class EventController
 		try
 		{
 			// TODO: Fix DateTime
-			eventRepository.registerForEvent(getPrincipalName(principal), eventId,
-					new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
+			eventRepository
+					.registerForEvent(
+							getPrincipalName(principal), eventId, new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ")
+									.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
+							classId);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (KatieActionFailedException kafe)
 		{
@@ -223,7 +226,9 @@ public class EventController
 
 		// TODO: Fix DateTime
 		eventRepository.registerForEvent(getPrincipalName(principal), eventId,
-				new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ").format(new Date()), classId);
+				new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ")
+						.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
+				classId);
 		return new ModelAndView("eventList");
 	}
 
