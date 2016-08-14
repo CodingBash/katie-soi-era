@@ -29,7 +29,8 @@ import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
 @EnableWebMvc
 @ComponentScan(
 { "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers", "edu.ilstu.business.era.database",
-		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities" })
+		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities",
+		"edu.ilstu.business.era.delegates" })
 public class WebConfig extends WebMvcConfigurerAdapter
 {
 

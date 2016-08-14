@@ -230,6 +230,13 @@
 			<version>3.4</version>
 		</dependency>
 
+		<!-- Security -->
+		<dependency>
+			<groupId>org.owasp.esapi</groupId>
+			<artifactId>esapi</artifactId>
+			<version>2.1.0.1</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>

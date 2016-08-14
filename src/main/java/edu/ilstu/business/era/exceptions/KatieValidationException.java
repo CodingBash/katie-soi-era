@@ -6,16 +6,16 @@ package edu.ilstu.business.era.exceptions;
  * @author Basheer Becerra (ULID: bbecer2)
  *
  */
-public class KatieSecurityRiskException extends RuntimeException
+public class KatieValidationException extends RuntimeException
 {
 	private static final long serialVersionUID = 1456100247914934758L;
 
-	public KatieSecurityRiskException()
+	public KatieValidationException()
 	{
 		super();
 	}
 
-	public KatieSecurityRiskException(String message)
+	public KatieValidationException(String message)
 	{
 		super(message);
 	}

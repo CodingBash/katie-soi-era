@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.ilstu.business.era.delegates.ValidationDelegate;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
 
@@ -44,6 +45,12 @@ public class EventController
 	 */
 	@Autowired
 	private EventRepository eventRepository;
+
+	/**
+	 * Class for input validation
+	 */
+	@Autowired
+	private ValidationDelegate validationDelegate;
 
 	/**
 	 * Controller to setup event-list page view
@@ -116,17 +123,28 @@ public class EventController
 	{
 		logger.debug("EventController#eventRegistration(String, String, Principal) called");
 
-		// TODO: Validation on date. Add security log if validation failed
+		/*
+		 * Input validation
+		 */
+		classId = validationDelegate.validateClassId(classId);
+		eventId = validationDelegate.validateEventId(eventId);
+		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
+
 		try
 		{
+			// Execute event registration
 			eventRepository.registerForEvent(getUserIdentification(principal), eventId,
 					new SimpleDateFormat(DATE_FORMAT)
 							.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
 					classId);
+
+			// Return HTTP200 since no exception was thrown
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
 			logger.warn("Unable to register:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
+
+			// Return HTTP400 since exception was thrown
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -142,19 +160,29 @@ public class EventController
 	 */
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/unregister", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "eventId") String eventId,
-			Principal principal)
+	public @ResponseBody ResponseEntity<String> eventUnregistration(@RequestParam(value = "classId") String classId,
+			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
 		logger.debug("EventController#registeredEventList(String, Principal) called");
 
-		// TODO: Validation on date. Add security log if validation failed.
+		/*
+		 * Input validation
+		 */
+		classId = validationDelegate.validateClassId(classId);
+		eventId = validationDelegate.validateEventId(eventId);
+		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
 		try
 		{
+			// Execute event unregistration
 			eventRepository.unregisterForEvent(eventId, getUserIdentification(principal));
+
+			// Return HTTP200 since no exception was thrown
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
 			logger.warn("Unable to unregister:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
+
+			// Return HTTP200 since no exception was thrown
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -171,11 +199,18 @@ public class EventController
 		return principal.getName();
 	}
 
+	/**
+	 * Retrieve number of upcoming events
+	 * 
+	 * @param eventList
+	 *            list to analyze
+	 * @return number of upcoming events
+	 */
 	private int getUpcomingEventListSize(List<Event> eventList)
 	{
 		if (!CollectionUtils.isEmpty(eventList))
 		{
-			Date currentDate = new GregorianCalendar(2016, Calendar.JULY, 6).getTime();
+			Date currentDate = new Date();
 			int counter = 0;
 			for (Event event : eventList)
 			{
@@ -190,5 +225,50 @@ public class EventController
 			return 0;
 		}
 
+	}
+	
+	
+	/**
+	 * Register a user for an event
+	 * 
+	 * @param classId
+	 *            class ID of event
+	 * @param eventId
+	 *            event ID of event
+	 * @param principal
+	 *            for retrieving user data
+	 * @return {@link ResponseEntity} determining if registration was successful
+	 */
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/testregistration", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> eventTestRegistration(@RequestParam(value = "classId") String classId,
+			@RequestParam(value = "eventId") String eventId, Principal principal)
+	{
+		logger.debug("EventController#eventRegistration(String, String, Principal) called");
+
+		/*
+		 * Input validation
+		 */
+		classId = validationDelegate.validateClassId(classId);
+		eventId = validationDelegate.validateEventId(eventId);
+		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
+
+		try
+		{
+			// Execute event registration
+			eventRepository.registerForEvent(getUserIdentification(principal), eventId,
+					new SimpleDateFormat(DATE_FORMAT)
+							.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
+					classId);
+
+			// Return HTTP200 since no exception was thrown
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		} catch (Exception e)
+		{
+			logger.warn("Unable to register:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
+
+			// Return HTTP400 since exception was thrown
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 }

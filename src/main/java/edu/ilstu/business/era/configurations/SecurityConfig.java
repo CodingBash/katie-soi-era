@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	{
 		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().and().rememberMe().tokenValiditySeconds(2419200).key("katieEraKey")
-				.and().requiresChannel().and().logout().logoutSuccessUrl("/login");
+				.and().requiresChannel().and().logout().logoutSuccessUrl("/");
 	}
 
 	/**

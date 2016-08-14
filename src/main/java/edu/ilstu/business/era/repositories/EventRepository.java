@@ -31,11 +31,11 @@ public interface EventRepository
 	 * 
 	 * @see EventRepositoryImpl#retrieveEventDetail(String, String)
 	 * @param classId
-	 * @param announcementId
+	 * @param eventId
 	 * @return
 	 * @throws KatieResourceNotFoundException
 	 */
-	public Event retrieveEventDetail(String classId, String eventId) throws KatieResourceNotFoundException;
+	public Event retrieveEventDetail(String eventId, String classId) throws KatieResourceNotFoundException;
 
 	/**
 	 * Registers a user to an {@link Event}
@@ -67,5 +67,4 @@ public interface EventRepository
 	 */
 	public List<Event> retrieveRegisteredEventList(String userId) throws KatieResourceNotFoundException;
 
-	
 }
