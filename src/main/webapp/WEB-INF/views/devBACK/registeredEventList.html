@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Events</title>
+</head>
+<body>
+	<ul>
+		<li th:each="event : ${registeredEventList}">
+			<h3>
+				<a th:href="@{'/events/' + ${event.eventId}}" th:text="${event.title}">null</a>
+			</h3>
+			EventId: <p th:text="${event.eventId}">null</p>
+			ClassId: <p th:text="${event.classId}">null</p>
+			Description: <p th:text="${event.description}">null</p>
+			Start Date: <p th:text="${event.startDate}">null</p>
+		</li>
+	</ul>
+</body>
+</html>

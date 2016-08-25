@@ -16,12 +16,13 @@ import edu.ilstu.business.era.utilities.KatiePasswordEncoder;
 /**
  * Specific configuration of the security
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter
+{
 
 	@Autowired
 	private UserDetailsAuthenticationRepositoryImpl userDetailsAuthenticationRepositoryImpl;
@@ -36,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// .password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
 
 		auth.userDetailsService(userDetailsAuthenticationRepositoryImpl).passwordEncoder(new KatiePasswordEncoder());
-
 	}
 
 	/**
@@ -44,10 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	// TODO: Verify that correct mapping is secured
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception
+	{
 		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().and().rememberMe().tokenValiditySeconds(2419200).key("katieEraKey")
-				.and().requiresChannel().and().logout().logoutSuccessUrl("/").logoutUrl("/logout");
+				.and().requiresChannel().and().logout().logoutSuccessUrl("/");
 	}
 
 	/**
@@ -55,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
+	public AuthenticationManager authenticationManagerBean() throws Exception
+	{
 		return super.authenticationManagerBean();
 	}
 }

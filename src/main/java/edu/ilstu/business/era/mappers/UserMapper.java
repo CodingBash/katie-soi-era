@@ -10,10 +10,14 @@ public class UserMapper {
 
 	public User mapUserFromUserTO(UserTO userTo) {
 		User user = new User();
-		user.setEmail(userTo.getEmailAddress());
-		user.setUsername(userTo.getUserName());
 		user.setPassword(userTo.getPassword());
-		// TODO: Complete mapping
+		user.setUsername(userTo.getUserName());
+		user.setUserId(userTo.getUserId());
+		user.setRefId(userTo.getRefId());
+		user.setFirstName(userTo.getFirstName());
+		user.setLastName(userTo.getLastName());
+		user.setEmailAddress(userTo.getEmailAddress());
+		user.setBuCodes(userTo.getBuCodes());
 		return user;
 	}
 	

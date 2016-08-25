@@ -1,10 +1,14 @@
 package edu.ilstu.business.era.constants;
 
+/**
+ * Application constants
+ * 
+ * @author Basheer Becerra (ULID: bbecer2)
+ *
+ */
 public class ApplicationConstants {
 
-	/**
-	 * Defines the folder on which views to use.
-	 */
-	public static final String pageFolder = "devBACK/";
+	public static final String PAGE_FOLDER = "devBACK/";
 	
+	public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ";
 }

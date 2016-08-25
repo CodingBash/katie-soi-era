@@ -7,12 +7,12 @@ import org.joda.time.DateTime;
 /**
  * Model to represent an event
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
-// TODO: Add field for list of attachments
 public class Event {
 	private String eventId;
+	private String classRefId;
 	private String title;
 	private int points;
 	private String description;
@@ -27,6 +27,14 @@ public class Event {
 		this.eventId = eventId;
 	}
 
+	public String getClassId() {
+		return classRefId;
+	}
+
+	public void setClassId(String classId) {
+		this.classRefId = classId;
+	}
+	
 	public String getTitle() {
 		return title;
 	}

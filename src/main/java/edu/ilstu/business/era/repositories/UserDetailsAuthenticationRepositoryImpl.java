@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.UserMapper;
+import edu.ilstu.business.era.models.User;
 import edu.ilstu.business.era.transferobjects.UserTO;
 
 @Component
@@ -57,7 +58,7 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 		 * Create UserDetail
 		 */
 		if (userTo != null) {
-			edu.ilstu.business.era.models.User user = userMapper.mapUserFromUserTO(userTo);
+			User user = userMapper.mapUserFromUserTO(userTo);
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
