@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Root configuration class
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @Configuration

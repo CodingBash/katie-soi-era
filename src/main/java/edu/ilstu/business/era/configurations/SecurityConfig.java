@@ -12,18 +12,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * Specific configuration of the security
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter
+{
 
 	/**
 	 * Configure the user store
 	 */
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
 		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER").and().withUser("guest")
 				.password("password").roles("GUEST").and().withUser("rsaripa").password("password").roles("USER");
 	}
@@ -33,10 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	// TODO: Verify that correct mapping is secured
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception
+	{
 		http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().authenticated().and().formLogin()
 				.loginPage("/login").permitAll().and().rememberMe().tokenValiditySeconds(2419200).key("katieEraKey")
-				.and().requiresChannel().and().logout().logoutSuccessUrl("/").logoutUrl("/signout");
+				.and().requiresChannel().and().logout().logoutSuccessUrl("/");
 	}
 
 	/**
@@ -44,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
+	public AuthenticationManager authenticationManagerBean() throws Exception
+	{
 		return super.authenticationManagerBean();
 	}
 }
