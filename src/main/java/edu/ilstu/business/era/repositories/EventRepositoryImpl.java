@@ -137,6 +137,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		 * Put appropriate request parameters in map to then insert in URI
 		 */
 		Map<String, String> urlVariablesMap = new HashMap<String, String>();
+		// TODO: Confirm
 		urlVariablesMap.put("announcementId", eventId);
 		urlVariablesMap.put("refId", classId);
 

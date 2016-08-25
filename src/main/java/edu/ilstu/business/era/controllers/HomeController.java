@@ -26,7 +26,7 @@ public class HomeController
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home()
 	{
-		logger.debug("HomeController#home() called");
+		logger.info("HomeController#home() called");
 		
 		ModelAndView mav = new ModelAndView("index");
 		return mav;
@@ -40,7 +40,7 @@ public class HomeController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login()
 	{
-		logger.debug("HomeController#login() called");
+		logger.info("HomeController#login() called");
 		
 		ModelAndView mav = new ModelAndView("login");
 		return mav;

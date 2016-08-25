@@ -63,7 +63,8 @@ public class EventController
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(Principal principal)
 	{
-		logger.debug("EventController#eventList(Principal) called");
+		// TODO: Determine if principal tostring is good
+		logger.info("EventController#eventList(Principal) called: principal=" + getUserIdentification(principal));
 
 		/*
 		 * Create MaV and set the view
@@ -96,7 +97,7 @@ public class EventController
 	@RequestMapping(value = "/registered", method = RequestMethod.GET)
 	public ModelAndView registeredEventList(Principal principal)
 	{
-		logger.debug("EventController#registeredEventList(Principal) called");
+		logger.info("EventController#registeredEventList(Principal) called: principal=" + getUserIdentification(principal));
 
 		ModelAndView mav = new ModelAndView("registeredEventList");
 		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getUserIdentification(principal));
@@ -121,7 +122,8 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventRegistration(@RequestParam(value = "classId") String classId,
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
-		logger.debug("EventController#eventRegistration(String, String, Principal) called");
+		logger.info("EventController#eventRegistration(String, String, Principal) called: classId=" + classId
+				+ " | eventId=" + eventId + " | principal=" + getUserIdentification(principal));
 
 		/*
 		 * Input validation
@@ -163,7 +165,7 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventUnregistration(@RequestParam(value = "classId") String classId,
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
-		logger.debug("EventController#registeredEventList(String, Principal) called");
+		logger.info("EventController#eventUnregistration(String, String, Principal) called: classId=" + classId + " | eventId=" + eventId + " | principal=" + getUserIdentification(principal));
 
 		/*
 		 * Input validation
@@ -226,8 +228,7 @@ public class EventController
 		}
 
 	}
-	
-	
+
 	/**
 	 * Register a user for an event
 	 * 

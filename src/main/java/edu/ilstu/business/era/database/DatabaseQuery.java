@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -69,7 +67,7 @@ public class DatabaseQuery
 			 */
 			prepStatement = connection.prepareStatement(insertEvent);
 			prepStatement.setString(1, eventId);
-			prepStatement.setLong(2, Utils.getDate(datetime));
+			prepStatement.setLong(2, Utils.parseDate(datetime));
 			prepStatement.setString(3, classId);
 			rows = prepStatement.executeUpdate();
 			if (rows != 0)
