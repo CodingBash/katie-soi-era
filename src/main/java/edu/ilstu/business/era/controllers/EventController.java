@@ -26,12 +26,6 @@ import edu.ilstu.business.era.exceptions.KatieValidationException;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
 
-/*
- * I added try catches around validation. fix up userrepo. fix securityconfig. find other error paths. etc. 
- * 
- * 
- * 
- */
 /**
  * Controls event mappings
  * 
