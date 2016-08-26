@@ -24,11 +24,18 @@ import com.google.gson.reflect.TypeToken;
 
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.UserMapper;
-import edu.ilstu.business.era.models.User;
 import edu.ilstu.business.era.transferobjects.UserTO;
 
+/**
+ * Implementation for {@link UserDetailsAuthenticationRepository}
+ * 
+ * @see UserDetailsAuthenticationRepository
+ * @author Basheer Becerra (ULID: bbecer2)
+ *
+ */
 @Component
-public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsService {
+public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsService
+{
 
 	@Autowired
 	private UserMapper userMapper;
@@ -36,36 +43,42 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 	private static final String RETRIEVE_USER = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/user/{refId}";
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+	{
+		// TODO: Validate username
+		// TODO: Add loggers
+		
 		/*
 		 * Get User response
 		 */
 		final RestTemplate restTemplate = new RestTemplate();
-		
+
 		Map<String, String> urlVariablesMap = new HashMap<String, String>();
 		urlVariablesMap.put("refId", username);
-		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.
-				exchange(RETRIEVE_USER, HttpMethod.GET,
-				new HttpEntity<Object>(createHeaders()), 
-				new ParameterizedTypeReference<String>() {
+		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.exchange(RETRIEVE_USER, HttpMethod.GET,
+				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
+				{
 				}, urlVariablesMap);
 		String jsonStringUserTo = jsonStringResponseUserTo.getBody();
-		Type userToType = new TypeToken<UserTO>() {
+		Type userToType = new TypeToken<UserTO>()
+		{
 		}.getType();
 		UserTO userTo = new Gson().fromJson(jsonStringUserTo, userToType);
 
 		/*
 		 * Create UserDetail
 		 */
-		if (userTo != null) {
-			User user = userMapper.mapUserFromUserTO(userTo);
+		if (userTo != null)
+		{
+			edu.ilstu.business.era.models.User user = userMapper.mapUserFromUserTO(userTo);
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 					authorities);
+		} else
+		{
+			throw new KatieResourceNotFoundException("Username '" + username + "' not found in system");
 		}
-
-		throw new KatieResourceNotFoundException("Username not found");
 	}
 
 }
