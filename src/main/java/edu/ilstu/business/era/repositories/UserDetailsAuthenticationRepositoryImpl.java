@@ -42,12 +42,12 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 
 	private static final String RETRIEVE_USER = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/user/{refId}";
 
+	/**
+	 * @see UserDetailsAuthenticationRepository#loadUserByUsername(String)
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
-		// TODO: Validate username
-		// TODO: Add loggers
-		
 		/*
 		 * Get User response
 		 */

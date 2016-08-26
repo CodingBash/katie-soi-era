@@ -4,9 +4,7 @@ import static edu.ilstu.business.era.constants.ApplicationConstants.DATE_FORMAT;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,9 +22,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ilstu.business.era.delegates.ValidationDelegate;
+import edu.ilstu.business.era.exceptions.KatieValidationException;
 import edu.ilstu.business.era.models.Event;
 import edu.ilstu.business.era.repositories.EventRepository;
 
+/*
+ * I added try catches around validation. fix up userrepo. fix securityconfig. find other error paths. etc. 
+ * 
+ * 
+ * 
+ */
 /**
  * Controls event mappings
  * 
@@ -63,7 +68,6 @@ public class EventController
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView eventList(Principal principal)
 	{
-		// TODO: Determine if principal tostring is good
 		logger.info("EventController#eventList(Principal) called: principal=" + getUserIdentification(principal));
 
 		/*
@@ -97,7 +101,8 @@ public class EventController
 	@RequestMapping(value = "/registered", method = RequestMethod.GET)
 	public ModelAndView registeredEventList(Principal principal)
 	{
-		logger.info("EventController#registeredEventList(Principal) called: principal=" + getUserIdentification(principal));
+		logger.info(
+				"EventController#registeredEventList(Principal) called: principal=" + getUserIdentification(principal));
 
 		ModelAndView mav = new ModelAndView("registeredEventList");
 		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getUserIdentification(principal));
@@ -128,13 +133,31 @@ public class EventController
 		/*
 		 * Input validation
 		 */
-		classId = validationDelegate.validateClassId(classId);
-		eventId = validationDelegate.validateEventId(eventId);
-		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
-
 		try
 		{
-			// Execute event registration
+			classId = validationDelegate.validateClassId(classId);
+			eventId = validationDelegate.validateEventId(eventId);
+			validationDelegate.validateEventRegistration(classId, eventId);
+		} catch (KatieValidationException kve)
+		{
+			logger.warn("Unable to validate format: exception=" + kve.getMessage());
+
+			// Return HTTP400 since exception was thrown
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(kve.getMessage());
+		} catch (Exception e)
+		{
+			logger.warn("Unknown exception when validating: exception=" + e.getMessage());
+
+			// Return HTTP400 since exception was thrown
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+
+		/*
+		 * Execute event registration
+		 */
+		try
+		{
+			// Register for event
 			eventRepository.registerForEvent(getUserIdentification(principal), eventId,
 					new SimpleDateFormat(DATE_FORMAT)
 							.format(eventRepository.retrieveEventDetail(eventId, classId).getStartDate()),
@@ -144,7 +167,8 @@ public class EventController
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
-			logger.warn("Unable to register:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
+			logger.warn("Unable to register: eventId=" + eventId + " | principal=" + getUserIdentification(principal)
+					+ "| exception=" + e.getMessage());
 
 			// Return HTTP400 since exception was thrown
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -165,26 +189,47 @@ public class EventController
 	public @ResponseBody ResponseEntity<String> eventUnregistration(@RequestParam(value = "classId") String classId,
 			@RequestParam(value = "eventId") String eventId, Principal principal)
 	{
-		logger.info("EventController#eventUnregistration(String, String, Principal) called: classId=" + classId + " | eventId=" + eventId + " | principal=" + getUserIdentification(principal));
+		logger.info("EventController#eventUnregistration(String, String, Principal) called: classId=" + classId
+				+ " | eventId=" + eventId + " | principal=" + getUserIdentification(principal));
 
 		/*
 		 * Input validation
 		 */
-		classId = validationDelegate.validateClassId(classId);
-		eventId = validationDelegate.validateEventId(eventId);
-		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
 		try
 		{
-			// Execute event unregistration
+			classId = validationDelegate.validateClassId(classId);
+			eventId = validationDelegate.validateEventId(eventId);
+			validationDelegate.validateEventRegistration(classId, eventId);
+		} catch (KatieValidationException kve)
+		{
+			logger.warn("Unable to validate format: exception=" + kve.getMessage());
+
+			// Return HTTP400 since exception was thrown
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(kve.getMessage());
+		} catch (Exception e)
+		{
+			logger.warn("Unknown exception when validating: exception=" + e.getMessage());
+
+			// Return HTTP400 since exception was thrown
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+
+		/*
+		 * Execute event unregistration
+		 */
+		try
+		{
+			// Unregister for event
 			eventRepository.unregisterForEvent(eventId, getUserIdentification(principal));
 
 			// Return HTTP200 since no exception was thrown
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		} catch (Exception e)
 		{
-			logger.warn("Unable to unregister:" + eventId + "|" + getUserIdentification(principal) + "|" + e);
+			logger.warn("Unable to unregister: eventId=" + eventId + "| principal=" + getUserIdentification(principal)
+					+ "| exception=" + e.getMessage());
 
-			// Return HTTP200 since no exception was thrown
+			// Return HTTP400 since exception was thrown
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -240,6 +285,7 @@ public class EventController
 	 *            for retrieving user data
 	 * @return {@link ResponseEntity} determining if registration was successful
 	 */
+	@Deprecated
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/testregistration", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> eventTestRegistration(@RequestParam(value = "classId") String classId,
@@ -252,7 +298,7 @@ public class EventController
 		 */
 		classId = validationDelegate.validateClassId(classId);
 		eventId = validationDelegate.validateEventId(eventId);
-		validationDelegate.validateEventRegistrationUpdate(classId, eventId);
+		validationDelegate.validateEventRegistration(classId, eventId);
 
 		try
 		{

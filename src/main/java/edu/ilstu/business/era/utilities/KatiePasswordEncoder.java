@@ -4,7 +4,7 @@ import org.jasypt.digest.StandardStringDigester;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Encodes the credentials for the login system
+ * Encodes the credentials for the login system. Uses StringDigester, NOT ESAPI
  * 
  * @author Basheer Becerra (ULID: bbecer2)
  *
@@ -25,7 +25,6 @@ public class KatiePasswordEncoder implements PasswordEncoder
 	public boolean matches(CharSequence rawPassword, String encodedPassword)
 	{
 		StandardStringDigester digester = getDigester();
-
 		return digester.matches(rawPassword.toString(), encodedPassword);
 	}
 
@@ -33,11 +32,8 @@ public class KatiePasswordEncoder implements PasswordEncoder
 	{
 		StandardStringDigester digester = new StandardStringDigester();
 		digester = new StandardStringDigester();
-		// TODO: Get algorithm from EPASI
 		digester.setAlgorithm("SHA-256");
-		// TODO: Get salt size from EPASI
 		digester.setSaltSizeBytes(16);
-		// TODO: Get iterations from EPASI
 		digester.setIterations(1000);
 		return digester;
 	}
