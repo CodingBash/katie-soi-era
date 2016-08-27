@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1" />
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Events</title>
 </head>
 <body>
@@ -9,7 +11,8 @@
 	<ul>
 		<li th:each="event : ${eventList}">
 			<h3>
-				<a th:href="@{'/events/' + ${event.eventId}}" th:text="${event.title}">null</a>
+				<a th:href="@{'/events/' + ${event.eventId}}"
+					th:text="${event.title}">null</a>
 			</h3> EventId:
 			<p th:text="${event.eventId}">null</p> ClassId:
 			<p th:text="${event.classId}">null</p> Description:
@@ -17,5 +20,31 @@
 			<p th:text="${event.startDate}">null</p>
 		</li>
 	</ul>
+
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"
+		integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+		crossorigin="anonymous"></script>
+
+	<script>
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+
+		$
+				.ajax({
+					type : "POST",
+					url : "events/register",
+					data: { classId: "CLBA_CLASS_3", eventId : "eec7bbbb-2886-4680-b784-09c1d0ec1e04"}, 
+					timeout : 100000,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(data) {
+						console.log(data);
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						console.log(xhr.status + ": " + thrownError);
+					}
+				});
+	</script>
 </body>
 </html>

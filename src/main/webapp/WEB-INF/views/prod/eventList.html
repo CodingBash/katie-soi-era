@@ -4,6 +4,8 @@
 <head>
 <meta charset="utf-8"></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>ISU Katie School of Business</title>
 <!-- Core CSS - Include with every page -->
 <!-- 
@@ -70,8 +72,7 @@
 	<!--  wrapper -->
 	<div id="wrapper">
 		<!-- navbar top -->
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
-			id="navbar">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="navbar">
 			<!-- navbar-header -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -144,7 +145,7 @@
 						</div> <!--end search section-->
 					</li>
 					<li class="selected"><a href="index.html">View Events</a></li>
-					<li><a href="eventcheckin.html">Event Check in</a></li>
+					<li><a href="/eraApplication/events/registeredevents">Event Check in</a></li>
 					<li><a href="attendedevents.html">Attended Events</a></li>
 					<li><a href="profile.html">Profile</a></li>
 				</ul>
@@ -172,6 +173,10 @@
 							You have <b><span th:text="${eventListSize}">#</span></b>
 							upcoming events
 						</p>
+					</div>
+					<div id="registerAlertResponse">
+						
+					
 					</div>
 				</div>
 				<!--end  Welcome -->
@@ -227,74 +232,141 @@
 		src="../../../resources/assets/scripts/siminta.js"></script>
 
 
+
+
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 
 		var eventList = [[${eventList}]];
+		var registeredEventList = [[${registeredEventList}]];
+
 		console.log(eventList);
+		console.log(registeredEventList);
+
 /* 		console.log(eventList + "</br>");
  */		/* console.log(JSON.parse(JSON.stringify(eventList))); */
 		
+ 
+ 
  function formatEventList() {
 		var eventList = [[${eventList}]];
 		var eventsCal = [];
-	
 	 	for(var i = 0; i < eventList.length; i++){
-	 		/* console.log('here');
-	 		console.log(eventList[i].title); */
-			console.log(eventList[i].eventId);
 			tmpCal = {};
 			tmpCal.id = eventList[i].eventId;
 			tmpCal.classId = eventList[i].classId;
 			tmpCal.title = eventList[i].title;
-			tmpCal.start = eventList[i].startDate;
-			tmpCal.end = eventList[i].endDate;
-			tmpCal.desc = eventList[i].description;
-		//check for start and end date to make sure it exists
-		
+			tmpCal.start = JSON.parse(JSON.stringify(eventList[i].startDate));
+			console.log('LOOK HERE: ' + JSON.parse(JSON.stringify(eventList[i].startDate)))
+			tmpCal.end = JSON.parse(JSON.stringify(eventList[i].endDate));
+			tmpCal.desc = eventList[i].description;		
 			eventsCal.push(tmpCal);
 		    
 		}  
-	 	
-	
-
-	 			console.log('here');
-	 	 		console.log(JSON.parse(JSON.stringify(eventsCal)));
-/* 	 	 		console.log(calendar.fullCalendar('clientEvents'));
- */
-	 	 		return eventsCal;
+ 			console.log('here in the eventlist object');
+ 	 		console.log(JSON.parse(JSON.stringify(eventsCal)));
+ 	 		return eventsCal;
  } 	
-		
+ 
+ 
+ 
+ function formatRegisteredList() {
+		var registeredEventList = [[${registeredEventList}]];
+		var events = [];
+	 	for(var i = 0; i < registeredEventList.length; i++){
+			tmpList = {};
+			tmpList.eventId = registeredEventList[i].eventId;
+			events.push(tmpList);
+	 	}
+		return events;
+}
 
+ 
+ /* function checkIfRegistered(event) {
+		var registeredEventList = [[${registeredEventList}]];
+		console.log(registeredEventList);
+		console.log(event.eventId);
+		for(var i = 0;i<registeredEventList.length;i++) {
+			if(registeredEventList[i].eventId == event.eventId) {
+				alert('found it!');
+			}
+			else {
+				alert('no cigar');
+			}
+		}
+		return registeredEventList;
+ }
+  */
+  
+  
+function returnRegisteredList (event) {  
+	var registeredEventList = [[${registeredEventList}]];
+	var isFound;
+	for(var i = 0;i<registeredEventList.length;i++) {
+			console.log('searching for it: ' + registeredEventList[i].eventId);
+			console.log('searching for the methods parameter: ' + event);
+			if(registeredEventList[i].eventId == event) {
+				isFound = true;
+				console.log('holy crap i finally found it!');
+				document.getElementById("eventModal").innerHTML = 
+			    		'<div class="container single-event-container">' +
+			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
+			    		'<div class="container"><h1 class="page-header">' + event + '</h1></div>' +
+			    		'<div id="rsvp-cancel" class="container"><button type="button" class="btn bg-danger">CANCEL RSVP</button></div>'+
+			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-primary">RSVP to Event</button></div>';
+			}
+			else {
+				isFound = false;
+				console.log('same old same old no cigar');
+				document.getElementById("eventModal").innerHTML = 
+		    		'<div class="container single-event-container">' +
+		    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
+		    		'<div class="container"><h1 class="page-header">' + event + '</h1></div>' +
+		    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-primary">RSVP to Event</button></div>'+
+		    		'<div id="rsvp-cancel" class="container"></div></div>';
+			}
+		}
+	return isFound;
+  }
+ 
+ /* 
+ function addRSVP(checkrsvp, newEventId) {
+	 var arrSize = checkrsvp.length;
+	 for(var i = 0; i < arrSize; i++) {
+		 if(checkrsvp[i] == newEventId) {
+			 console.log('ALREADY EXISTS!');
+			 return checkrsvp;
+		 }
+	 }
+	 checkrsvp[arrSize] = newEventId;
+	 return checkrsvp;
+ }
+ function removeRSVP(checkrsvp, cancelEventId) {
+	 var arrSize = checkrsvp.length;
+	 for(var i = 0; i < arrSize; i++) {
+		 if(checkrsvp[i] == cancelEventId) {
+			 console.log('NOT RSVPD!');
+			 array.splice(checkrsvp, i);
+			 return checkrsvp;
+		 }
+	 }	 
+	 console.log('NOT RSVPD!');
+	 return checkrsvp;
+ } */
+ 
 		/*]]>*/
 	</script>
- <!-- for list view -->	
-<!-- 	function PrintResults(result) {
-
-for (var i = 0; i < result.length; i++) { 
-    alert(class.event);
-} -->
-<!-- <script>
-var events = [];
-$.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
-    $.getJSON("fullCalendar()", function(json) {
-        $.each(json, function(j, d) {
-            events[j] = events[j] || {};
-            events[j]["count" + i] = d.count;
-            if (i == 0) {
-                events[j].column0 = d.column;
-            }
-        });
-    });
-});
-</script> -->
 	<script>
 	 function getEvent() {
-
 		$(document).ready(function() {
-		
+
 			var eventData = formatEventList();
-			$('#calendar').fullCalendar({
+/*             var checkrsvp = formatRegisteredList();*/
+			
+
+			
+/* 			console.log(checkrsvp);
+ */			$('#calendar').fullCalendar({
 				header : {
 					left : 'prev,next today',
 					center : 'title',
@@ -305,18 +377,34 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 				eventLimit : true, // allow "more" link when too many events
 			    events : eventData,
 			    eventClick: function(calEvent, jsEvent, view) {
+					var registeredEventList = returnRegisteredList(calEvent.id);
+
+					if(registeredEventList == true) {
  			    	document.getElementById("eventModal").innerHTML = 
  			    		'<div class="container single-event-container">' +
  			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
  			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
- 			    		'<div class="container">Start: ' + calEvent.start + ' to ' + calEvent.end + '</div>' +
+ 			    		'<div class="container">Start: ' + new Date(calEvent.start) + ' to ' + new Date(calEvent.start) + '</div>' +
  			    		'<div class="container">' + calEvent.desc + '</div>' +
- 			    		'<div class="container"><button type="button" class="btn btn-primary">RSVP To Event</button></div></div>';
+ 			    		'<div id="rsvp-cancel" class="container"><button type="button" class="btn bg-danger">Cancel RSVPs</button></div></div>'; 			    			    	 			    		
+ 			    		console.log('RSVP CHECK');
+ 						console.log('caleventid:  ' + calEvent.id);					
+ 						
+					}
+					else {
+						document.getElementById("eventModal").innerHTML = 
+	 			    		'<div class="container single-event-container">' +
+	 			    		'<div class="row"><i class="fa fa-times fa-2x modal-exit" aria-hidden="true" data-dismiss="modal"></i></div>' +
+	 			    		'<div class="container"><h1 class="page-header">' + calEvent.title + '</h1></div>' +
+	 			    		'<div class="container">Start: ' + new Date(calEvent.start) + ' to ' + new Date(calEvent.end) + '</div>' +
+	 			    		'<div class="container">' + calEvent.desc + '</div>' +
+	 			    		'<div id="rsvp-to-event" class="container"><button type="button" class="btn bg-primary">RSVP to Event</button></div>'+
+	 			    		'<div id="rsvp-cancel" class="container"></div></div>';
+ 			    		
+					}
+ 			    		   		
+ 			    		   		
  			    	
- 			    	
- 			    	/* document.getElementById("eventModal").innerHTML = 'Title: ' + calEvent.title; 			    	
- 			    	document.getElementById("eventModal").innerHTML = 'Description: ' + calEvent.desc; */ 			    	
-
  			        console.log('Title: ' + calEvent.title);
  			        console.log('start: ' + calEvent.start);
  			        console.log('end: ' + calEvent.end);
@@ -325,19 +413,99 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			        console.log('View: ' + view.name);
 			        console.log('Description: ' + calEvent.desc);
 			        
-			        
-			        
+			        var token = $("meta[name='_csrf']").attr("content");
+		            var header = $("meta[name='_csrf_header']").attr("content");
+		            var sum = 0;
+		            
+		            console.log(calEvent.id);
+/* 		            console.log(checkrsvp[0].eventId);
+ */		          
+		          	
+		            var eventIdCheck = calEvent.id;
+		            
+		             		            
+		            		$("#rsvp-to-event").on("click",function (e){
+				                e.preventDefault(); 
+				                
+				                $.ajax({type: "POST",
+				                      url: "events/register",
+				                      data: { classId: calEvent.classId, eventId: calEvent.id },
+				                      // Max duration of request
+	                                  timeout : 100000,
+	                                  // This method is for attaching the CSRF data to the header or else the request will fail
+	                                  beforeSend : function(xhr) {
+	                                          xhr.setRequestHeader(header, token);
+	                                  },
+				                      success : function(data) {
+	                                      console.log(data);	                                      
+/* 	                                      document.getElementById("rsvp-to-event").innerHTML = '';
+	                                      document.getElementById("rsvp-cancel").innerHTML = 
+	                   			    		'<div class="alert alert-success">Your RSVP to this event was Successfully Placed</div>'+
+	                     			    	'<button type="button" class="btn bg-danger">Cancel RSVP</button>'; */
+	                      				location.reload();
+	                              },
+	                              // This method will be called when the registration failed
+	                              error : function(xhr, ajaxOptions, thrownError) {
+	                                      console.log(xhr.status + ": " + thrownError);
+	                                      location.reload();
+	                                      document.getElementById("rsvp-cancel").innerHTML = 
+	                     			    		'<div class="alert alert-danger">RSVP Failed</div>';
+	                      				
 
+	                              }     
+				               }); 
+				                var newEventId = calEvent.id;
+/* 				                var addRSVPEvent = addRSVP(checkrsvp, newEventId);                
+ */	
+	 			            });
+		            	
+		            		$("#rsvp-cancel").on("click",function (e){
+				                e.preventDefault(); 
+				                
+				                $.ajax({type: "POST",
+				                      url: "events/unregister",
+				                      data: { eventId: calEvent.id },
+				                      // Max duration of request
+	                                  timeout : 100000,
+	                                  // This method is for attaching the CSRF data to the header or else the request will fail
+	                                  beforeSend : function(xhr) {
+	                                          xhr.setRequestHeader(header, token);
+	                                  },
+				                      success : function(data) {
+	                                      console.log(data);
+											location.reload();	                                      
+/*  	              						var registeredEventList = returnRegisteredList(calEvent.id);
+ */	                                /*       document.getElementById("rsvp-cancel").innerHTML = '';
+	                                      document.getElementById("rsvp-to-event").innerHTML = 
+	                     			    	'<div class="alert alert-success">Your RSVP to this event was Sucessfully Cancelled</div>'+
+	                     			    	'<button type="button" class="btn btn-primary">RSVP To Event</button>'; */
+	                              },
+	                              // This method will be called when the registration failed
+	                              error : function(xhr, ajaxOptions, thrownError) {
+	                                      console.log(xhr.status + ": " + thrownError);
+	                                      document.getElementById("rsvp-to-event").innerHTML = 
+	                     			    		'<div class="alert alert-danger">Failed To Cancel RSVP</div>';
+	                      				location.reload();
+
+	                              }     
+				               }); 
+				                var cancelEventId = calEvent.id;
+/* 				                var removeRSVPEvent = removeRSVP(checkrsvp, cancelEventId);                
+ */	
+	 			            });
+
+			            
+			        
 
 			        // change the border color just for fun
-			        $(this).css('border-color', 'red');	
-			        
+/* 			        $(this).css('border-color', 'red');	
+ */			        
 			        	  console.log(calEvent.title);
 			        	  $('#eventModal').attr('alt', 'calEvent.id');
 			        	  $('#eventModal').modal();
 			        	
 					return calEvent;
-
+			
 			        	/*      var theId = $(this).attr(calEvent.id);
 			        	     $('#eventModal').val(theId);	
 			        	     return document.getElementById(calEvent.id).value;
@@ -348,8 +516,7 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 			});
 			
 			
-			
-	
+		
 			$(".fc-content").on("click",function (e) {
 				 // jQuery code, event handling callbacks here
 				/*    $('#mymapselect option[value="' + this.id + '"]').attr('selected', 'selected');
@@ -362,7 +529,46 @@ $.each(parametrTable, function(i, x) { // NOTE: x = parametrTable[i]
 	
 		});
  }
+	 
 	</script>	
+	
+ <!-- 
+        <script>
+               // Gets the CSRF data from the meta tags
+               var token = $("meta[name='_csrf']").attr("content");
+               var header = $("meta[name='_csrf_header']").attr("content");
+ 
+               $
+                               .ajax({
+ 
+                                      // HTTP method
+                                      type : "POST",
+ 
+                                      // Action this request is aiming to
+                                      url : "events/register",
+ 
+                                      // Replace the hardcoded values with a variable
+                                      data: { classId: "CLBA_CLASS_3", eventId : "eec7bbbb-2886-4680-b784-09c1d0ec1e04"}, 
+                                      
+                                      // Max duration of request
+                                      timeout : 100000,
+ 
+                                      // This method is for attaching the CSRF data to the header or else the request will fail
+                                      beforeSend : function(xhr) {
+                                              xhr.setRequestHeader(header, token);
+                                      },
+ 
+                                      // This method will be called when the registration is successful
+                                      success : function(data) {
+                                              console.log(data);
+                                      },
+ 
+                                      // This method will be called when the registration failed
+                                      error : function(xhr, ajaxOptions, thrownError) {
+                                              console.log(xhr.status + ": " + thrownError);
+                                      }
+                               });
+        </script> -->
 	<!-- Large modal -->
 <!-- <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
  -->

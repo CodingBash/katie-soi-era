@@ -23,6 +23,10 @@ a:selected {color:#D3D3D3;}
 .event {
 	border-radius:0 !important;
 }
+#rsvp-to-event, #rsvp-cancel {
+	width:100%;
+	margin-top:10px;
+}
 div#calendar {
 	width:100% !important;
 }
