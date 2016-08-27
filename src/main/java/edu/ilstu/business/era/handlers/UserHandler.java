@@ -23,11 +23,12 @@ public class UserHandler implements UserDetailsService
 {
 	private static final Logger logger = LoggerFactory.getLogger(UserHandler.class);
 
-	@Autowired
-	private UserDetailsAuthenticationRepository userDetailsAuthenticationRepository;
 
 	@Autowired
 	private ValidationDelegate validationDelegate;
+	@Autowired
+	private UserDetailsAuthenticationRepository userDetailsAuthenticationRepository;
+
 
 	/**
 	 * Retrieves {@link UserDetails} from a {@link String} username

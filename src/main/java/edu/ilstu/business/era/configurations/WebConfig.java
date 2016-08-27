@@ -30,7 +30,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(
 { "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers", "edu.ilstu.business.era.database",
 		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities",
-		"edu.ilstu.business.era.delegates" })
+		"edu.ilstu.business.era.delegates", "edu.ilstu.business.era.handlers"})
 public class WebConfig extends WebMvcConfigurerAdapter
 {
 

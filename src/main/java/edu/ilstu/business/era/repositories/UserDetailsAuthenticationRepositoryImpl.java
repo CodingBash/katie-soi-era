@@ -34,7 +34,7 @@ import edu.ilstu.business.era.transferobjects.UserTO;
  *
  */
 @Component
-public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsService
+public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractRepository implements UserDetailsAuthenticationRepository
 {
 
 	@Autowired
