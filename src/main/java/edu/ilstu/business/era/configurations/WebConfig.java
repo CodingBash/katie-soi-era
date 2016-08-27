@@ -1,12 +1,13 @@
 package edu.ilstu.business.era.configurations;
 
+import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.web.servlet.ViewResolver;
@@ -17,7 +18,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
-import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
 
 /**
  * Default web configurer
@@ -30,7 +30,7 @@ import static edu.ilstu.business.era.constants.ApplicationConstants.PAGE_FOLDER;
 @ComponentScan(
 { "edu.ilstu.business.era.configurations", "edu.ilstu.business.era.controllers", "edu.ilstu.business.era.database",
 		"edu.ilstu.business.era.repositories", "edu.ilstu.business.era.mappers", "edu.ilstu.business.era.utilities",
-		"edu.ilstu.business.era.delegates" })
+		"edu.ilstu.business.era.delegates", "edu.ilstu.business.era.handlers"})
 public class WebConfig extends WebMvcConfigurerAdapter
 {
 
