@@ -98,9 +98,11 @@ public class EventController
 		logger.info(
 				"EventController#registeredEventList(Principal) called: principal=" + getUserIdentification(principal));
 
-		ModelAndView mav = new ModelAndView("registeredEventList");
+		ModelAndView mav = new ModelAndView("registeredEvents");
 		List<Event> registeredEventList = eventRepository.retrieveRegisteredEventList(getUserIdentification(principal));
 		mav.addObject("registeredEventList", registeredEventList);
+		mav.addObject("upcomingEventListSize", getUpcomingEventListSize(registeredEventList));
+		mav.addObject("principalUsername", principal.getName());
 		return mav;
 
 	}

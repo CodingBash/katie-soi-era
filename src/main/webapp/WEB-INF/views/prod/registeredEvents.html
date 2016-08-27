@@ -147,10 +147,10 @@
 							</span>
 						</div> <!--end search section-->
 					</li>
-					<li class="selected"><a href="index.html">View Events</a></li>
-					<li><a href="eventcheckin.html">Event Check in</a></li>
-					<li><a href="attendedevents.html">Attended Events</a></li>
-					<li><a href="profile.html">Profile</a></li>
+					<li><a th:href="@{/events}" href="index.html">View Events</a></li>
+					<li><a th:href="@{/events/checkin}" href="/eraApplication/events/registeredevents">Event Check in</a></li>
+					<li class="selected"><a th:href="@{/events/registered}" href="attendedevents.html">Attended Events</a></li>
+					<li><a th:href="@{/events/profile}" href="profile.html">Profile</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -173,8 +173,8 @@
 						<p>
 							<!--  DYNAMIC EVENT COUNT AND USERNAME -->
 							Hello <b><span th:text="${principalUsername}">User</span></b>.
-							You have <b><span th:text="${eventListSize}">#</span></b>
-							upcoming events
+							You have <b><span th:text="${upcomingEventListSize}">#</span></b>
+							registered events
 						</p>
 					</div>
 				</div>
