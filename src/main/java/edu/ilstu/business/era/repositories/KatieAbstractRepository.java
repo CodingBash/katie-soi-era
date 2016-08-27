@@ -1,4 +1,4 @@
-package edu.ilstu.business.era.utilities;
+package edu.ilstu.business.era.repositories;
 
 import java.nio.charset.Charset;
 
@@ -8,9 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 
 /**
- * Used for creating header to authneticate request to Loudcloud API
+ * Used for creating header to authenticate request to Loudcloud API
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @PropertySource("classpath:restauthorization.properties")

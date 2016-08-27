@@ -14,11 +14,12 @@ import edu.ilstu.business.era.transferobjects.AnnouncementTO;
 /**
  * Mapping from {@link AnnouncementTO} to {@link Event}
  * 
- * @author Basheer
+ * @author Basheer Becerra (ULID: bbecer2)
  *
  */
 @Component
-public class EventMapper {
+public class EventMapper
+{
 
 	/**
 	 * Maps {@link List}<{@link AnnouncementTO}> to {@link List}<{@link Event}>
@@ -26,10 +27,12 @@ public class EventMapper {
 	 * @param announcementToList
 	 * @return
 	 */
-	public List<Event> mapEventListFromAnnouncementTOGroup(List<AnnouncementTO> announcementToList) {
+	public List<Event> mapEventListFromAnnouncementTOGroup(List<AnnouncementTO> announcementToList)
+	{
 		List<Event> eventList = new ArrayList<Event>(announcementToList.size());
 
-		for (AnnouncementTO announcementTo : announcementToList) {
+		for (AnnouncementTO announcementTo : announcementToList)
+		{
 			eventList.add(mapEventFromAnnouncementTO(announcementTo, null));
 		}
 
@@ -37,21 +40,25 @@ public class EventMapper {
 	}
 
 	/**
-	 * Maps {@link Map}<{@link String}, {@link AnnouncementTO}> to {@link List}<{@link Event}>
+	 * Maps {@link Map}<{@link String}, {@link AnnouncementTO}> to
+	 * {@link List}<{@link Event}>
 	 * 
 	 * @param announcementToList
 	 * @return
 	 */
-	public List<Event> mapEventListFromAnnouncementTOGroup(Map<String, List<AnnouncementTO>> announcementToMap) {
+	public List<Event> mapEventListFromAnnouncementTOGroup(Map<String, List<AnnouncementTO>> announcementToMap)
+	{
 		List<Event> eventList = new ArrayList<Event>(announcementToMap.size());
 
-		for (Map.Entry<String, List<AnnouncementTO>> entry : announcementToMap.entrySet()) {
-			String classId = entry.getKey();
+		for (Map.Entry<String, List<AnnouncementTO>> entry : announcementToMap.entrySet())
+		{
+			String classRefId = entry.getKey();
 			List<AnnouncementTO> announcementToList = entry.getValue();
 
 			List<Event> partialEventList = new ArrayList<Event>(announcementToList.size());
-			for (AnnouncementTO announcementTo : announcementToList) {
-				partialEventList.add(mapEventFromAnnouncementTO(announcementTo, classId));
+			for (AnnouncementTO announcementTo : announcementToList)
+			{
+				partialEventList.add(mapEventFromAnnouncementTO(announcementTo, classRefId));
 			}
 
 			eventList.addAll(partialEventList);
@@ -66,21 +73,20 @@ public class EventMapper {
 	 * @author Basheer
 	 *
 	 */
-	public Event mapEventFromAnnouncementTO(AnnouncementTO announcementTo, String classId) {
+	public Event mapEventFromAnnouncementTO(AnnouncementTO announcementTo, String classRefId)
+	{
 		Event event = new Event();
 
-		if (StringUtils.isNotBlank(classId)) {
-			event.setClassId(classId);
+		if (StringUtils.isNotBlank(classRefId))
+		{
+			event.setClassId(classRefId);
 		}
 		event.setEventId(announcementTo.getClassAnnouncementId());
 		event.setTitle(announcementTo.getTitle());
 		event.setDescription(announcementTo.getDescription());
 
-		// TODO: Verify that date conversion works
 		event.setStartDate(new DateTime(announcementTo.getStartDate()));
 		event.setEndDate(new DateTime(announcementTo.getEndDate()));
-
-		// TODO: Complete mapping for other event fields
 
 		return event;
 	}

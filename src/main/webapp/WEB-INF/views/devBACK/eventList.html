@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1" />
 <meta th:name="_csrf" th:content="${_csrf.token}" />
@@ -8,6 +7,7 @@
 <title>Events</title>
 </head>
 <body>
+	<p th:text="${upcomingEventListSize}"></p>
 	<ul>
 		<li th:each="event : ${eventList}">
 			<h3>
