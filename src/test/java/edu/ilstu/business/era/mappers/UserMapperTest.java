@@ -36,7 +36,7 @@ public class UserMapperTest
 	private UserMapper userMapper;
 
 	/**
-	 * Init the {@link UserMapper}
+	 * Initialize the {@link UserMapper}
 	 */
 	@Before
 	public void init()
