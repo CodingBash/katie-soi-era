@@ -2,9 +2,9 @@ package edu.ilstu.business.era.utilities;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Rule;
+import java.text.ParseException;
+
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 /**
@@ -18,11 +18,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class UtilsTest
 {
 	public static final String TEST_DATE = "2016-07-01T05:00:00.000+0000";
-	public static long EXPECTED_DATE = 0;
+	public static long EXPECTED_DATE = 1467349200000L;
 
-	@Rule
-	private ExpectedException exception = ExpectedException.none();
-	
 	/**
 	 * @method {@link Utils#parseDate(String)}
 	 * @objective Determine if parsing works
@@ -44,10 +41,9 @@ public class UtilsTest
 	 * 
 	 * @throws Exception
 	 */
-	@Test
+	@Test(expected=ParseException.class)
 	public void parseDateThrowsExceptionTest() throws Exception
 	{
-		exception.expect(Exception.class);
 		Utils.parseDate("8/27/2016");
 	}
 
