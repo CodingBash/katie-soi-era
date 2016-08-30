@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.ilstu.business.era.constants.ApplicationConstants;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
 import edu.ilstu.business.era.mappers.UserMapper;
 import edu.ilstu.business.era.transferobjects.UserTO;
@@ -40,8 +40,6 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 	@Autowired
 	private UserMapper userMapper;
 
-	private static final String RETRIEVE_USER = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/user/{refId}";
-
 	/**
 	 * @see UserDetailsAuthenticationRepository#loadUserByUsername(String)
 	 */
@@ -55,7 +53,7 @@ public class UserDetailsAuthenticationRepositoryImpl extends KatieAbstractReposi
 
 		Map<String, String> urlVariablesMap = new HashMap<String, String>();
 		urlVariablesMap.put("refId", username);
-		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.exchange(RETRIEVE_USER, HttpMethod.GET,
+		ResponseEntity<String> jsonStringResponseUserTo = restTemplate.exchange(ApplicationConstants.RETRIEVE_USER, HttpMethod.GET,
 				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
 				{
 				}, urlVariablesMap);

@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.ilstu.business.era.constants.ApplicationConstants;
 import edu.ilstu.business.era.database.DatabaseQuery;
 import edu.ilstu.business.era.exceptions.KatieActionFailedException;
 import edu.ilstu.business.era.exceptions.KatieResourceNotFoundException;
@@ -44,27 +45,23 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 
 	@Autowired
 	private DatabaseQuery dbQuery;
-
-	private static final String SEARCH_CLASS_LIST = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/search";
-	private static final String GET_ALL_CLASS_ANNOUNCEMENTS = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}/announcement";
-	private static final String GET_CLASS_ANNOUNCEMENT = "https://katieschoolclba.loudcloudsystems.com:443/learningPlatform/restservice/v1/class/{refId}/announcement/{announcementId}";
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	/**
 	 * Retrieve all events contained in the application
 	 */
 	public List<Event> retrieveEventList() throws KatieResourceNotFoundException
 	{
-		// Get REST Template to perform operations
-		RestTemplate restTemplate = new RestTemplate();
-
 		/*
 		 * Execute request to get list of all classes
 		 */
-		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(SEARCH_CLASS_LIST, HttpMethod.GET,
+		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(ApplicationConstants.SEARCH_CLASS_LIST, HttpMethod.GET,
 				new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
 				{
 				});
-
+		
 		/*
 		 * Convert JSON response to TO
 		 */
@@ -91,7 +88,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 				Map<String, String> urlVariablesMap = new HashMap<String, String>();
 				urlVariablesMap.put("refId", sectionRefId);
 				ResponseEntity<String> jsonStringResponseAnnouncementToList = restTemplate.exchange(
-						GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
+						ApplicationConstants.GET_ALL_CLASS_ANNOUNCEMENTS, HttpMethod.GET, new HttpEntity<Object>(createHeaders()),
 						new ParameterizedTypeReference<String>()
 						{
 						}, urlVariablesMap);
@@ -130,9 +127,6 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 	@Override
 	public Event retrieveEventDetail(String eventId, String classId) throws KatieResourceNotFoundException
 	{
-		// Get REST Template to perform operations
-		RestTemplate restTemplate = new RestTemplate();
-
 		/*
 		 * Put appropriate request parameters in map to then insert in URI
 		 */
@@ -142,7 +136,7 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 		urlVariablesMap.put("refId", classId);
 
 		// Execute request to get event detail
-		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(GET_CLASS_ANNOUNCEMENT,
+		ResponseEntity<String> jsonStringResponseClassToList = restTemplate.exchange(ApplicationConstants.GET_CLASS_ANNOUNCEMENT,
 				HttpMethod.GET, new HttpEntity<Object>(createHeaders()), new ParameterizedTypeReference<String>()
 				{
 				}, urlVariablesMap);
@@ -181,7 +175,6 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 			throws KatieActionFailedException
 	{
 		dbQuery.saveRSVP(userId, eventId, datetime, classId);
-		System.out.println("IN REGISTER REPO" + eventId);
 	}
 
 	/**
@@ -220,7 +213,6 @@ public class EventRepositoryImpl extends KatieAbstractRepository implements Even
 			{
 				eventList.add(retrieveEventDetail(eventTo.getEventId(), eventTo.getClassId()));
 			}
-			System.out.println("RETRIEVE REPO " + eventList);
 			return eventList;
 		}
 
